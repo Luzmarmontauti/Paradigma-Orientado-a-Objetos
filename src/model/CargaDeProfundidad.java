@@ -76,10 +76,4 @@ public class CargaDeProfundidad {
 		this.profundidadActual = profundidadActual;
 	}
 	
-	//Main -> donde se prueba todo
-	
-	public static void main(String[] args) {
-
-	}
-
 }

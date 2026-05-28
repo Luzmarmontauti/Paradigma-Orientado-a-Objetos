@@ -196,18 +196,4 @@ public class Juego {
 		return puntosAcumExtra;
 	}
 	
-	//Main -> donde se prueba el juego
-	
-	public static void main(String[] args) {						
-
-	}
-
-
 }
-
-//Estructura básica del proyecto
-//1. Atributos (Variables)
-//2. Constructores
-//3. Métodos de comportamiento (las acciones de tu juego)
-//4. Getters y Setters (los puentes de las variables)
-//5. Método main (si es que la clase lo lleva)

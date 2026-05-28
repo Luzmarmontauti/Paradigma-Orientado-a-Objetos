@@ -1,5 +1,4 @@
 package controller;
-import java.util.Scanner;
 
 public class GameController {
 	
@@ -48,11 +47,5 @@ public class GameController {
 	}
 
 	
-
-	//MAIN para probar el programa 
-
-	public static void main(String[] args) {
-		
-	}
 
 }

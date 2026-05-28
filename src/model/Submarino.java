@@ -73,12 +73,4 @@ public class Submarino {
 	}
 	
 	
-	//Main -> donde se prueba el juego
-	
-	public static void main(String[] args) {
-		
-		
-
-	}
-
 }
