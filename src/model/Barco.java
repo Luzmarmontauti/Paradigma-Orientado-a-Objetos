@@ -2,15 +2,51 @@ package model;
 
 public class Barco {
 	
+	//Variables -> Atributos
+	
 	protected static final double PROF_SUPERFICIE = 0;
 	private int posicionX;
 	private String direccion;
 	private double velocidad;
-
-	public static void main(String[] args) {
+	
+	//Comportamiento de negocio -> Acciones del juego
+	
+	public void inicializar() {
 		
-
 	}
+	
+	
+	public void moverIzquierda() {
+		
+	}
+	
+	public void moverDerecha() {
+		
+	}
+	
+	public void lanzarCarga(double velCaida) {
+		//No sé si los parámetros se declaran así xD
+	}
+	
+	public void obtenerPosicionX() {
+		//misma duda con getters y setters 
+	}
+	
+	public void haAlcanzadoExtremo() {
+		
+		//es un boolean 
+		
+	}
+	
+	public void obtenerDireccion() {
+		
+		//misma duda en cuanto a getters y setters
+		
+	}
+	
+
+	
+	//Getters y setters 
 
 	public int getPosicionX() {
 		return posicionX;
@@ -35,5 +71,21 @@ public class Barco {
 	public void setVelocidad(double velocidad) {
 		this.velocidad = velocidad;
 	}
+	
+	//Main -> donde se prueba el juego
+	
+	public static void main(String[] args) {
+	
+		
+
+	}
 
 }
+
+
+//Estructura básica del proyecto
+//1. Atributos (Variables)
+//2. Constructores
+//3. Métodos de comportamiento (las acciones de tu juego)
+//4. Getters y Setters (los puentes de las variables)
+//5. Método main (si es que la clase lo lleva)
