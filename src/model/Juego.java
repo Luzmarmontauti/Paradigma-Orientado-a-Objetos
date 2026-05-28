@@ -1,4 +1,5 @@
 package model;
+import java.util.List;
 
 public class Juego {
 	
@@ -14,6 +15,9 @@ public class Juego {
 	private String estado;
 	private int puntosAcumExtra;
 	private int barcosGenerados;
+	private List<Barco> barcosActivos;
+	private List<CargaDeProfundidad> cargasActivas;
+	
 		
 	//Comportamiento de negocio
 	
