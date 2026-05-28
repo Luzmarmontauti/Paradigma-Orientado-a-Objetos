@@ -15,11 +15,40 @@ public class Juego {
 	
 
 	public static void main(String[] args) {
-		//Aca se desarrolla el programa 
-		//linea2
+		
 			
 		
 
+	}
+
+
+	public int getVidas() {
+		return vidas;
+	}
+
+
+	public void setVidas(int vidas) {
+		this.vidas = vidas;
+	}
+
+
+	public int getPuntaje() {
+		return puntaje;
+	}
+
+
+	public void setPuntaje(int puntaje) {
+		this.puntaje = puntaje;
+	}
+
+
+	public int getNivel() {
+		return nivel;
+	}
+
+
+	public void setNivel(int nivel) {
+		this.nivel = nivel;
 	}
 
 }

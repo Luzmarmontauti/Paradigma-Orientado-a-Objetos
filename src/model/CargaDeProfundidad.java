@@ -13,4 +13,36 @@ public class CargaDeProfundidad {
 
 	}
 
+	public double getProfundidadDetonacion() {
+		return profundidadDetonacion;
+	}
+
+	public void setProfundidadDetonacion(double profundidadDetonacion) {
+		this.profundidadDetonacion = profundidadDetonacion;
+	}
+
+	public double getVelocidadCaida() {
+		return velocidadCaida;
+	}
+
+	public void setVelocidadCaida(double velocidadCaida) {
+		this.velocidadCaida = velocidadCaida;
+	}
+
+	public double getPosicionY() {
+		return posicionY;
+	}
+
+	public void setPosicionY(double posicionY) {
+		this.posicionY = posicionY;
+	}
+
+	public double getProfundidadActual() {
+		return profundidadActual;
+	}
+
+	public void setProfundidadActual(double profundidadActual) {
+		this.profundidadActual = profundidadActual;
+	}
+
 }

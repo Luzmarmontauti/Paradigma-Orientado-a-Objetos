@@ -14,4 +14,24 @@ public class Submarino {
 
 	}
 
+
+	public double getPosicionX() {
+		return posicionX;
+	}
+
+
+	public void setPosicionX(double posicionX) {
+		this.posicionX = posicionX;
+	}
+
+
+	public double getProfundidad() {
+		return profundidad;
+	}
+
+
+	public void setProfundidad(double profundidad) {
+		this.profundidad = profundidad;
+	}
+
 }

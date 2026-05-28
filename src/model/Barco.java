@@ -12,4 +12,28 @@ public class Barco {
 
 	}
 
+	public int getPosicionX() {
+		return posicionX;
+	}
+
+	public void setPosicionX(int posicionX) {
+		this.posicionX = posicionX;
+	}
+
+	public String getDireccion() {
+		return direccion;
+	}
+
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
+	}
+
+	public double getVelocidad() {
+		return velocidad;
+	}
+
+	public void setVelocidad(double velocidad) {
+		this.velocidad = velocidad;
+	}
+
 }
