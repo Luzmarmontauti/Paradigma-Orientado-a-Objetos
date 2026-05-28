@@ -11,12 +11,21 @@ public class CargaDeProfundidad {
 	private double profundidadDetonacion;
 	private double velocidadCaida;
 	
+	//constructor
+	
+	public CargaDeProfundidad () {
+		this.posicionY = 0;
+		this.profundidadActual = 0;
+		this.profundidadDetonacion = 0;
+		this.velocidadCaida = 0;
+	}
+	
 	//Comportamiento de negocio
 	
 	public void inicializar() {
 		
 	}
-	
+	 
 	public void caer() {
 		
 	}

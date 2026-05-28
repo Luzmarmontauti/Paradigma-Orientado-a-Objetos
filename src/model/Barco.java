@@ -9,6 +9,14 @@ public class Barco {
 	private String direccion;
 	private double velocidad;
 	
+	//Constructores
+	
+	public Barco () {
+		this.posicionX = 0; 
+		this.direccion = "Izquierda"; // --> Le puse esta dirección porque el barco va de izquierda a derecha, sino, a definir la dirección
+		this.velocidad = 0; //inicia con 0 la velocidad 
+	}
+	
 	//Comportamiento de negocio -> Acciones del juego
 	
 	public void inicializar() {

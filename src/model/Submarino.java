@@ -9,6 +9,16 @@ public class Submarino {
 	private double posicionX;
 	private double profundidad;
 	
+	//Constructores 
+	
+	public Submarino () {
+		
+		this.posicionX = 0; 
+		this.profundidad = 0;
+	}
+	
+	
+	
 	//Comportamiento de negocio
 	
 	public void inicializar() {

@@ -1,4 +1,5 @@
 package model;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Juego {
@@ -17,6 +18,25 @@ public class Juego {
 	private int barcosGenerados;
 	private List<Barco> barcosActivos;
 	private List<CargaDeProfundidad> cargasActivas;
+	
+	
+	//Constructor
+	
+	public Juego() {
+		this.vidas = 1; //A definir, no sé cuántas vidas debería tener al empezar el juego
+		this.puntaje = 0;
+		this.nivel = 1; //Empieza en el nivel 1
+		this.porcentajeVida = 100;
+		this.estado = "MENU_PRINCIPAL"; //Cuando abrimos el juego, qué es lo primero que debemos ver? ->tenemos que definir esto
+		this.puntosAcumExtra = 0; 
+		this.barcosGenerados = 0;
+		
+		//Creamos las listas vacías de los barcos
+		
+		this.barcosActivos = new ArrayList<Barco>();
+		this.cargasActivas = new ArrayList<CargaDeProfundidad>();
+		
+	}
 	
 		
 	//Comportamiento de negocio
@@ -171,13 +191,23 @@ public class Juego {
 		return cargasActivas;
 	}
 	
+
+	public int getPuntosAcumExtra() {
+		return puntosAcumExtra;
+	}
+	
 	//Main -> donde se prueba el juego
 	
-		public static void main(String[] args) {
-			
-				
-			
+	public static void main(String[] args) {						
 
-		}
+	}
+
 
 }
+
+//Estructura básica del proyecto
+//1. Atributos (Variables)
+//2. Constructores
+//3. Métodos de comportamiento (las acciones de tu juego)
+//4. Getters y Setters (los puentes de las variables)
+//5. Método main (si es que la clase lo lleva)
