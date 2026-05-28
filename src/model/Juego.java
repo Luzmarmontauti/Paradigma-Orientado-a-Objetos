@@ -146,13 +146,38 @@ public class Juego {
 		this.nivel = nivel;
 	}
 	
+
+	public int getPorcentajeVida() {
+		return porcentajeVida;
+	}
+
+	public void setPorcentajeVida(int porcentajeVida) {
+		this.porcentajeVida = porcentajeVida;
+	}
+
+	public int getBarcosGenerados() {
+		return barcosGenerados;
+	}
+
+	public void setBarcosGenerados(int barcosGenerados) {
+		this.barcosGenerados = barcosGenerados;
+	}
+
+	public List<Barco> getBarcosActivos() {
+		return barcosActivos;
+	}
+
+	public List<CargaDeProfundidad> getCargasActivas() {
+		return cargasActivas;
+	}
+	
 	//Main -> donde se prueba el juego
 	
-	public static void main(String[] args) {
-		
+		public static void main(String[] args) {
 			
-		
+				
+			
 
-	}
+		}
 
 }
