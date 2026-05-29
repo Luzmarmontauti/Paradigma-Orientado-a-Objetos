@@ -87,17 +87,6 @@ public class Juego {
 		return false;
 	}
 	
-	//En el diagrama está GET PUNTAJE -> no me dejó agregarlo porque está duplicado, así que le cambié el nombre a obtenerPuntaje
-	
-	public void obtenerPuntaje() {
-		
-	}
-	
-	//Lo mismo con vidas -> no me queda claro si ya esto no se declara nuevamente porque está en los getters y setters
-	public void obtenerVidas() {
-		
-	}
-	
 	public void generarBarco() {
 		
 	}

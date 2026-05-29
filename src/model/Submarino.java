@@ -41,15 +41,6 @@ public class Submarino {
 		
 	}
 	
-	public void obtenerPosicionX() {
-		//No sé si esto tiene que ver con los getters y setters por eso le cambié el nombre
-	}
-	
-	public void obtenerProfunidad() {
-		//Lo mismo que el anterior
-	}
-	
-	
 	//Getters y Setters
 
 
