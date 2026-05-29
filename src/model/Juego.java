@@ -18,24 +18,21 @@ public class Juego {
 	private int barcosGenerados;
 	private List<Barco> barcosActivos;
 	private List<CargaDeProfundidad> cargasActivas;
-	
-	
+	private Submarino submarino;
+
+
 	//Constructor
-	
+
 	public Juego() {
 		this.vidas = 1; //A definir, no sé cuántas vidas debería tener al empezar el juego
 		this.puntaje = 0;
 		this.nivel = 1; //Empieza en el nivel 1
 		this.porcentajeVida = 100;
 		this.estado = "MENU_PRINCIPAL"; //Cuando abrimos el juego, qué es lo primero que debemos ver? ->tenemos que definir esto
-		this.puntosAcumExtra = 0; 
+		this.puntosAcumExtra = 0;
 		this.barcosGenerados = 0;
-		
-		//Creamos las listas vacías de los barcos
-		
 		this.barcosActivos = new ArrayList<Barco>();
 		this.cargasActivas = new ArrayList<CargaDeProfundidad>();
-		
 	}
 	
 		
