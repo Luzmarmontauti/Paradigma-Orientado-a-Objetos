@@ -12,6 +12,7 @@ public class Submarino {
     protected static final double PROF_MAX = 800;
     private double posicionX;
     private double profundidad;
+    private double anchoPantalla;
 
     // Constructor
 
@@ -22,23 +23,40 @@ public class Submarino {
 
     // Comportamiento
 
-    public void inicializar() {
+    /**
+     * Posiciona el submarino en su estado inicial para una partida.
+     * Lo centra horizontalmente y lo ubica en la profundidad media entre PROF_MIN y PROF_MAX.
+     * @param anchoPantalla  ancho del área de juego definido por el GameController
+     */
+    public void inicializar(double anchoPantalla) {
+        this.anchoPantalla = anchoPantalla;
+        setPosicionX(anchoPantalla / 2);
+        double profundidadMedia = (PROF_MAX + PROF_MIN) / 2;
+        setProfundidad(profundidadMedia);
     }
 
+
     public void moverIzquierda() {
+        double x = getPosicionX();
+        if (x > 0)  setPosicionX(x - 1);
     }
 
     public void moverDerecha() {
+        double x = getPosicionX();
+        if (x < anchoPantalla) setPosicionX(x + 1);
     }
 
     public void moverArriba() {
+        double y = getProfundidad();
+        if (y > PROF_MIN) setProfundidad(y - 1);
     }
 
     public void moverAbajo() {
+        double y = getProfundidad();
+        if (y < PROF_MAX) setProfundidad(y + 1);
     }
 
     // Getters y Setters
-
     public double getPosicionX() {
         return posicionX;
     }
