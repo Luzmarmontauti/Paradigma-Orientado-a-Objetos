@@ -32,24 +32,12 @@ public class Barco {
 		
 	}
 	
-	public void lanzarCarga(double velCaida) {
-		//No sé si los parámetros se declaran así xD
+	public CargaDeProfundidad lanzarCarga(double velCaida) {
+		return null;
 	}
-	
-	public void obtenerPosicionX() {
-		//misma duda con getters y setters 
-	}
-	
-	public void haAlcanzadoExtremo() {
-		
-		//es un boolean 
-		
-	}
-	
-	public void obtenerDireccion() {
-		
-		//misma duda en cuanto a getters y setters
-		
+
+	public boolean haAlcanzadoExtremo() {
+		return false;
 	}
 	
 

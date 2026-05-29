@@ -30,14 +30,12 @@ public class CargaDeProfundidad {
 		
 	}
 	
-	public void debeDetonar() {
-		
-		//es un boolean
-		
+	public boolean debeDetonar() {
+		return false;
 	}
-	
-	public void calcularDistancia(Submarino sub) {
-		
+
+	public double calcularDistancia(Submarino sub) {
+		return 0;
 	}
 	
 	

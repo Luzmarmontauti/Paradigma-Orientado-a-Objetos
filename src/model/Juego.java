@@ -51,8 +51,8 @@ public class Juego {
 	
 	}
 	
-	public void verificarFinNivel() {
-		
+	public boolean verificarFinNivel() {
+		return false;
 	}
 	
 	public void pasarSiguienteNivel() {
@@ -63,16 +63,16 @@ public class Juego {
 		
 	}
 	
-	public void getEstado() {
-		
+	public String getEstado() {
+		return null;
 	}
-	
-	public void getSubmarinoX() {
-		
+
+	public double getSubmarinoX() {
+		return 0;
 	}
-	
-	public void getSubmarinoY() {
-		
+
+	public double getSubmarinoY() {
+		return 0;
 	}
 	
 	public void agregarPuntos(int puntaje) {
@@ -83,10 +83,8 @@ public class Juego {
 		
 	}
 	
-	public void estaVivo() {
-		
-		//Es un boolean
-		
+	public boolean estaVivo() {
+		return false;
 	}
 	
 	//En el diagrama está GET PUNTAJE -> no me dejó agregarlo porque está duplicado, así que le cambié el nombre a obtenerPuntaje
@@ -104,12 +102,12 @@ public class Juego {
 		
 	}
 	
-	public void getVelocidadBarcos() {
-		
+	public double getVelocidadBarcos() {
+		return 0;
 	}
-	
-	public void velocidadCargas() {
-		
+
+	public double getVelocidadCargas() {
+		return 0;
 	}
 	
 	public void verificarColisiones() {
