@@ -15,3 +15,6 @@ src/module-info.java
 
 # Log local
 CAMBIOS.md
+
+# Claude Code
+.claude/
