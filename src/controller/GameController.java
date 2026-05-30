@@ -8,7 +8,7 @@ import view.Vista;
  * los delega al modelo y actualiza la vista.
  */
 public class GameController {
-
+    //TODO: Agregar singleton
     // Atributos
 
     private Juego juego;

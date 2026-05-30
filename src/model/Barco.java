@@ -9,9 +9,10 @@ public class Barco {
     // Atributos
 
     protected static final double PROF_SUPERFICIE = 0;
-    private int posicionX;
+    private double posicionX;
     private String direccion;
     private double velocidad;
+    private double anchoPantalla;
 
     // Constructor
 
