@@ -4,6 +4,7 @@ import view.Vista;
 
 /**
  * Punto de entrada de la aplicación.
+ * Hola hola
  */
 public class Test {
 
