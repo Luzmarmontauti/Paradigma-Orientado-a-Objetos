@@ -13,34 +13,55 @@ public class Barco {
     private String direccion;
     private double velocidad;
     private double anchoPantalla;
+    private int cargasMinimas;
+    private int cargasLanzadas;
 
     // Constructor
 
     public Barco() {
         this.posicionX = 0;
-        // TODO: definir si la dirección inicial debe venir como parámetro o siempre arranca igual
-        this.direccion = "Izquierda";
         this.velocidad = 0;
+        this.cargasMinimas = 0;
+        this.cargasLanzadas = 0;
     }
 
     // Comportamiento
 
-    public void inicializar() {
-    }
-
-    public void moverIzquierda() {
-    }
-
-    public void moverDerecha() {
+    /**
+     * Configura el barco para su recorrido: asigna velocidad, dirección y cargas mínimas,
+     * y lo posiciona en el borde de entrada según la dirección recibida.
+     * @param anchoPantalla  ancho del área de juego
+     * @param direccion      "DERECHA" o "IZQUIERDA", decidido por el Juego aleatoriamente
+     * @param velocidad      velocidad de desplazamiento horizontal
+     * @param cargasMinimas  mínimo de cargas que debe lanzar antes de poder retirarse
+     */
+    public void inicializar(double anchoPantalla, String direccion, double velocidad, int cargasMinimas) {
+        this.anchoPantalla = anchoPantalla;
+        this.velocidad = velocidad;
+        this.direccion = direccion;
+        this.cargasMinimas = cargasMinimas;
+        this.cargasLanzadas = 0;
+        if (direccion.equalsIgnoreCase("izquierda")) {
+            setPosicionX(0);
+        } else {
+            setPosicionX(anchoPantalla);
+        }
     }
 
     /**
-     * Crea y devuelve una nueva carga de profundidad lanzada desde este barco.
-     * @param velCaida velocidad a la que cae la carga
-     * @return la carga de profundidad creada
+     * Desplaza el barco hacia la izquierda según su velocidad.
      */
-    public CargaDeProfundidad lanzarCarga(double velCaida) {
-        return null;
+    public void moverIzquierda() {
+        double x = getPosicionX();
+        setPosicionX(x - velocidad);
+    }
+
+    /**
+     * Desplaza el barco hacia la derecha según su velocidad.
+     */
+    public void moverDerecha() {
+        double x = getPosicionX();
+        setPosicionX(x + velocidad);
     }
 
     /**
@@ -48,17 +69,49 @@ public class Barco {
      * @return true si alcanzó el borde
      */
     public boolean haAlcanzadoExtremo() {
-        return false;
+        double x = getPosicionX();
+        return x <= 0 || x >= anchoPantalla;
+    }
+
+    /**
+     * Crea, inicializa y devuelve una nueva carga de profundidad lanzada desde este barco.
+     * Incrementa el contador de cargas lanzadas.
+     * @param velocidadCaida        unidades que desciende la carga por tick
+     * @param profundidadDetonacion profundidad a la que explotará la carga, definida por el Juego
+     * @return la carga de profundidad creada
+     */
+    public CargaDeProfundidad lanzarCarga(double velocidadCaida, double profundidadDetonacion) {
+        CargaDeProfundidad bomba = new CargaDeProfundidad();
+        bomba.inicializar(posicionX, velocidadCaida, profundidadDetonacion);
+        cargasLanzadas ++;
+        return bomba;
     }
 
     // Getters y Setters
 
-    public int getPosicionX() {
-        return posicionX;
+
+    public double getAnchoPantalla() {
+        return anchoPantalla;
     }
 
-    public void setPosicionX(int posicionX) {
-        this.posicionX = posicionX;
+    public void setAnchoPantalla(double anchoPantalla) {
+        this.anchoPantalla = anchoPantalla;
+    }
+
+    public int getCargasLanzadas() {
+        return cargasLanzadas;
+    }
+
+    public void setCargasLanzadas(int cargasLanzadas) {
+        this.cargasLanzadas = cargasLanzadas;
+    }
+
+    public int getCargasMinimas() {
+        return cargasMinimas;
+    }
+
+    public void setCargasMinimas(int cargasMinimas) {
+        this.cargasMinimas = cargasMinimas;
     }
 
     public String getDireccion() {
@@ -67,6 +120,14 @@ public class Barco {
 
     public void setDireccion(String direccion) {
         this.direccion = direccion;
+    }
+
+    public double getPosicionX() {
+        return posicionX;
+    }
+
+    public void setPosicionX(double posicionX) {
+        this.posicionX = posicionX;
     }
 
     public double getVelocidad() {
