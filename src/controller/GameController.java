@@ -6,6 +6,7 @@ import view.Vista;
 /**
  * Controlador principal del juego. Recibe los eventos del jugador,
  * los delega al modelo y actualiza la vista.
+ * pruebaaaaaaaaaaaaaaaaaaaaaaaaaa
  */
 public class GameController {
     //TODO: Agregar singleton
