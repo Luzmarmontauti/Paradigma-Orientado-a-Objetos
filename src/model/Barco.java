@@ -12,7 +12,6 @@ public class Barco {
     private int posicionX;
     private String direccion;
     private double velocidad;
-    //añadiendo algo 
 
     // Constructor
 
