@@ -24,6 +24,7 @@ public class Juego {
     private List<Barco> barcosActivos;
     private List<CargaDeProfundidad> cargasActivas;
     private Submarino submarino;
+    protected boolean estasVivo = true;
 
     // Constructor
 

@@ -1,20 +1,23 @@
 package controller;
 
 import model.Juego;
-import view.Vista;
+/*import model.Barco;
+import model.CargaDeProfundidad;
+import model.Submarino;
+import movimiento.Area;*/
 
 /**
  * Controlador principal del juego. Recibe los eventos del jugador,
  * los delega al modelo y actualiza la vista.
  */
 public class GameController {
-
+	
     // Atributos
 
     private Juego juego;
-    private Vista vista;
+    //private Vista vista;
 
-    // Constructor
+    // Constructor  
 
     public GameController() {
         this.juego = new Juego();
@@ -27,12 +30,30 @@ public class GameController {
      * @param tecla tecla presionada (ej: "ARRIBA", "ABAJO", "IZQUIERDA", "DERECHA")
      */
     public void moverTecla(String tecla) {
+    	
+    	switch (tecla.toLowerCase()) {
+    	case "Activar":
+    		System.out.println("Juego activado.");
+    		this.juego.iniciarPartida();
+    	break;
+    	case "Terminar":
+    		System.out.println("Juego terminado.");
+    		this.juego.terminarPartida();
+    	break;
+    	default: 
+    		System.out.println("Parámetro no reconocido, intente de nuevo. Los válidos son: Activar o Pausar.");
+ 
+    	}
+    	
     }
 
     public void actualizar() {
+    	
+    	
     }
 
     public void notificarVista() {
+    	//queda a definicion
     }
 
     /**
@@ -47,6 +68,11 @@ public class GameController {
      * @param vidas vidas a mostrar
      */
     public void mostrarVidas(int vidas) {
+    	System.out.println("===================================");
+    	System.out.println("----------VIDAS----------");
+    	System.out.println("===================================");
+    	System.out.println("En este nivel tienes vidas: " + vidas);
+    	
     }
 
     /**
@@ -54,6 +80,12 @@ public class GameController {
      * @param nivel nivel a mostrar
      */
     public void mostrarNivel(int nivel) {
+    	System.out.println("===================================");
+    	System.out.println("----------NIVEL----------");
+    	System.out.println("===================================");
+    	System.out.println("NIVEL ACTUAL: " + nivel);
+    	
+    	
     }
 
     /**
@@ -61,6 +93,7 @@ public class GameController {
      * @param profundidad profundidad a mostrar
      */
     public void mostrarProfundidad(double profundidad) {
+    	
     }
 
     /**
