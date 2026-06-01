@@ -1,24 +1,15 @@
 package controller;
 
 import model.Juego;
-/*import model.Barco;
-import model.CargaDeProfundidad;
-import model.Submarino;
-import movimiento.Area;*/
 
-/**
- * Controlador principal del juego. Recibe los eventos del jugador,
- * los delega al modelo y actualiza la vista.
- */
+
 public class GameController {
-    //TODO: Agregar singleton
-    // Atributos
+    // TODO: Agregar singleton
 
+    // Atributos
     private Juego juego;
-    //private Vista vista;
 
     // Constructor  
-
     public GameController() {
         this.juego = new Juego();
     }
@@ -26,127 +17,86 @@ public class GameController {
     // Comportamiento
 
     /**
-     * Procesa la tecla presionada por el jugador y mueve el submarino.
-     * @param tecla tecla presionada (ej: "ARRIBA", "ABAJO", "IZQUIERDA", "DERECHA")
+     * Procesa la tecla presionada por el jugador y mueve el submarino o cambia el estado.
+     * @param tecla tecla presionada (ej: "ACTIVAR", "TERMINAR")
      */
     public void moverTecla(String tecla) {
-    	
-    	switch (tecla.toLowerCase()) {
-    	case "activar":
-    		System.out.println("Juego activado.");
-    		this.juego.iniciarPartida();
-    	break;
-    	case "terminar":
-    		System.out.println("Juego terminado.");
-    		this.juego.terminarPartida();
-    	break;
-    	default: 
-    		System.out.println("Parámetro no reconocido, intente de nuevo. Los válidos son: Activar o Terminar.");
- 
-    	}
-    	
+        switch (tecla.toLowerCase()) {
+            case "activar":
+                mostrarMensaje("Juego activado.");
+                this.juego.iniciarPartida();
+                break;
+            case "terminar":
+                mostrarMensaje("Juego terminado.");
+                this.juego.terminarPartida();
+                break;
+            default: 
+                System.out.println("Parámetro no reconocido. Intente de nuevo. Los válidos son: Activar o Terminar.");
+        }
     }
 
+   
     public void actualizar() {
-    	this.juego.actualizar();
-    	//Si esta vivo o no, muestra dos mensajes:
-    	
-    	if (!this.juego.estaVivo()) {
-    		this.mostrarMensaje("Motores funcionales. El submarino responde a los mandos.");
-    	}
-    	else {
-    		this.mostrarMensaje("El submarino ha sido destruido. Tu tripulación y tú descansan ahora en el silencio de las profundidades.");
-    	}
-    	
-    	//Al terminar el nivel
-    	if(this.juego.verificarFinNivel()) {
-    		this.mostrarMensaje("Ya estamos cerca de terminar la misión. ¡ÁNIMO!");
-    	}
-    	 
-    	//Al pasar de nivel muestra mensaje
-    	if (this.juego.pasarSiguienteNivel()){
-    		this.mostrarMensaje("¡FELICIDADES! Avanzaste al siguiente nivel.");
-    	}
-    	
-    	//Ganar vidas
-    	
-    	this.juego.agregarVida();
-    	this.mostrarMensaje("¡HEMOS GANADO UNA VIDA!");
-    	
-    	//
-    	
-    	//Se actualiza todo
-    	
-    	this.notificarVista();	
-    	
+        if (juego.getEstado() != null && juego.getEstado().equalsIgnoreCase("JUGANDO")) {
+            
+            juego.actualizar(); 
+            
+            juego.verificarColisiones();
+            
+            if (!juego.estaVivo()) {
+                juego.terminarPartida();
+                mostrarMensaje("GAME OVER: El submarino ha sido destruido. Tu tripulación y tú descansan en el silencio de las profundidades.");
+            }
+            
+            else if (juego.verificarFinNivel()) {
+                juego.pasarSiguienteNivel();
+                mostrarMensaje("¡FELICIDADES! Avanzaste al nivel " + juego.getNivel());
+                
+                juego.agregarVida();
+                mostrarMensaje("¡HEMOS GANADO UNA VIDA POR COMPLETAR EL NIVEL!");
+            }
+            
+            notificarVista();
+        }
     }
 
     public void notificarVista() {
-    	int nivelActual = this.juego.getNivel();
-    	this.mostrarNivel(nivelActual);
-    	
-    	int puntajeActual = this.juego.getPuntaje();
-    	this.mostrarPuntaje(puntajeActual);
-    	
-    	int vidasActual = this.juego.getVidas();
-    	this.mostrarVidas(vidasActual);
-    	}
+        mostrarNivel(juego.getNivel());
+        mostrarPuntaje(juego.getPuntaje());
+        mostrarVidas(juego.getVidas());
+        mostrarProfundidad(juego.getSubmarinoY());
+    }
 
-    /**
-     * Muestra el puntaje actual en la vista.
-     * @param puntaje puntaje a mostrar
-     */
     public void mostrarPuntaje(int puntaje) {
-    	System.out.println("Puntaje: " + puntaje);
+        System.out.println("   SCORE: " + puntaje + " pts");
     }
 
-    /**
-     * Muestra la cantidad de vidas restantes en la vista.
-     * @param vidas vidas a mostrar
-     */
     public void mostrarVidas(int vidas) {
-    	System.out.println("Vidas" + vidas);
-    	
+        System.out.print("   VIDAS: ");
+        for (int i = 0; i < vidas; i++) {
+            System.out.print("♥ ");
+        }
+        System.out.println(" (" + vidas + ")");
     }
 
-    /**
-     * Muestra el nivel actual en la vista.
-     * @param nivel nivel a mostrar
-     */
+ 
     public void mostrarNivel(int nivel) {
-    	System.out.println("NIVEL ACTUAL: " + nivel);
-    	
-    	
+        System.out.println("\n================================================");
+        System.out.println("                ESTADO DEL NIVEL " + nivel);
+        System.out.println("================================================");
     }
 
-    /**
-     * Muestra la profundidad actual del submarino en la vista.
-     * @param profundidad profundidad a mostrar
-     */
+    
     public void mostrarProfundidad(double profundidad) {
-    	System.out.println("Profundidad: " + profundidad); 
+        System.out.println("   PROFUNDIDAD: " + String.format("%.2f", profundidad) + " metros");
     }
 
-    /**
-     * Muestra un mensaje en pantalla (explosión, nivel completado, game over, etc.).
-     * @param msg mensaje a mostrar
-     * TODO: definir los mensajes posibles y cuándo se muestran
-     * 
-     * Mensajes: 
-     * 1. Cuando inicia el juego, 2. cuando el submarino está activo, 3.cuando se lanza una carga 4.cuando el submarino las esquiva
-     * 5.cuando gana puntos 6.cuando pierde 7.cuando pierde vidas 8.cuando gana vidas 9. cuando pasa de nivel 10.cuando muere  
-     */
+    
     public void mostrarMensaje(String msg) {
-    	System.out.println("==========================================");
-    	System.out.println("[¡ATENTO!]" + msg + " ");
-    	System.out.println("==========================================");
+        System.out.println("\n💥 [SISTEMA]: " + msg.toUpperCase() + " 💥\n");
     }
 
-    /**
-     * Renderiza el estado actual del juego en la vista.
-     * @param juego estado del juego a renderizar
-     */
     public void renderizar(Juego juego) {
-    	this.renderizar(this.juego);
+        System.out.println("[Renderizando mapa del juego...]");
     }
 }

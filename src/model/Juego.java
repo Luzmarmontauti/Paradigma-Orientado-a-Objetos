@@ -18,7 +18,7 @@ public class Juego {
     private int puntaje;
     private int nivel;
     private int porcentajeVida;
-    private String estado;
+    private String estado; 
     private int puntosAcumExtra;
     private int barcosGenerados;
     private List<Barco> barcosActivos;
