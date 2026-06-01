@@ -42,6 +42,7 @@ public class GameController {
      * @param puntaje puntaje a mostrar
      */
     public void mostrarPuntaje(int puntaje) {
+        System.out.println("   SCORE: " + puntaje + " pts");
     }
 
     /**
@@ -49,6 +50,11 @@ public class GameController {
      * @param vidas vidas a mostrar
      */
     public void mostrarVidas(int vidas) {
+        System.out.print("   Vidas: ");
+        for (int i = 0; i < vidas; i++) {
+            System.out.print("♥ ");
+        }
+        System.out.println(" (" + vidas + ")");
     }
 
     /**
@@ -56,6 +62,9 @@ public class GameController {
      * @param nivel nivel a mostrar
      */
     public void mostrarNivel(int nivel) {
+        System.out.println("\n================================================");
+        System.out.println("                ESTADO DEL NIVEL " + nivel);
+        System.out.println("================================================");
     }
 
     /**
@@ -63,6 +72,7 @@ public class GameController {
      * @param profundidad profundidad a mostrar
      */
     public void mostrarProfundidad(double profundidad) {
+        System.out.println("   Profundidad: " + String.format("%.2f", profundidad) + " metros");
     }
 
     /**
@@ -71,6 +81,7 @@ public class GameController {
      * TODO: definir los mensajes posibles y cuándo se muestran
      */
     public void mostrarMensaje(String msg) {
+        System.out.println("\n[SISTEMA]: " + msg.toUpperCase() + "\n");
     }
 
     /**
