@@ -6,7 +6,6 @@ import view.Vista;
 /**
  * Controlador principal del juego. Recibe los eventos del jugador,
  * los delega al modelo y actualiza la vista.
- * pruebaaaaaaaaaaaaaaaaaaaaaaaaaa
  */
 public class GameController {
     //TODO: Agregar singleton
@@ -31,9 +30,41 @@ public class GameController {
     }
 
     public void actualizar() {
+    	if (juego.getEstado() != null && juego.getEstado().equalsIgnoreCase("JUGANDO")) {
+            
+            
+            juego.actualizar(); 
+            
+            // Revisar si hay cargas explotando en este instante
+            juego.verificarColisiones();
+            
+            // Verificar si se completó la serie de 12 barcos del nivel
+            if (juego.verificarFinNivel()) {
+                juego.pasarSiguienteNivel();
+                mostrarMensaje("¡NIVEL COMPLETADO! Pasando al nivel " + juego.getNivel());
+            }
+            
+            // Verifica si el submarino fue destruido por completo
+            if (!juego.estaVivo()) {
+                juego.terminarPartida();
+                mostrarMensaje("GAME OVER: Te quedaste sin vidas.");
+            }
+            
+            notificarVista();
+        }
     }
 
     public void notificarVista() {
+    	
+    	if (vista != null) {
+            mostrarPuntaje(juego.getPuntaje());
+            mostrarVidas(juego.getVidas());
+            mostrarNivel(juego.getNivel());
+            mostrarProfundidad(juego.getSubmarinoY());
+            
+            renderizar(juego);
+        }
+    	
     }
 
     /**
@@ -41,6 +72,7 @@ public class GameController {
      * @param puntaje puntaje a mostrar
      */
     public void mostrarPuntaje(int puntaje) {
+    	System.out.println("   SCORE: " + puntaje + " pts");
     }
 
     /**
@@ -48,6 +80,11 @@ public class GameController {
      * @param vidas vidas a mostrar
      */
     public void mostrarVidas(int vidas) {
+    	System.out.print("   Vidas: ");
+        for (int i = 0; i < vidas; i++) {
+            System.out.print("♥ ");
+        }
+        System.out.println(" (" + vidas + ")");
     }
 
     /**
@@ -55,6 +92,9 @@ public class GameController {
      * @param nivel nivel a mostrar
      */
     public void mostrarNivel(int nivel) {
+    	System.out.println("\n================================================");
+        System.out.println("                ESTADO DEL NIVEL " + nivel);
+        System.out.println("================================================");
     }
 
     /**
@@ -62,6 +102,7 @@ public class GameController {
      * @param profundidad profundidad a mostrar
      */
     public void mostrarProfundidad(double profundidad) {
+    	System.out.println("   Profundidad: " + String.format("%.2f", profundidad) + " metros");
     }
 
     /**
@@ -70,6 +111,7 @@ public class GameController {
      * TODO: definir los mensajes posibles y cuándo se muestran
      */
     public void mostrarMensaje(String msg) {
+    	System.out.println("\n💥 [SISTEMA]: " + msg.toUpperCase() + " 💥\n");
     }
 
     /**
