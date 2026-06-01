@@ -30,7 +30,7 @@ public class Juego {
 
     public Juego() {
         // TODO: definir cuántas vidas tiene el jugador al inicio
-        this.vidas = 1;
+        this.vidas = 3;
         this.puntaje = 0;
         this.nivel = 1;
         this.porcentajeVida = 100;
@@ -63,7 +63,8 @@ public class Juego {
         return false;
     }
 
-    public void pasarSiguienteNivel() {
+    public boolean pasarSiguienteNivel() {
+    	return true;	
     }
 
     public void terminarPartida() {
