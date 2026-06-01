@@ -73,6 +73,10 @@ public class GameController {
     	this.juego.agregarVida();
     	this.mostrarMensaje("¡HEMOS GANADO UNA VIDA!");
     	
+    	//
+    	
+    	//Se actualiza todo
+    	
     	this.notificarVista();	
     	
     }
@@ -121,10 +125,6 @@ public class GameController {
      */
     public void mostrarProfundidad(double profundidad) {
     	System.out.println("Profundidad: " + profundidad); 
-    	
-    	
-    	
-    	
     }
 
     /**
