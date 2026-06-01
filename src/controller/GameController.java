@@ -3,6 +3,8 @@ package controller;
 import model.Juego;
 import view.Vista;
 
+import java.util.Random;
+
 /**
  * Controlador principal del juego. Recibe los eventos del jugador,
  * los delega al modelo y actualiza la vista.
@@ -17,7 +19,7 @@ public class GameController {
     // Constructor
 
     public GameController() {
-        this.juego = new Juego();
+        this.juego = new Juego(new Random());
     }
 
     // Comportamiento

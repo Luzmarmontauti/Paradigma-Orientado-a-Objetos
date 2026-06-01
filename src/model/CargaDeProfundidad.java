@@ -75,37 +75,31 @@ public class CargaDeProfundidad {
     }
 
 
-    // Getters y Settersz
+    // Getters
 
     public double getPosicionX() {
         return posicionX;
-    }
-
-    public void setPosicionX(double posicionX) {
-        this.posicionX = posicionX;
     }
 
     public double getProfundidad() {
         return profundidad;
     }
 
-    public void setProfundidad(double profundidad) {
-        this.profundidad = profundidad;
-    }
-
     public double getProfundidadDetonacion() {
         return profundidadDetonacion;
-    }
-
-    public void setProfundidadDetonacion(double profundidadDetonacion) {
-        this.profundidadDetonacion = profundidadDetonacion;
     }
 
     public double getVelocidadCaida() {
         return velocidadCaida;
     }
 
-    public void setVelocidadCaida(double velocidadCaida) {
-        this.velocidadCaida = velocidadCaida;
+    // Setters privados — solo para uso interno
+
+    private void setPosicionX(double posicionX) {
+        this.posicionX = posicionX;
+    }
+
+    private void setProfundidad(double profundidad) {
+        this.profundidad = profundidad;
     }
 }

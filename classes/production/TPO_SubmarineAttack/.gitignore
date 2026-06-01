@@ -1,0 +1,23 @@
+# Compilados
+/bin/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# Módulo Java (no necesario para este proyecto)
+src/module-info.java
+
+# Log local
+CAMBIOS.md
+
+# Claude Code
+.claude/
+
+# Windows crash dumps
+*.stackdump
