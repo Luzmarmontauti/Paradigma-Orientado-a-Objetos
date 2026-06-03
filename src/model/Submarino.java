@@ -56,20 +56,23 @@ public class Submarino {
         if (y < PROF_MAX) setProfundidad(y + 1);
     }
 
-    // Getters y Setters
+    // Getters
+
     public double getPosicionX() {
         return posicionX;
-    }
-
-    public void setPosicionX(double posicionX) {
-        this.posicionX = posicionX;
     }
 
     public double getProfundidad() {
         return profundidad;
     }
 
-    public void setProfundidad(double profundidad) {
+    // Setters privados — solo para uso interno de los métodos de movimiento
+
+    private void setPosicionX(double posicionX) {
+        this.posicionX = posicionX;
+    }
+
+    private void setProfundidad(double profundidad) {
         this.profundidad = profundidad;
     }
 }

@@ -31,7 +31,7 @@ public class Barco {
      * Configura el barco para su recorrido: asigna velocidad, dirección y cargas mínimas,
      * y lo posiciona en el borde de entrada según la dirección recibida.
      * @param anchoPantalla  ancho del área de juego
-     * @param direccion      "DERECHA" o "IZQUIERDA", decidido por el Juego aleatoriamente
+     * @param direccion      "derecha" o "izquierda", decidido por el Juego aleatoriamente
      * @param velocidad      velocidad de desplazamiento horizontal
      * @param cargasMinimas  mínimo de cargas que debe lanzar antes de poder retirarse
      */
@@ -89,29 +89,16 @@ public class Barco {
 
     // Getters y Setters
 
-
     public double getAnchoPantalla() {
         return anchoPantalla;
-    }
-
-    public void setAnchoPantalla(double anchoPantalla) {
-        this.anchoPantalla = anchoPantalla;
     }
 
     public int getCargasLanzadas() {
         return cargasLanzadas;
     }
 
-    public void setCargasLanzadas(int cargasLanzadas) {
-        this.cargasLanzadas = cargasLanzadas;
-    }
-
     public int getCargasMinimas() {
         return cargasMinimas;
-    }
-
-    public void setCargasMinimas(int cargasMinimas) {
-        this.cargasMinimas = cargasMinimas;
     }
 
     public String getDireccion() {
@@ -126,15 +113,11 @@ public class Barco {
         return posicionX;
     }
 
-    public void setPosicionX(double posicionX) {
+    private void setPosicionX(double posicionX) {
         this.posicionX = posicionX;
     }
 
     public double getVelocidad() {
         return velocidad;
-    }
-
-    public void setVelocidad(double velocidad) {
-        this.velocidad = velocidad;
     }
 }
