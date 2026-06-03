@@ -27,7 +27,6 @@ public class Barco {
 
     // Comportamiento
 
-<<<<<<< HEAD
     /**
      * Configura el barco para su recorrido: asigna velocidad, dirección y cargas mínimas,
      * y lo posiciona en el borde de entrada según la dirección recibida.
@@ -47,16 +46,6 @@ public class Barco {
         } else {
             setPosicionX(anchoPantalla);
         }
-=======
-    public void inicializar() {
-    }
-    //probando una rama nueva
-
-    public void moverIzquierda() {
-    }
-
-    public void moverDerecha() {
->>>>>>> refs/heads/main
     }
 
     /**
