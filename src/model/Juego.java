@@ -28,22 +28,17 @@ public class Juego {
     protected static final int CARGAS_MAX_X_BARCO = 5;
 
     // Estado general del juego
-    private String estadoJuego;
+    private String estado;
     private int nivel;
     private int vidas;
     private int puntaje;
     private int puntosExtraAcumulados;
-    private String iniciarPartida;
-    private String terminarPartida;
 
     // Submarino
     private Submarino submarino;
     private int porcentajeVida;
-    private String estadoSubmarino; 
-    private int puntosAcumExtra;
 
-
-    // Barco
+    // Barcos
     private int barcosGenerados;
     private List<Barco> barcosActivos;
     private double velocidadBarcos;
@@ -66,7 +61,7 @@ public class Juego {
      */
     public Juego(Random random) {
         // Estado general
-        this.estadoJuego = "MENU_PRINCIPAL";
+        this.estado = "MENU_PRINCIPAL";
         this.nivel = 1;
         this.vidas = 3;
         this.puntaje = 0;
@@ -100,7 +95,7 @@ public class Juego {
         this.submarino = new Submarino();
         submarino.inicializar(anchoPantalla);
         porcentajeVida = 100;
-        this.estadoJuego = "JUGANDO";
+        this.estado = "JUGANDO";
     }
 
     /**
@@ -108,7 +103,7 @@ public class Juego {
      * Es llamado automáticamente cuando el jugador pierde su última vida.
      */
     public void terminarPartida() {
-        estadoJuego = "GAME OVER";
+        estado = "GAME OVER";
     }
 
     // --- Game loop ---
@@ -257,44 +252,9 @@ public class Juego {
     // --- Daño y vida ---
 
     /**
-<<<<<<< HEAD
-     * Verifica si se completaron todos los barcos del nivel actual.
-     * @return true si el nivel terminó
-     */
-    public boolean verificarFinNivel() {
-        return false;
-    }
-
-    public boolean pasarSiguienteNivel() {
-    	return true;	
-    }
-
-    public void terminarPartida() {
-    	return true;
-    }
-
-    /**
-     * Agrega puntos al puntaje del jugador.
-     * @param puntos cantidad de puntos a agregar
-     */
-    public void agregarPuntos(int puntos) {
-    }
-
-    /**
-     * Aplica daño al submarino, reduciendo su porcentaje de vida.
-     * @param porcentaje porcentaje de vida a restar
-     */
-    public void recibirDanio(int porcentaje) {
-    }
-
-    /**
-     * Indica si el submarino sigue con vida.
-     * @return true si el porcentaje de vida es mayor a cero
-=======
      * Indica si el jugador todavía tiene vidas restantes.
      *
      * @return true si el jugador tiene al menos una vida, false si el juego terminó.
->>>>>>> refs/remotes/origin/andres-backup/fase-c
      */
     public boolean estaVivo() {
         return vidas >= 1;
