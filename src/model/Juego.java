@@ -28,16 +28,18 @@ public class Juego {
     protected static final int CARGAS_MAX_X_BARCO = 5;
 
     // Estado general del juego
-    private String estado;
+    private String estadoJuego;
     private int nivel;
     private int vidas;
     private int puntaje;
     private int puntosExtraAcumulados;
+    private String iniciarPartida;
+    private String terminarPartida;
 
     // Submarino
     private Submarino submarino;
     private int porcentajeVida;
-    private String estado; 
+    private String estadoSubmarino; 
     private int puntosAcumExtra;
 
 
@@ -64,7 +66,7 @@ public class Juego {
      */
     public Juego(Random random) {
         // Estado general
-        this.estado = "MENU_PRINCIPAL";
+        this.estadoJuego = "MENU_PRINCIPAL";
         this.nivel = 1;
         this.vidas = 3;
         this.puntaje = 0;
@@ -98,7 +100,7 @@ public class Juego {
         this.submarino = new Submarino();
         submarino.inicializar(anchoPantalla);
         porcentajeVida = 100;
-        this.estado = "JUGANDO";
+        this.estadoJuego = "JUGANDO";
     }
 
     /**
@@ -106,7 +108,7 @@ public class Juego {
      * Es llamado automáticamente cuando el jugador pierde su última vida.
      */
     public void terminarPartida() {
-        estado = "GAME OVER";
+        estadoJuego = "GAME OVER";
     }
 
     // --- Game loop ---
