@@ -95,6 +95,9 @@ public class GameController {
     public boolean isJuegoTerminado() {
         return juego.getEstado().equals("GAME OVER");
     }
+    
+    public int obtenerPuntaje() {
+    	return juego.getPuntaje();    }
 
     // Métodos de display
 

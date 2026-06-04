@@ -1,4 +1,5 @@
 package test;
+//import java.util.Scanner;
 
 import controller.GameController;
 
@@ -9,6 +10,9 @@ import controller.GameController;
 public class Test {
 
     public static void main(String[] args) {
+    	
+    	//Scanner teclado = new Scanner(System.in);
+    	//System.out.println("Ingresa una opción para continuar: Las opciones válidas son 'Iniciar', 'Terminar'"); --> Lo dejamos para cuando se desarrolle la clase vista en la interfaz
 
         System.out.println("================================================");
         System.out.println("       SUBMARINE ATTACK - TEST FASE C");

@@ -8,7 +8,7 @@ public class Submarino {
 
     // Atributos
 
-    protected static final double PROF_MIN = 300;
+    protected static final double PROF_MIN = 300; //protected son modificadores de acceso, se piensa en la herencia cuando se usa este tipo de modificador. 
     protected static final double PROF_MAX = 800;
     private double posicionX;
     private double profundidad;
@@ -17,7 +17,7 @@ public class Submarino {
     // Constructor
 
     public Submarino() {
-        this.posicionX = 0;
+        this.posicionX = 0; //posicion temporal antes de que comience la partida 
         this.profundidad = 0;
     }
 
@@ -30,7 +30,7 @@ public class Submarino {
      */
     public void inicializar(double anchoPantalla) {
         this.anchoPantalla = anchoPantalla;
-        setPosicionX(anchoPantalla / 2);
+        setPosicionX(anchoPantalla / 2); //400
         double profundidadMedia = (PROF_MAX + PROF_MIN) / 2;
         setProfundidad(profundidadMedia);
     }
