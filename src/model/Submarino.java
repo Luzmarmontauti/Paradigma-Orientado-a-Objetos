@@ -2,77 +2,85 @@ package model;
 
 /**
  * Submarino controlado por el jugador. Se mueve en las cuatro direcciones
- * dentro de los límites de profundidad permitidos.
+ * dentro de los límites de profundidad y bordes laterales del área de juego.
  */
 public class Submarino {
 
-    // Atributos
+    // =========================================================
+    // CONSTANTES
+    // =========================================================
 
     protected static final double PROF_MIN = 300;
     protected static final double PROF_MAX = 800;
+
+    // =========================================================
+    // ATRIBUTOS
+    // =========================================================
+
     private double posicionX;
     private double profundidad;
     private double anchoPantalla;
 
-    // Constructor
+    // =========================================================
+    // CONSTRUCTOR
+    // =========================================================
 
     public Submarino() {
         this.posicionX = 0;
         this.profundidad = 0;
     }
 
-    // Comportamiento
+    // =========================================================
+    // INICIALIZACIÓN
+    // =========================================================
 
     /**
-     * Posiciona el submarino en su estado inicial para una partida.
-     * Lo centra horizontalmente y lo ubica en la profundidad media entre PROF_MIN y PROF_MAX.
-     * @param anchoPantalla  ancho del área de juego definido por el GameController
+     * Posiciona el submarino en su estado inicial: centrado horizontalmente
+     * y en la profundidad media entre PROF_MIN y PROF_MAX.
+     *
+     * @param anchoPantalla ancho del área de juego
      */
     public void inicializar(double anchoPantalla) {
         this.anchoPantalla = anchoPantalla;
         setPosicionX(anchoPantalla / 2);
-        double profundidadMedia = (PROF_MAX + PROF_MIN) / 2;
-        setProfundidad(profundidadMedia);
+        setProfundidad((PROF_MAX + PROF_MIN) / 2);
     }
 
+    // =========================================================
+    // MOVIMIENTO
+    // =========================================================
 
+    /** Mueve el submarino hacia la izquierda si no alcanzó el borde. */
     public void moverIzquierda() {
-        double x = getPosicionX();
-        if (x > 0)  setPosicionX(x - 1);
+        if (posicionX > 0) setPosicionX(posicionX - 1);
     }
 
+    /** Mueve el submarino hacia la derecha si no alcanzó el borde. */
     public void moverDerecha() {
-        double x = getPosicionX();
-        if (x < anchoPantalla) setPosicionX(x + 1);
+        if (posicionX < anchoPantalla) setPosicionX(posicionX + 1);
     }
 
+    /** Sube el submarino (disminuye profundidad) si no alcanzó PROF_MIN. */
     public void moverArriba() {
-        double y = getProfundidad();
-        if (y > PROF_MIN) setProfundidad(y - 1);
+        if (profundidad > PROF_MIN) setProfundidad(profundidad - 1);
     }
 
+    /** Baja el submarino (aumenta profundidad) si no alcanzó PROF_MAX. */
     public void moverAbajo() {
-        double y = getProfundidad();
-        if (y < PROF_MAX) setProfundidad(y + 1);
+        if (profundidad < PROF_MAX) setProfundidad(profundidad + 1);
     }
 
-    // Getters
+    // =========================================================
+    // GETTERS
+    // =========================================================
 
-    public double getPosicionX() {
-        return posicionX;
-    }
+    public double getPosicionX()   { return posicionX; }
+    public double getProfundidad() { return profundidad; }
 
-    public double getProfundidad() {
-        return profundidad;
-    }
+    // =========================================================
+    // SETTERS PRIVADOS
+    // =========================================================
 
-    // Setters privados — solo para uso interno de los métodos de movimiento
-
-    private void setPosicionX(double posicionX) {
-        this.posicionX = posicionX;
-    }
-
-    private void setProfundidad(double profundidad) {
-        this.profundidad = profundidad;
-    }
+    private void setPosicionX(double posicionX)     { this.posicionX = posicionX; }
+    private void setProfundidad(double profundidad) { this.profundidad = profundidad; }
 }

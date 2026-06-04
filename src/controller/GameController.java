@@ -2,8 +2,8 @@ package controller;
 
 import model.Juego;
 import model.Barco;
-import java.util.Random;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Controlador principal del juego. Recibe los eventos del jugador,
@@ -12,22 +12,27 @@ import java.util.List;
  */
 public class GameController {
 
-    // Atributos
+    // =========================================================
+    // ATRIBUTOS
+    // =========================================================
+
     private static GameController instance;
     private Juego juego;
     private static final double ANCHO_PANTALLA = 800;
 
-    // Constructor privado — usar getInstance() para obtener la instancia
+    // =========================================================
+    // SINGLETON
+    // =========================================================
+
     private GameController() {
         this.juego = new Juego(new Random());
         // TODO Fase Final: no iniciar la partida acá, esperar que el jugador elija desde el menú
         juego.iniciarPartida(ANCHO_PANTALLA);
     }
 
-    // Singleton
-
     /**
      * Devuelve la única instancia del controlador. La crea si todavía no existe.
+     *
      * @return instancia única de GameController
      */
     public static GameController getInstance() {
@@ -37,40 +42,43 @@ public class GameController {
         return instance;
     }
 
-    // Comportamiento
+    // =========================================================
+    // COMPORTAMIENTO
+    // =========================================================
 
     /**
-     * Recibe la tecla presionada por el jugador y mueve el submarino en esa dirección.
-     * @param tecla dirección del movimiento: "arriba", "abajo", "izquierda" o "derecha"
+     * Recibe la tecla presionada por el jugador, mueve el submarino
+     * e imprime la nueva posición si hubo movimiento.
+     *
+     * @param tecla "arriba", "abajo", "izquierda" o "derecha"
      */
     public void moverTecla(String tecla) {
-        double submarinoXPrev = juego.getSubmarinoX();
-        double submarinoYPrev = juego.getSubmarinoY();
+        double xPrev = juego.getSubmarinoX();
+        double yPrev = juego.getSubmarinoY();
 
         juego.moverSubmarino(tecla);
 
-        if (submarinoXPrev != juego.getSubmarinoX() || submarinoYPrev != juego.getSubmarinoY()) {
-
+        if (xPrev != juego.getSubmarinoX() || yPrev != juego.getSubmarinoY()) {
             mostrarMensaje("Nueva posicion del submarino: (" + obtenerCoordenadaX() + ", " + obtenerCoordenadaY() + ")");
         }
-
     }
 
     /**
-     * Avanza el juego un tick: mueve barcos, hace caer cargas, procesa explosiones.
-     * Si el nivel se completó, pasa al siguiente. Al final actualiza la vista.
+     * Avanza el juego un tick: mueve barcos, hace caer cargas y procesa explosiones.
+     * Detecta y muestra por consola los eventos relevantes del tick.
      */
     public void actualizar() {
-        int barcosPrev = juego.getBarcosActivos().size();
-        int cargasPrev = juego.getCargasActivas().size();
-        int puntajePrev = juego.getPuntaje();
-        int vidasPrev = juego.getVidas();
-        int porcentajeVidaPrev = juego.getPorcentajeVida();
+        int barcosPrev       = juego.getBarcosActivos().size();
+        int cargasPrev       = juego.getCargasActivas().size();
+        int puntajePrev      = juego.getPuntaje();
+        int vidasPrev        = juego.getVidas();
+        int vidaPorcentPrev  = juego.getPorcentajeVida();
         boolean nivelSuperado = juego.verificarFinNivel();
 
         juego.actualizar(ANCHO_PANTALLA);
 
-        String posExplosion = " en X=" + String.format("%.0f", juego.getUltimaExplosionX()) + " Y=" + String.format("%.0f", juego.getUltimaExplosionY());
+        String posExp = " en X=" + String.format("%.0f", juego.getUltimaExplosionX())
+                      + " Y=" + String.format("%.0f", juego.getUltimaExplosionY());
 
         if (juego.getBarcosActivos().size() > barcosPrev) {
             Barco nuevo = juego.getBarcosActivos().get(juego.getBarcosActivos().size() - 1);
@@ -80,14 +88,14 @@ public class GameController {
             mostrarMensaje("Carga lanzada | Cargas activas: " + juego.getCargasActivas().size());
         }
         if (juego.getPuntaje() - puntajePrev == 30) {
-            mostrarMensaje("Carga detono lejos (>100m)" + posExplosion + " | +30 pts | Score: " + juego.getPuntaje());
+            mostrarMensaje("Carga detono lejos (>100m)" + posExp + " | +30 pts | Score: " + juego.getPuntaje());
         } else if (juego.getPuntaje() - puntajePrev == 10) {
-            mostrarMensaje("Carga detono cerca (50-100m)" + posExplosion + " | +10 pts, danio leve | Score: " + juego.getPuntaje());
-        } else if (juego.getPorcentajeVida() < porcentajeVidaPrev && juego.getVidas() == vidasPrev) {
-            mostrarMensaje("Carga detono muy cerca (10-50m)" + posExplosion + " | Danio severo | Vida: " + juego.getPorcentajeVida() + "%");
+            mostrarMensaje("Carga detono cerca (50-100m)" + posExp + " | +10 pts, danio leve | Score: " + juego.getPuntaje());
+        } else if (juego.getPorcentajeVida() < vidaPorcentPrev && juego.getVidas() == vidasPrev) {
+            mostrarMensaje("Carga detono muy cerca (10-50m)" + posExp + " | Danio severo | Vida: " + juego.getPorcentajeVida() + "%");
         }
         if (juego.getVidas() < vidasPrev) {
-            mostrarMensaje("Impacto directo" + posExplosion + " | VIDA PERDIDA | Vidas: " + juego.getVidas());
+            mostrarMensaje("Impacto directo" + posExp + " | VIDA PERDIDA | Vidas: " + juego.getVidas());
         }
         if (juego.getVidas() > vidasPrev) {
             mostrarMensaje("Vida extra ganada! Vidas: " + juego.getVidas());
@@ -96,13 +104,15 @@ public class GameController {
             juego.pasarSiguienteNivel();
             mostrarMensaje("Nivel superado! Comenzando nivel " + juego.getNivel());
         }
-
-        //notificarVista();
     }
 
+    // =========================================================
+    // VISTA
+    // =========================================================
+
     /**
-     * Muestra el estado actual del juego por consola.
-     * En la Fase Final va a actualizar la interfaz gráfica.
+     * Muestra el estado completo del juego por consola.
+     * En la Fase Final actualizará la interfaz gráfica.
      */
     public void notificarVista() {
         mostrarNivel(juego.getNivel());
@@ -112,72 +122,7 @@ public class GameController {
         renderizar(juego);
     }
 
-    // Getters para el test
-
-    /** @return posición horizontal actual del submarino */
-    public double obtenerCoordenadaX() {
-        return juego.getSubmarinoX();
-    }
-
-    /** @return profundidad actual del submarino en metros */
-    public double obtenerCoordenadaY() {
-        return juego.getSubmarinoY();
-    }
-
-    /** @return nivel actual del juego */
-    public int obtenerNivel() {
-        return juego.getNivel();
-    }
-
-    /** @return vidas restantes del jugador */
-    public int obtenerVidas() {
-        return juego.getVidas();
-    }
-
-    /** @return true si el juego terminó (sin vidas) */
-    public boolean isJuegoTerminado() {
-        return juego.getEstado().equals("GAME OVER");
-    }
-
-    /** @return porcentaje de vida actual del submarino */
-    public int obtenerPorcentajeVida() {
-        return juego.getPorcentajeVida();
-    }
-
-    // Métodos de display
-
-    /** Muestra el puntaje actual. */
-    public void mostrarPuntaje(int puntaje) {
-        System.out.println("   SCORE: " + puntaje + " pts");
-    }
-
-    /** Muestra las vidas restantes con corazones. */
-    public void mostrarVidas(int vidas) {
-        System.out.print("   Vidas: ");
-        for (int i = 0; i < vidas; i++) {
-            System.out.print("♥ ");
-        }
-        System.out.println(" (" + vidas + ")");
-    }
-
-    /** Muestra el nivel actual con un separador visual. */
-    public void mostrarNivel(int nivel) {
-        System.out.println("\n================================================");
-        System.out.println("                ESTADO DEL NIVEL " + nivel);
-        System.out.println("================================================");
-    }
-
-    /** Muestra la profundidad actual del submarino. */
-    public void mostrarProfundidad(double profundidad) {
-        System.out.println("   Profundidad: " + String.format("%.2f", profundidad) + " metros");
-    }
-
-    /** Muestra un mensaje del sistema en mayúsculas. */
-    public void mostrarMensaje(String msg) {
-        System.out.println("\n[SISTEMA]: " + msg.toUpperCase() + "\n");
-    }
-
-    /** Muestra la posición actual de cada barco activo en pantalla. */
+    /** Muestra la posición actual de cada barco activo. */
     public void mostrarEstadoBarcos() {
         List<Barco> barcos = juego.getBarcosActivos();
         if (barcos.isEmpty()) {
@@ -191,11 +136,37 @@ public class GameController {
         }
     }
 
-    /**
-     * Renderiza el estado del juego en pantalla.
-     * TODO Fase Final: reemplazar con el dibujado real en la interfaz gráfica.
-     */
-    public void renderizar(Juego juego) {
-        System.out.println("Renderizado del juego ok");
+    public void mostrarPuntaje(int puntaje)         { System.out.println("   SCORE: " + puntaje + " pts"); }
+
+    public void mostrarVidas(int vidas) {
+        System.out.print("   Vidas: ");
+        for (int i = 0; i < vidas; i++) System.out.print("♥ ");
+        System.out.println(" (" + vidas + ")");
     }
+
+    public void mostrarNivel(int nivel) {
+        System.out.println("\n================================================");
+        System.out.println("                ESTADO DEL NIVEL " + nivel);
+        System.out.println("================================================");
+    }
+
+    public void mostrarProfundidad(double profundidad) {
+        System.out.println("   Profundidad: " + String.format("%.2f", profundidad) + " metros");
+    }
+
+    public void mostrarMensaje(String msg)          { System.out.println("\n[SISTEMA]: " + msg.toUpperCase() + "\n"); }
+
+    /** TODO Fase Final: reemplazar con el dibujado real en la interfaz gráfica. */
+    public void renderizar(Juego juego)             { System.out.println("Renderizado del juego ok"); }
+
+    // =========================================================
+    // GETTERS
+    // =========================================================
+
+    public double obtenerCoordenadaX()  { return juego.getSubmarinoX(); }
+    public double obtenerCoordenadaY()  { return juego.getSubmarinoY(); }
+    public int obtenerNivel()           { return juego.getNivel(); }
+    public int obtenerVidas()           { return juego.getVidas(); }
+    public int obtenerPorcentajeVida()  { return juego.getPorcentajeVida(); }
+    public boolean isJuegoTerminado()   { return juego.getEstado().equals("GAME OVER"); }
 }

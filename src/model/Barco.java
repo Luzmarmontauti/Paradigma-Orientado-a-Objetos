@@ -1,16 +1,25 @@
 package model;
+
 import java.util.Random;
+
 /**
  * Barco de superficie que se mueve horizontalmente y lanza
  * cargas de profundidad hacia el submarino.
  */
 public class Barco {
 
-    // Atributos
+    // =========================================================
+    // CONSTANTES
+    // =========================================================
 
     protected static final double PROF_SUPERFICIE = 0;
-    protected  static final int TIEMPO_ESPERA_MIN = 10;
-    protected  static final int TIEMPO_ESPERA_MAX = 100;
+    protected static final int TIEMPO_ESPERA_MIN = 10;
+    protected static final int TIEMPO_ESPERA_MAX = 100;
+
+    // =========================================================
+    // ATRIBUTOS
+    // =========================================================
+
     private double posicionX;
     private String direccion;
     private double velocidad;
@@ -19,8 +28,9 @@ public class Barco {
     private int cargasLanzadas;
     private int ticksEntreDisparos;
 
-
-    // Constructor
+    // =========================================================
+    // CONSTRUCTOR
+    // =========================================================
 
     public Barco() {
         this.posicionX = 0;
@@ -29,15 +39,18 @@ public class Barco {
         this.cargasLanzadas = 0;
     }
 
-    // Comportamiento
+    // =========================================================
+    // INICIALIZACIÓN
+    // =========================================================
 
     /**
      * Configura el barco para su recorrido: asigna velocidad, dirección y cargas mínimas,
      * y lo posiciona en el borde de entrada según la dirección recibida.
-     * @param anchoPantalla  ancho del área de juego
-     * @param direccion      "derecha" o "izquierda", decidido por el Juego aleatoriamente
-     * @param velocidad      velocidad de desplazamiento horizontal
-     * @param cargasMinimas  mínimo de cargas que debe lanzar antes de poder retirarse
+     *
+     * @param anchoPantalla ancho del área de juego
+     * @param direccion     "derecha" entra por la izquierda, "izquierda" entra por la derecha
+     * @param velocidad     velocidad de desplazamiento horizontal
+     * @param cargasMinimas mínimo de cargas que debe lanzar antes de poder retirarse
      */
     public void inicializar(double anchoPantalla, String direccion, double velocidad, int cargasMinimas) {
         this.anchoPantalla = anchoPantalla;
@@ -52,86 +65,75 @@ public class Barco {
         }
     }
 
-    /**
-     * Desplaza el barco hacia la izquierda según su velocidad.
-     */
+    // =========================================================
+    // MOVIMIENTO
+    // =========================================================
+
+    /** Desplaza el barco hacia la izquierda según su velocidad. */
     public void moverIzquierda() {
-        double x = getPosicionX();
-        setPosicionX(x - velocidad);
+        setPosicionX(getPosicionX() - velocidad);
     }
 
-    /**
-     * Desplaza el barco hacia la derecha según su velocidad.
-     */
+    /** Desplaza el barco hacia la derecha según su velocidad. */
     public void moverDerecha() {
-        double x = getPosicionX();
-        setPosicionX(x + velocidad);
+        setPosicionX(getPosicionX() + velocidad);
     }
 
-    /**
-     * Indica si el barco llegó al extremo horizontal de la pantalla.
-     * @return true si alcanzó el borde
-     */
+    /** @return true si el barco llegó al extremo horizontal de la pantalla. */
     public boolean haAlcanzadoExtremo() {
-        double x = getPosicionX();
-        return x <= 0 || x >= anchoPantalla;
+        return posicionX <= 0 || posicionX >= anchoPantalla;
     }
 
+    // =========================================================
+    // DISPARO
+    // =========================================================
+
     /**
-     * Crea, inicializa y devuelve una nueva carga de profundidad lanzada desde este barco.
+     * Crea y devuelve una nueva carga lanzada desde la posición actual del barco.
      * Incrementa el contador de cargas lanzadas.
+     *
      * @param velocidadCaida        unidades que desciende la carga por tick
-     * @param profundidadDetonacion profundidad a la que explotará la carga, definida por el Juego
+     * @param profundidadDetonacion profundidad a la que explotará la carga
      * @return la carga de profundidad creada
      */
     public CargaDeProfundidad lanzarCarga(double velocidadCaida, double profundidadDetonacion) {
         CargaDeProfundidad bomba = new CargaDeProfundidad();
         bomba.inicializar(posicionX, velocidadCaida, profundidadDetonacion);
-        cargasLanzadas ++;
+        cargasLanzadas++;
         return bomba;
     }
 
+    /** @return true si el contador de espera entre disparos llegó a 0. */
     public boolean puedeDisparar() {
         return ticksEntreDisparos == 0;
     }
 
+    /**
+     * Avanza el contador de espera entre disparos. Si llega a 0, sortea un nuevo
+     * intervalo aleatorio entre TIEMPO_ESPERA_MIN y TIEMPO_ESPERA_MAX.
+     *
+     * @param random fuente de aleatoriedad del juego
+     */
     public void contarTicks(Random random) {
-        if (ticksEntreDisparos > 0) { ticksEntreDisparos -= 1; }
-
-        ticksEntreDisparos = random.nextInt(TIEMPO_ESPERA_MAX - TIEMPO_ESPERA_MIN + 1) - TIEMPO_ESPERA_MIN;
+        if (ticksEntreDisparos > 0) {
+            ticksEntreDisparos -= 1;
+        } else {
+            ticksEntreDisparos = random.nextInt(TIEMPO_ESPERA_MAX - TIEMPO_ESPERA_MIN + 1) + TIEMPO_ESPERA_MIN;
+        }
     }
 
-    // Getters y Setters
+    // =========================================================
+    // GETTERS Y SETTERS
+    // =========================================================
 
-    public double getAnchoPantalla() {
-        return anchoPantalla;
-    }
+    public double getPosicionX()    { return posicionX; }
+    public String getDireccion()    { return direccion; }
+    public double getVelocidad()    { return velocidad; }
+    public double getAnchoPantalla(){ return anchoPantalla; }
+    public int getCargasLanzadas()  { return cargasLanzadas; }
+    public int getCargasMinimas()   { return cargasMinimas; }
 
-    public int getCargasLanzadas() {
-        return cargasLanzadas;
-    }
+    public void setDireccion(String direccion) { this.direccion = direccion; }
 
-    public int getCargasMinimas() {
-        return cargasMinimas;
-    }
-
-    public String getDireccion() {
-        return direccion;
-    }
-
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
-    }
-
-    public double getPosicionX() {
-        return posicionX;
-    }
-
-    private void setPosicionX(double posicionX) {
-        this.posicionX = posicionX;
-    }
-
-    public double getVelocidad() {
-        return velocidad;
-    }
+    private void setPosicionX(double posicionX) { this.posicionX = posicionX; }
 }
