@@ -61,29 +61,40 @@ public class GameController {
      * Si el nivel se completó, pasa al siguiente. Al final actualiza la vista.
      */
     public void actualizar() {
-        //variable sinternas para capturar el estado dle jeugo antes de actualizar
         int barcosPrev = juego.getBarcosActivos().size();
         int cargasPrev = juego.getCargasActivas().size();
         int puntajePrev = juego.getPuntaje();
         int vidasPrev = juego.getVidas();
+        int porcentajeVidaPrev = juego.getPorcentajeVida();
         boolean nivelSuperado = juego.verificarFinNivel();
 
-        //actualizamos el juego
         juego.actualizar(ANCHO_PANTALLA);
 
-        //verificamos las cosas que cambiaron para mostrar mensajes en pantalla
+        String posExplosion = " en X=" + String.format("%.0f", juego.getUltimaExplosionX()) + " Y=" + String.format("%.0f", juego.getUltimaExplosionY());
+
         if (juego.getBarcosActivos().size() > barcosPrev) {
             Barco nuevo = juego.getBarcosActivos().get(juego.getBarcosActivos().size() - 1);
             mostrarMensaje("Barco generado en X=" + String.format("%.0f", nuevo.getPosicionX()) + " | Direccion: " + nuevo.getDireccion());
         }
-        if (juego.getCargasActivas().size() > cargasPrev) { mostrarMensaje("Carga lanzada | Cargas activas: " + juego.getCargasActivas().size()); }
-
-        if (juego.getPuntaje() > puntajePrev) mostrarMensaje("Nuevo puntaje = " + juego.getPuntaje());
-        if (juego.getVidas() > vidasPrev) mostrarMensaje("Sumaste una vida! Vidas = " + juego.getVidas());
-        if (juego.getVidas() < vidasPrev) mostrarMensaje("Perdiste una vida! VIdas = " + juego.getVidas());
+        if (juego.getCargasActivas().size() > cargasPrev) {
+            mostrarMensaje("Carga lanzada | Cargas activas: " + juego.getCargasActivas().size());
+        }
+        if (juego.getPuntaje() - puntajePrev == 30) {
+            mostrarMensaje("Carga detono lejos (>100m)" + posExplosion + " | +30 pts | Score: " + juego.getPuntaje());
+        } else if (juego.getPuntaje() - puntajePrev == 10) {
+            mostrarMensaje("Carga detono cerca (50-100m)" + posExplosion + " | +10 pts, danio leve | Score: " + juego.getPuntaje());
+        } else if (juego.getPorcentajeVida() < porcentajeVidaPrev && juego.getVidas() == vidasPrev) {
+            mostrarMensaje("Carga detono muy cerca (10-50m)" + posExplosion + " | Danio severo | Vida: " + juego.getPorcentajeVida() + "%");
+        }
+        if (juego.getVidas() < vidasPrev) {
+            mostrarMensaje("Impacto directo" + posExplosion + " | VIDA PERDIDA | Vidas: " + juego.getVidas());
+        }
+        if (juego.getVidas() > vidasPrev) {
+            mostrarMensaje("Vida extra ganada! Vidas: " + juego.getVidas());
+        }
         if (nivelSuperado) {
             juego.pasarSiguienteNivel();
-            mostrarMensaje("Avanzaste al siguiente nivel!");
+            mostrarMensaje("Nivel superado! Comenzando nivel " + juego.getNivel());
         }
 
         //notificarVista();
@@ -128,6 +139,11 @@ public class GameController {
         return juego.getEstado().equals("GAME OVER");
     }
 
+    /** @return porcentaje de vida actual del submarino */
+    public int obtenerPorcentajeVida() {
+        return juego.getPorcentajeVida();
+    }
+
     // Métodos de display
 
     /** Muestra el puntaje actual. */
@@ -159,6 +175,20 @@ public class GameController {
     /** Muestra un mensaje del sistema en mayúsculas. */
     public void mostrarMensaje(String msg) {
         System.out.println("\n[SISTEMA]: " + msg.toUpperCase() + "\n");
+    }
+
+    /** Muestra la posición actual de cada barco activo en pantalla. */
+    public void mostrarEstadoBarcos() {
+        List<Barco> barcos = juego.getBarcosActivos();
+        if (barcos.isEmpty()) {
+            System.out.println("   [Sin barcos activos en pantalla]");
+            return;
+        }
+        System.out.println("   Barcos activos: " + barcos.size());
+        for (int i = 0; i < barcos.size(); i++) {
+            Barco b = barcos.get(i);
+            System.out.println("   Barco " + (i + 1) + ": X=" + String.format("%.0f", b.getPosicionX()) + " | Direccion: " + b.getDireccion());
+        }
     }
 
     /**

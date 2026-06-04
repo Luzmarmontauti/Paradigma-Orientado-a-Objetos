@@ -29,14 +29,25 @@ public class Test {
         controller.moverTecla("arriba");
         controller.moverTecla("derecha");
         controller.moverTecla("derecha");
+        controller.moverTecla("derecha");
+        controller.moverTecla("abajo");
         controller.moverTecla("abajo");
         controller.moverTecla("izquierda");
+        controller.moverTecla("izquierda");
+        controller.moverTecla("derecha");
+        controller.moverTecla("arriba");
 
         // --- Simulacion del juego ---
-        System.out.println("\n--- Simulando partida (hasta 200 ticks o Game Over) ---\n");
+        System.out.println("\n--- Simulando partida (hasta 300 ticks o Game Over) ---\n");
 
-        for (int tick = 1; tick <= 200; tick++) {
+        for (int tick = 1; tick <= 300; tick++) {
             controller.actualizar();
+
+            if (tick % 30 == 0) {
+                System.out.println("--- Posicion barcos en tick " + tick + " ---");
+                controller.mostrarEstadoBarcos();
+                System.out.println();
+            }
 
             if (controller.isJuegoTerminado()) {
                 controller.mostrarMensaje("Game Over en tick " + tick);

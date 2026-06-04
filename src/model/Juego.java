@@ -49,6 +49,8 @@ public class Juego {
     // Cargas
     private List<CargaDeProfundidad> cargasActivas;
     private double velocidadCargas;
+    private double ultimaExplosionX;
+    private double ultimaExplosionY;
 
     // Aleatoriedad
     private Random random;
@@ -262,6 +264,8 @@ public class Juego {
      * @param carga la carga que detonó en este tick.
      */
     public void procesarExplosion(CargaDeProfundidad carga) {
+        this.ultimaExplosionX = carga.getPosicionX();
+        this.ultimaExplosionY = carga.getProfundidad();
         double distancia = carga.calcularDistancia(submarino);
         if (distancia > 100) {
             agregarPuntos(30);
@@ -408,4 +412,7 @@ public class Juego {
     public List<CargaDeProfundidad> getCargasActivas() {
         return cargasActivas;
     }
+
+    public double getUltimaExplosionX() { return ultimaExplosionX; }
+    public double getUltimaExplosionY() { return ultimaExplosionY; }
 }
