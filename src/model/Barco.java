@@ -126,12 +126,12 @@ public class Barco {
     // GETTERS Y SETTERS
     // =========================================================
 
-    public double getPosicionX()    { return posicionX; }
-    public String getDireccion()    { return direccion; }
-    public double getVelocidad()    { return velocidad; }
-    public double getAnchoPantalla(){ return anchoPantalla; }
-    public int getCargasLanzadas()  { return cargasLanzadas; }
-    public int getCargasMinimas()   { return cargasMinimas; }
+    public double getPosicionX() { return posicionX; }
+    public String getDireccion() { return direccion; }
+    public double getVelocidad() { return velocidad; }
+    public double getAnchoPantalla() { return anchoPantalla; }
+    public int getCargasLanzadas() { return cargasLanzadas; }
+    public int getCargasMinimas() { return cargasMinimas; }
 
     public void setDireccion(String direccion) { this.direccion = direccion; }
 

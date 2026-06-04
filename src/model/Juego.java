@@ -327,19 +327,19 @@ public class Juego {
     // GETTERS
     // =========================================================
 
-    public String getEstado()                           { return estado; }
-    public int getNivel()                               { return nivel; }
-    public int getVidas()                               { return vidas; }
-    public int getPuntaje()                             { return puntaje; }
-    public int getPorcentajeVida()                      { return porcentajeVida; }
-    public int getPuntosExtraAcumulados()               { return puntosExtraAcumulados; }
-    public int getBarcosGenerados()                     { return barcosGenerados; }
-    public double getVelocidadBarcos()                  { return velocidadBarcos; }
-    public double getVelocidadCargas()                  { return velocidadCargas; }
-    public double getSubmarinoX()                       { return submarino.getPosicionX(); }
-    public double getSubmarinoY()                       { return submarino.getProfundidad(); }
-    public double getUltimaExplosionX()                 { return ultimaExplosionX; }
-    public double getUltimaExplosionY()                 { return ultimaExplosionY; }
-    public List<Barco> getBarcosActivos()               { return barcosActivos; }
-    public List<CargaDeProfundidad> getCargasActivas()  { return cargasActivas; }
+    public String getEstado() { return estado; }
+    public int getNivel() { return nivel; }
+    public int getVidas() { return vidas; }
+    public int getPuntaje() { return puntaje; }
+    public int getPorcentajeVida() { return porcentajeVida; }
+    public int getPuntosExtraAcumulados() { return puntosExtraAcumulados; }
+    public int getBarcosGenerados() { return barcosGenerados; }
+    public double getVelocidadBarcos() { return velocidadBarcos; }
+    public double getVelocidadCargas() { return velocidadCargas; }
+    public double getSubmarinoX() { return submarino.getPosicionX(); }
+    public double getSubmarinoY() { return submarino.getProfundidad(); }
+    public double getUltimaExplosionX() { return ultimaExplosionX; }
+    public double getUltimaExplosionY() { return ultimaExplosionY; }
+    public List<Barco> getBarcosActivos() { return barcosActivos; }
+    public List<CargaDeProfundidad> getCargasActivas() { return cargasActivas; }
 }
