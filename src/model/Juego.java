@@ -22,6 +22,8 @@ public class Juego {
     // Constantes
     protected static final int TOTAL_BARCOS = 12;
     protected static final int MAX_SIMULTANEOS = 3;
+    protected static final int TIEMPO_MIN_ESPERA= 10;
+    protected static final int TIEMPO_MAX_ESPERA = 100;
     protected static final double VELOCIDAD_INICIAL = 1;
     protected static final double INCREMENTO_VELOCIDAD = 0.2;
     protected static final int CARGAS_MIN_X_BARCO = 2;
@@ -33,6 +35,7 @@ public class Juego {
     private int vidas;
     private int puntaje;
     private int puntosExtraAcumulados;
+    private int ticksEntreBarcos;
 
     // Submarino
     private Submarino submarino;
@@ -96,6 +99,7 @@ public class Juego {
         submarino.inicializar(anchoPantalla);
         porcentajeVida = 100;
         this.estado = "JUGANDO";
+        setTicksEntreBarcos();
     }
 
     /**
@@ -127,9 +131,11 @@ public class Juego {
      */
     public void actualizar(double anchoPantalla) {
         //TODO: revisar para que no se gener un barco en cada tick
-        if (barcosGenerados < TOTAL_BARCOS && barcosActivos.size() < MAX_SIMULTANEOS) {
+        if (barcosGenerados < TOTAL_BARCOS && barcosActivos.size() < MAX_SIMULTANEOS && puedeGenerarBarco()) {
             generarBarco(anchoPantalla);
+            setTicksEntreBarcos();
         }
+        disminuirContadorTicksEntreBarcos();
 
         List<Barco> barcosAEliminar = new ArrayList<>();
 
@@ -229,6 +235,18 @@ public class Juego {
         barco.inicializar(anchoPantalla, direccion, velocidadBarcos, cargasMinimas);
         barcosActivos.add(barco);
         barcosGenerados++;
+    }
+
+    public boolean puedeGenerarBarco() {
+        return ticksEntreBarcos == 0;
+    }
+
+    public void disminuirContadorTicksEntreBarcos() {
+        if (ticksEntreBarcos > 0) { ticksEntreBarcos -= 1; }
+    }
+
+    public void setTicksEntreBarcos() {
+        ticksEntreBarcos = random.nextInt(TIEMPO_MAX_ESPERA - TIEMPO_MIN_ESPERA + 1 ) + TIEMPO_MIN_ESPERA;
     }
 
     // --- Cargas y explosiones ---
