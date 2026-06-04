@@ -126,11 +126,14 @@ public class Juego {
      * @param anchoPantalla ancho del área de juego, necesario para generar nuevos barcos.
      */
     public void actualizar(double anchoPantalla) {
+        //TODO: revisar para que no se gener un barco en cada tick
         if (barcosGenerados < TOTAL_BARCOS && barcosActivos.size() < MAX_SIMULTANEOS) {
             generarBarco(anchoPantalla);
         }
 
         List<Barco> barcosAEliminar = new ArrayList<>();
+
+
 
         for (int i = 0; i < barcosActivos.size(); i++) {
             Barco barco = barcosActivos.get(i);
@@ -138,7 +141,14 @@ public class Juego {
             if (direccion.equals("izquierda")) { barco.moverIzquierda(); } else { barco.moverDerecha(); }
 
             int profundidadDetonacion = random.nextInt(700 - 300 + 1) + 300;
-            cargasActivas.add(barco.lanzarCarga(velocidadCargas, profundidadDetonacion));
+
+            //LOGICA PARA GENERAR BOMBAS CADA X TIEMPO Y NO UNA DETRAS DE OTRA SUANDO LOS METODOS DE BARCO PUEDEDISPARAR Y TICKSENTREDISPARO
+
+            if (barco.puedeDisparar()) {
+                cargasActivas.add(barco.lanzarCarga(velocidadCargas, profundidadDetonacion));
+            }
+            barco.contarTicks(random);
+
 
             if (barco.haAlcanzadoExtremo()) {
                 if (barco.getCargasLanzadas() >= barco.getCargasMinimas()) {

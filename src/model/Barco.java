@@ -1,5 +1,5 @@
 package model;
-
+import java.util.Random;
 /**
  * Barco de superficie que se mueve horizontalmente y lanza
  * cargas de profundidad hacia el submarino.
@@ -9,12 +9,15 @@ public class Barco {
     // Atributos
 
     protected static final double PROF_SUPERFICIE = 0;
+    protected  static final int TIEMPO_ESPERA_MIN = 10;
+    protected  static final int TIEMPO_ESPERA_MAX = 100;
     private double posicionX;
     private String direccion;
     private double velocidad;
     private double anchoPantalla;
     private int cargasMinimas;
     private int cargasLanzadas;
+    private int ticksEntreDisparos;
 
     // Constructor
 
@@ -41,10 +44,10 @@ public class Barco {
         this.direccion = direccion;
         this.cargasMinimas = cargasMinimas;
         this.cargasLanzadas = 0;
-        if (direccion.equalsIgnoreCase("izquierda")) {
-            setPosicionX(0);
+        if (direccion.equalsIgnoreCase("derecha")) {
+            setPosicionX(1);
         } else {
-            setPosicionX(anchoPantalla);
+            setPosicionX(anchoPantalla - 1);
         }
     }
 
@@ -85,6 +88,16 @@ public class Barco {
         bomba.inicializar(posicionX, velocidadCaida, profundidadDetonacion);
         cargasLanzadas ++;
         return bomba;
+    }
+
+    public boolean puedeDisparar() {
+        return ticksEntreDisparos == 0;
+    }
+
+    public void contarTicks(Random random) {
+        if (ticksEntreDisparos > 0) { ticksEntreDisparos -= 1; }
+
+        ticksEntreDisparos = random.nextInt(TIEMPO_ESPERA_MAX - TIEMPO_ESPERA_MIN + 1) - TIEMPO_ESPERA_MIN;
     }
 
     // Getters y Setters
