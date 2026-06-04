@@ -1,7 +1,9 @@
 package controller;
 
 import model.Juego;
+import model.Barco;
 import java.util.Random;
+import java.util.List;
 
 /**
  * Controlador principal del juego. Recibe los eventos del jugador,
@@ -42,7 +44,16 @@ public class GameController {
      * @param tecla dirección del movimiento: "arriba", "abajo", "izquierda" o "derecha"
      */
     public void moverTecla(String tecla) {
+        double submarinoXPrev = juego.getSubmarinoX();
+        double submarinoYPrev = juego.getSubmarinoY();
+
         juego.moverSubmarino(tecla);
+
+        if (submarinoXPrev != juego.getSubmarinoX() || submarinoYPrev != juego.getSubmarinoY()) {
+
+            mostrarMensaje("Nueva posicion del submarino: (" + obtenerCoordenadaX() + ", " + obtenerCoordenadaY() + ")");
+        }
+
     }
 
     /**
@@ -50,11 +61,32 @@ public class GameController {
      * Si el nivel se completó, pasa al siguiente. Al final actualiza la vista.
      */
     public void actualizar() {
+        //variable sinternas para capturar el estado dle jeugo antes de actualizar
+        int barcosPrev = juego.getBarcosActivos().size();
+        int cargasPrev = juego.getCargasActivas().size();
+        int puntajePrev = juego.getPuntaje();
+        int vidasPrev = juego.getVidas();
+        boolean nivelSuperado = juego.verificarFinNivel();
+
+        //actualizamos el juego
         juego.actualizar(ANCHO_PANTALLA);
-        if (juego.verificarFinNivel()) {
-            juego.pasarSiguienteNivel();
+
+        //verificamos las cosas que cambiaron para mostrar mensajes en pantalla
+        if (juego.getBarcosActivos().size() > barcosPrev) {
+            Barco nuevo = juego.getBarcosActivos().get(juego.getBarcosActivos().size() - 1);
+            mostrarMensaje("Barco generado en X=" + String.format("%.0f", nuevo.getPosicionX()) + " | Direccion: " + nuevo.getDireccion());
         }
-        notificarVista();
+        if (juego.getCargasActivas().size() > cargasPrev) { mostrarMensaje("Carga lanzada | Cargas activas: " + juego.getCargasActivas().size()); }
+
+        if (juego.getPuntaje() > puntajePrev) mostrarMensaje("Nuevo puntaje = " + juego.getPuntaje());
+        if (juego.getVidas() > vidasPrev) mostrarMensaje("Sumaste una vida! Vidas = " + juego.getVidas());
+        if (juego.getVidas() < vidasPrev) mostrarMensaje("Perdiste una vida! VIdas = " + juego.getVidas());
+        if (nivelSuperado) {
+            juego.pasarSiguienteNivel();
+            mostrarMensaje("Avanzaste al siguiente nivel!");
+        }
+
+        //notificarVista();
     }
 
     /**

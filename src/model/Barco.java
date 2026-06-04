@@ -19,6 +19,7 @@ public class Barco {
     private int cargasLanzadas;
     private int ticksEntreDisparos;
 
+
     // Constructor
 
     public Barco() {

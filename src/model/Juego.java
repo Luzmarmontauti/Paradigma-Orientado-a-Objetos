@@ -24,7 +24,7 @@ public class Juego {
     protected static final int MAX_SIMULTANEOS = 3;
     protected static final int TIEMPO_MIN_ESPERA= 10;
     protected static final int TIEMPO_MAX_ESPERA = 100;
-    protected static final double VELOCIDAD_INICIAL = 1;
+    protected static final double VELOCIDAD_INICIAL = 20;
     protected static final double INCREMENTO_VELOCIDAD = 0.2;
     protected static final int CARGAS_MIN_X_BARCO = 2;
     protected static final int CARGAS_MAX_X_BARCO = 5;
@@ -130,7 +130,7 @@ public class Juego {
      * @param anchoPantalla ancho del área de juego, necesario para generar nuevos barcos.
      */
     public void actualizar(double anchoPantalla) {
-        //TODO: revisar para que no se gener un barco en cada tick
+        //Genera un barco cada x cantidad de Ticks determinados por la funcion setTicsEntreBarcos
         if (barcosGenerados < TOTAL_BARCOS && barcosActivos.size() < MAX_SIMULTANEOS && puedeGenerarBarco()) {
             generarBarco(anchoPantalla);
             setTicksEntreBarcos();
@@ -138,8 +138,6 @@ public class Juego {
         disminuirContadorTicksEntreBarcos();
 
         List<Barco> barcosAEliminar = new ArrayList<>();
-
-
 
         for (int i = 0; i < barcosActivos.size(); i++) {
             Barco barco = barcosActivos.get(i);
