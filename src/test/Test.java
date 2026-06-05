@@ -1,18 +1,14 @@
 package test;
-//import java.util.Scanner;
 
 import controller.GameController;
 
 /**
  * Punto de entrada de la aplicación.
- * Acá se llama a todas las funciones del controlador para probar que el juego funciona.
+ * Ejercita todas las funciones del controlador y simula una partida completa por consola.
  */
 public class Test {
 
     public static void main(String[] args) {
-    	
-    	//Scanner teclado = new Scanner(System.in);
-    	//System.out.println("Ingresa una opción para continuar: Las opciones válidas son 'Iniciar', 'Terminar'"); --> Lo dejamos para cuando se desarrolle la clase vista en la interfaz
 
         System.out.println("================================================");
         System.out.println("       SUBMARINE ATTACK - TEST FASE C");
@@ -20,54 +16,46 @@ public class Test {
 
         GameController controller = GameController.getInstance();
 
-        // Estado inicial del juego
+        // --- Estado inicial ---
         System.out.println("--- Estado inicial ---");
         controller.notificarVista();
 
-        // Movimiento del submarino en las 4 direcciones
+        // --- Movimiento del submarino en las 4 direcciones ---
         System.out.println("\n--- Movimiento del submarino ---");
-        System.out.println("Posicion inicial: X=" + controller.obtenerCoordenadaX() + "  Profundidad=" + controller.obtenerCoordenadaY() + "m");
+        System.out.println("Posicion inicial: X=" + controller.obtenerCoordenadaX() + "  Profundidad=" + controller.obtenerCoordenadaY() + "m\n");
 
         controller.moverTecla("arriba");
         controller.moverTecla("arriba");
-        System.out.println("Despues de mover arriba x2: X=" + controller.obtenerCoordenadaX() + "  Profundidad=" + controller.obtenerCoordenadaY() + "m");
-
+        controller.moverTecla("arriba");
+        controller.moverTecla("derecha");
+        controller.moverTecla("derecha");
+        controller.moverTecla("derecha");
         controller.moverTecla("abajo");
-        System.out.println("Despues de mover abajo x1: X=" + controller.obtenerCoordenadaX() + "  Profundidad=" + controller.obtenerCoordenadaY() + "m");
-
-        controller.moverTecla("derecha");
-        controller.moverTecla("derecha");
-        controller.moverTecla("derecha");
-        System.out.println("Despues de mover derecha x3: X=" + controller.obtenerCoordenadaX() + "  Profundidad=" + controller.obtenerCoordenadaY() + "m");
-
+        controller.moverTecla("abajo");
         controller.moverTecla("izquierda");
-        System.out.println("Despues de mover izquierda x1: X=" + controller.obtenerCoordenadaX() + "  Profundidad=" + controller.obtenerCoordenadaY() + "m");
+        controller.moverTecla("izquierda");
+        controller.moverTecla("derecha");
+        controller.moverTecla("arriba");
 
-        // Simulacion del juego: ticks con barcos, cargas y explosiones
-        System.out.println("\n--- Simulando ticks del juego ---");
-        int nivelAnterior = controller.obtenerNivel();
-        int vidasAnteriores = controller.obtenerVidas();
+        // --- Simulacion del juego ---
+        System.out.println("\n--- Simulando partida (hasta 300 ticks o Game Over) ---\n");
 
-        for (int i = 1; i <= 10; i++) {
+        for (int tick = 1; tick <= 300; tick++) {
             controller.actualizar();
 
-            if (controller.obtenerNivel() != nivelAnterior) {
-                controller.mostrarMensaje("Paso al nivel " + controller.obtenerNivel());
-                nivelAnterior = controller.obtenerNivel();
-            }
-
-            if (controller.obtenerVidas() < vidasAnteriores) {
-                controller.mostrarMensaje("Vida perdida! Vidas restantes: " + controller.obtenerVidas());
-                vidasAnteriores = controller.obtenerVidas();
+            if (tick % 30 == 0) {
+                System.out.println("--- Posicion barcos en tick " + tick + " ---");
+                controller.mostrarEstadoBarcos();
+                System.out.println();
             }
 
             if (controller.isJuegoTerminado()) {
-                controller.mostrarMensaje("Game Over en tick " + i);
+                controller.mostrarMensaje("Game Over en tick " + tick);
                 break;
             }
         }
 
-        // Estado final
+        // --- Estado final ---
         System.out.println("\n--- Estado final ---");
         controller.notificarVista();
         System.out.println("Posicion final submarino: X=" + controller.obtenerCoordenadaX() + "  Profundidad=" + controller.obtenerCoordenadaY() + "m");
