@@ -1,6 +1,7 @@
 package model;
 
 import java.util.Random;
+import view.Vista;
 
 /**
  * Barco de superficie que se mueve horizontalmente y lanza
@@ -126,14 +127,40 @@ public class Barco {
     // GETTERS Y SETTERS
     // =========================================================
 
-    public double getPosicionX() { return posicionX; }
-    public String getDireccion() { return direccion; }
-    public double getVelocidad() { return velocidad; }
-    public double getAnchoPantalla() { return anchoPantalla; }
-    public int getCargasLanzadas() { return cargasLanzadas; }
-    public int getCargasMinimas() { return cargasMinimas; }
+    public double getPosicionX() { 
+    	return posicionX; 
+    }
+    public String getDireccion() { 
+    	return direccion; 
+    }
+    public double getVelocidad() {
+    	return velocidad; 
+    }
+    public double getAnchoPantalla() { 
+    	return anchoPantalla; 
+    }
+    public int getCargasLanzadas() { 
+    	return cargasLanzadas; 
+    }
+    public int getCargasMinimas() { 
+    	return cargasMinimas; 
+    }
 
-    public void setDireccion(String direccion) { this.direccion = direccion; }
+    public void setDireccion(String direccion) { this.direccion = direccion; 
+    }
 
-    private void setPosicionX(double posicionX) { this.posicionX = posicionX; }
+    private void setPosicionX(double posicionX) { this.posicionX = posicionX; 
+    }
+    
+    public view.Vista toView(){
+    	
+    	int posX = (int) this.getPosicionX();
+    	int posY = 0;
+    	int ancho = 50;
+    	int alto = 20;
+    	
+    	return new view.Vista(posX, posY, ancho, alto);	
+    			
+    	
+    }
 }
