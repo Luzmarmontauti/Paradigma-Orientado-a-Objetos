@@ -1,4 +1,5 @@
 package model;
+import view.Vista;
 
 /**
  * Carga de profundidad lanzada por un barco. Cae verticalmente
@@ -83,8 +84,30 @@ public class CargaDeProfundidad {
     // GETTERS
     // =========================================================
 
-    public double getPosicionX()             { return posicionX; }
-    public double getProfundidad()           { return profundidad; }
-    public double getProfundidadDetonacion() { return profundidadDetonacion; }
-    public double getVelocidadCaida()        { return velocidadCaida; }
+
+    
+
+    public double getPosicionX()             { 
+    	return posicionX; 
+    	}
+    public double getProfundidad()           { 
+    	return profundidad; 
+    	}
+    public double getProfundidadDetonacion() { 
+    	return profundidadDetonacion; 
+    	}
+    public double getVelocidadCaida()        {
+    	return velocidadCaida; 
+    	}
+    
+    
+    public view.Vista toView(){
+    	int posX = (int) this.getPosicionX();
+    	int posY = (int) this.getProfundidad();
+    	int ancho = 20;
+    	int alto = 10;
+    	
+    	return new view.Vista(posX, posY, ancho, alto);
+    	}
+    
 }

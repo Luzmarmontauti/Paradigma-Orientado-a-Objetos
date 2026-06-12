@@ -1,4 +1,5 @@
 package model;
+import view.Vista;
 
 /**
  * Submarino controlado por el jugador. Se mueve en las cuatro direcciones
@@ -81,6 +82,24 @@ public class Submarino {
     // SETTERS PRIVADOS
     // =========================================================
 
-    private void setPosicionX(double posicionX)     { this.posicionX = posicionX; }
-    private void setProfundidad(double profundidad) { this.profundidad = profundidad; }
+
+   
+
+    private void setPosicionX(double posicionX)     { 
+    	this.posicionX = posicionX; 
+    }
+    private void setProfundidad(double profundidad) { 
+    	this.profundidad = profundidad; 
+    	}
+    
+    public view.Vista toView() {
+    	int posX = (int) this.getPosicionX();
+    	int posY = (int) this.getProfundidad();
+    	int ancho = 50;
+    	int alto = 20;
+    	
+    	return new view.Vista(posX, posY, ancho, alto);
+ 
+    }
+
 }

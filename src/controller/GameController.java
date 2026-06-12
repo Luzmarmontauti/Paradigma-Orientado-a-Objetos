@@ -5,6 +5,9 @@ import model.Barco;
 import java.util.List;
 import java.util.Random;
 
+import view.Vista;
+
+
 /**
  * Controlador principal del juego. Recibe los eventos del jugador,
  * los delega al modelo y actualiza la vista.
@@ -163,10 +166,18 @@ public class GameController {
     // GETTERS
     // =========================================================
 
-    public double obtenerCoordenadaX() { return juego.getSubmarinoX(); }
-    public double obtenerCoordenadaY() { return juego.getSubmarinoY(); }
-    public int obtenerNivel() { return juego.getNivel(); }
-    public int obtenerVidas() { return juego.getVidas(); }
-    public int obtenerPorcentajeVida() { return juego.getPorcentajeVida(); }
-    public boolean isJuegoTerminado() { return juego.getEstado().equals("GAME OVER"); }
+    public double obtenerCoordenadaX() { return juego.getSubmarinoX(); 
+    }
+    public double obtenerCoordenadaY() { return juego.getSubmarinoY(); 
+    }
+    public int obtenerNivel() { return juego.getNivel(); 
+    }
+    public int obtenerVidas() { return juego.getVidas(); 
+    }
+    public int obtenerPorcentajeVida() { return juego.getPorcentajeVida(); 
+    }
+    public boolean isJuegoTerminado() { return juego.getEstado().equals("GAME OVER"); 
+    }
+    
+
 }

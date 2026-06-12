@@ -1,5 +1,6 @@
 # Compilados
 /bin/
+/classes/
 
 # IntelliJ IDEA
 .idea/
