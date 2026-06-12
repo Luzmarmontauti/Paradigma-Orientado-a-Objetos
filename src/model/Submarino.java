@@ -1,5 +1,6 @@
 package model;
-import view.Vista;
+
+import view.Vista; // Único import necesario para el método toView
 
 /**
  * Submarino controlado por el jugador. Se mueve en las cuatro direcciones
@@ -10,22 +11,23 @@ public class Submarino {
     // =========================================================
     // CONSTANTES
     // =========================================================
-
     protected static final double PROF_MIN = 300;
     protected static final double PROF_MAX = 800;
 
     // =========================================================
     // ATRIBUTOS
     // =========================================================
-
     private double posicionX;
     private double profundidad;
     private double anchoPantalla;
+    
+    // Agregamos las dimensiones como atributos del modelo
+    private final int ANCHO = 50;
+    private final int ALTO = 20;
 
     // =========================================================
     // CONSTRUCTOR
     // =========================================================
-
     public Submarino() {
         this.posicionX = 0;
         this.profundidad = 0;
@@ -34,72 +36,68 @@ public class Submarino {
     // =========================================================
     // INICIALIZACIÓN
     // =========================================================
-
-    /**
-     * Posiciona el submarino en su estado inicial: centrado horizontalmente
-     * y en la profundidad media entre PROF_MIN y PROF_MAX.
-     *
-     * @param anchoPantalla ancho del área de juego
-     */
     public void inicializar(double anchoPantalla) {
         this.anchoPantalla = anchoPantalla;
-        setPosicionX(anchoPantalla / 2);
+        // Lo centramos teniendo en cuenta su propio ancho
+        setPosicionX((anchoPantalla / 2) - (ANCHO / 2));
         setProfundidad((PROF_MAX + PROF_MIN) / 2);
     }
 
     // =========================================================
-    // MOVIMIENTO
+    // MOVIMIENTO (Corregido con límites reales)
     // =========================================================
-
-    /** Mueve el submarino hacia la izquierda si no alcanzó el borde. */
     public void moverIzquierda() {
-        if (posicionX > 0) setPosicionX(posicionX - 1);
+        if (posicionX > 0) {
+            setPosicionX(posicionX - 5); // Aumenté a 5 para que no se mueva tan lento
+        }
     }
 
-    /** Mueve el submarino hacia la derecha si no alcanzó el borde. */
     public void moverDerecha() {
-        if (posicionX < anchoPantalla) setPosicionX(posicionX + 1);
+        // No dejamos que pase del ancho de la pantalla menos su propio tamaño
+        if (posicionX + ANCHO < anchoPantalla) {
+            setPosicionX(posicionX + 5);
+        }
     }
 
-    /** Sube el submarino (disminuye profundidad) si no alcanzó PROF_MIN. */
     public void moverArriba() {
-        if (profundidad > PROF_MIN) setProfundidad(profundidad - 1);
+        if (profundidad > PROF_MIN) {
+            setProfundidad(profundidad - 5);
+        }
     }
 
-    /** Baja el submarino (aumenta profundidad) si no alcanzó PROF_MAX. */
     public void moverAbajo() {
-        if (profundidad < PROF_MAX) setProfundidad(profundidad + 1);
+        // No dejamos que pase de la profundidad máxima menos su propio alto
+        if (profundidad + ALTO < PROF_MAX) {
+            setProfundidad(profundidad + 5);
+        }
     }
 
     // =========================================================
     // GETTERS
     // =========================================================
-
     public double getPosicionX()   { return posicionX; }
     public double getProfundidad() { return profundidad; }
+    public int getAncho()          { return ANCHO; }
+    public int getAlto()           { return ALTO; }
 
     // =========================================================
     // SETTERS PRIVADOS
     // =========================================================
-
-
-   
-
-    private void setPosicionX(double posicionX)     { 
-    	this.posicionX = posicionX; 
+    private void setPosicionX(double posicionX) { 
+        this.posicionX = posicionX; 
     }
     private void setProfundidad(double profundidad) { 
-    	this.profundidad = profundidad; 
-    	}
-    
-    public view.Vista toView() {
-    	int posX = (int) this.getPosicionX();
-    	int posY = (int) this.getProfundidad();
-    	int ancho = 50;
-    	int alto = 20;
-    	
-    	return new view.Vista(posX, posY, ancho, alto);
- 
+        this.profundidad = profundidad; 
     }
-
+    
+    // =========================================================
+    // CONEXIÓN CON LA VISTA
+    // =========================================================
+    public Vista toView() {
+        int posX = (int) this.getPosicionX();
+        int posY = (int) this.getProfundidad();
+        
+        // Ahora usamos las constantes de la clase
+        return new Vista(posX, posY, this.ANCHO, this.ALTO);
+    }
 }
