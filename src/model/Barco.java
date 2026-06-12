@@ -152,6 +152,8 @@ public class Barco {
     private void setPosicionX(double posicionX) { this.posicionX = posicionX; 
     }
     
+    //Acá se conecta el barco con la vista
+    
     public view.Vista toView(){
     	
     	int posX = (int) this.getPosicionX();
