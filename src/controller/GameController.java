@@ -180,22 +180,9 @@ public class GameController {
     public boolean isJuegoTerminado() { return juego.getEstado().equals("GAME OVER"); 
     }
     
-<<<<<<< HEAD
-    //Agregamos el array de barcos -> 
-    
-    public List<Vista> getBarcosVista(){
-    	List <Vista> listaBarcosVista = new ArrayList<>();
-    	for (model.Barco b : juego.getBarcosActivos()) {
-    		listaBarcosVista.add(b.toView());
-    	}
-    	return listaBarcosVista;
-    }
-    
+}
    
     
-     
+  
     
-=======
-
->>>>>>> branch 'ramaEsteban' of https://github.com/Luzmarmontauti/Paradigma-Orientado-a-Objetos.git
-}
+    
