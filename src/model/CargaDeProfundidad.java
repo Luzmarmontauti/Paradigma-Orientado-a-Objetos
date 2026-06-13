@@ -1,4 +1,5 @@
 package model;
+import java.util.Random;
 
 /**
  * Carga de profundidad lanzada por un barco. Cae verticalmente
@@ -6,54 +7,24 @@ package model;
  */
 public class CargaDeProfundidad {
 
-    // =========================================================
-    // CONSTANTES
-    // =========================================================
-
-    protected static final double PROF_DET_MIN = 300;
-    protected static final double PROF_DET_MAX = 700;
-
-    // =========================================================
-    // ATRIBUTOS
-    // =========================================================
-
+    //Atributos
+    protected static final int PROF_DET_MIN = 300;
+    protected static final int PROF_DET_MAX = 700;
     private double posicionX;
     private double profundidad;
     private double profundidadDetonacion;
     private double velocidadCaida;
+    private Random random = new Random();
 
-    // =========================================================
-    // CONSTRUCTOR
-    // =========================================================
-
-    public CargaDeProfundidad() {
-        this.posicionX = 0;
-        this.profundidad = 0;
-        this.profundidadDetonacion = 0;
-        this.velocidadCaida = 0;
-    }
-
-    // =========================================================
-    // INICIALIZACIÓN
-    // =========================================================
-
-    /**
-     * Configura la carga para su recorrido. La profundidad inicial siempre es 0 (superficie).
-     *
-     * @param posicionX             posición X del barco al momento del lanzamiento
-     * @param velocidadCaida        unidades que desciende por tick
-     * @param profundidadDetonacion profundidad aleatoria de detonación entre PROF_DET_MIN y PROF_DET_MAX
-     */
-    public void inicializar(double posicionX, double velocidadCaida, double profundidadDetonacion) {
+    //Constructor
+    public CargaDeProfundidad(double posicionX, double velocidadCaida) {
         this.posicionX = posicionX;
         this.velocidadCaida = velocidadCaida;
-        this.profundidadDetonacion = profundidadDetonacion;
+        this.profundidadDetonacion = random.nextInt(PROF_DET_MAX - PROF_DET_MIN + 1) + PROF_DET_MIN;
         this.profundidad = 0;
     }
 
-    // =========================================================
-    // COMPORTAMIENTO
-    // =========================================================
+    //Metodos
 
     /** Avanza la carga un paso hacia abajo según su velocidad de caída. */
     public void caer() {
@@ -71,7 +42,7 @@ public class CargaDeProfundidad {
      * Calcula la distancia entre esta carga y el submarino al momento de la explosión.
      *
      * @param sub el submarino
-     * @return distancia en unidades de juego (Pitágoras)
+     * @return distancia en unidades de juego (la distancia es una linea entre las posiciones de los objetos(hipotenusa), las extensiones del objeto al eje Y, y al eje X (los catetos) y se calcula aplicando Pitágoras)
      */
     public double calcularDistancia(Submarino sub) {
         double difX = sub.getPosicionX() - posicionX;
@@ -79,12 +50,9 @@ public class CargaDeProfundidad {
         return Math.sqrt(Math.pow(difX, 2) + Math.pow(difY, 2));
     }
 
-    // =========================================================
-    // GETTERS
-    // =========================================================
-
-    public double getPosicionX()             { return posicionX; }
-    public double getProfundidad()           { return profundidad; }
+    //Getters
+    public double getPosicionX() { return posicionX; }
+    public double getProfundidad() { return profundidad; }
     public double getProfundidadDetonacion() { return profundidadDetonacion; }
-    public double getVelocidadCaida()        { return velocidadCaida; }
+    public double getVelocidadCaida() { return velocidadCaida; }
 }

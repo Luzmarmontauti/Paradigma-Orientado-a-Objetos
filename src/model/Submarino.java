@@ -6,34 +6,20 @@ package model;
  */
 public class Submarino {
 
-    // =========================================================
-    // CONSTANTES
-    // =========================================================
-
+    //Atributos
     protected static final double PROF_MIN = 300;
     protected static final double PROF_MAX = 800;
-
-    // =========================================================
-    // ATRIBUTOS
-    // =========================================================
-
     private double posicionX;
     private double profundidad;
     private double anchoPantalla;
 
-    // =========================================================
-    // CONSTRUCTOR
-    // =========================================================
-
+    //Constructor
     public Submarino() {
         this.posicionX = 0;
         this.profundidad = 0;
     }
 
-    // =========================================================
-    // INICIALIZACIÓN
-    // =========================================================
-
+    //Metodos
     /**
      * Posiciona el submarino en su estado inicial: centrado horizontalmente
      * y en la profundidad media entre PROF_MIN y PROF_MAX.
@@ -45,10 +31,6 @@ public class Submarino {
         setPosicionX(anchoPantalla / 2);
         setProfundidad((PROF_MAX + PROF_MIN) / 2);
     }
-
-    // =========================================================
-    // MOVIMIENTO
-    // =========================================================
 
     /** Mueve el submarino hacia la izquierda si no alcanzó el borde. */
     public void moverIzquierda() {
@@ -70,16 +52,9 @@ public class Submarino {
         if (profundidad < PROF_MAX) setProfundidad(profundidad + 1);
     }
 
-    // =========================================================
-    // GETTERS
-    // =========================================================
-
+    //Getters y Setters
     public double getPosicionX()   { return posicionX; }
     public double getProfundidad() { return profundidad; }
-
-    // =========================================================
-    // SETTERS PRIVADOS
-    // =========================================================
 
     private void setPosicionX(double posicionX)     { this.posicionX = posicionX; }
     private void setProfundidad(double profundidad) { this.profundidad = profundidad; }

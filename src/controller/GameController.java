@@ -3,7 +3,6 @@ package controller;
 import model.Juego;
 import model.Barco;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Controlador principal del juego. Recibe los eventos del jugador,
@@ -12,24 +11,20 @@ import java.util.Random;
  */
 public class GameController {
 
-    // =========================================================
-    // ATRIBUTOS
-    // =========================================================
-
+    //Atributos
     private static GameController instance;
     private Juego juego;
     private static final double ANCHO_PANTALLA = 800;
 
-    // =========================================================
-    // SINGLETON
-    // =========================================================
-
+   //Singleton
     private GameController() {
-        this.juego = new Juego(new Random());
+        this.juego = new Juego();
         // TODO Fase Final: no iniciar la partida acá, esperar que el jugador elija desde el menú
         juego.iniciarPartida(ANCHO_PANTALLA);
     }
 
+
+    //Constructor
     /**
      * Devuelve la única instancia del controlador. La crea si todavía no existe.
      *
@@ -42,10 +37,7 @@ public class GameController {
         return instance;
     }
 
-    // =========================================================
-    // COMPORTAMIENTO
-    // =========================================================
-
+    //Metodos
     /**
      * Recibe la tecla presionada por el jugador, mueve el submarino
      * e imprime la nueva posición si hubo movimiento.
@@ -68,11 +60,11 @@ public class GameController {
      * Detecta y muestra por consola los eventos relevantes del tick.
      */
     public void actualizar() {
-        int barcosPrev       = juego.getBarcosActivos().size();
-        int cargasPrev       = juego.getCargasActivas().size();
-        int puntajePrev      = juego.getPuntaje();
-        int vidasPrev        = juego.getVidas();
-        int vidaPorcentPrev  = juego.getPorcentajeVida();
+        int barcosPrev = juego.getBarcosActivos().size();
+        int cargasPrev = juego.getCargasActivas().size();
+        int puntajePrev = juego.getPuntaje();
+        int vidasPrev = juego.getVidas();
+        int vidaPorcentPrev = juego.getPorcentajeVida();
         boolean nivelSuperado = juego.verificarFinNivel();
 
         juego.actualizar(ANCHO_PANTALLA);
@@ -106,10 +98,6 @@ public class GameController {
         }
     }
 
-    // =========================================================
-    // VISTA
-    // =========================================================
-
     /**
      * Muestra el estado completo del juego por consola.
      * En la Fase Final actualizará la interfaz gráfica.
@@ -126,20 +114,20 @@ public class GameController {
     public void mostrarEstadoBarcos() {
         List<Barco> barcos = juego.getBarcosActivos();
         if (barcos.isEmpty()) {
-            System.out.println("   [Sin barcos activos en pantalla]");
+            System.out.println("[Sin barcos activos en pantalla]");
             return;
         }
-        System.out.println("   Barcos activos: " + barcos.size());
+        System.out.println("Barcos activos: " + barcos.size());
         for (int i = 0; i < barcos.size(); i++) {
             Barco b = barcos.get(i);
-            System.out.println("   Barco " + (i + 1) + ": X=" + String.format("%.0f", b.getPosicionX()) + " | Direccion: " + b.getDireccion());
+            System.out.println("Barco " + (i + 1) + ": X=" + String.format("%.0f", b.getPosicionX()) + " | Direccion: " + b.getDireccion());
         }
     }
 
-    public void mostrarPuntaje(int puntaje)         { System.out.println("   SCORE: " + puntaje + " pts"); }
+    public void mostrarPuntaje(int puntaje) { System.out.println("   SCORE: " + puntaje + " pts"); }
 
     public void mostrarVidas(int vidas) {
-        System.out.print("   Vidas: ");
+        System.out.print("Vidas: ");
         for (int i = 0; i < vidas; i++) System.out.print("♥ ");
         System.out.println(" (" + vidas + ")");
     }
@@ -151,18 +139,16 @@ public class GameController {
     }
 
     public void mostrarProfundidad(double profundidad) {
-        System.out.println("   Profundidad: " + String.format("%.2f", profundidad) + " metros");
+        System.out.println("Profundidad: " + String.format("%.2f", profundidad) + " metros");
     }
 
-    public void mostrarMensaje(String msg)          { System.out.println("\n[SISTEMA]: " + msg.toUpperCase() + "\n"); }
+    public void mostrarMensaje(String msg) { System.out.println("\n[SISTEMA]: " + msg.toUpperCase() + "\n"); }
 
     /** TODO Fase Final: reemplazar con el dibujado real en la interfaz gráfica. */
-    public void renderizar(Juego juego)             { System.out.println("Renderizado del juego ok"); }
+    public void renderizar(Juego juego) { System.out.println("Renderizado del juego ok"); }
 
-    // =========================================================
-    // GETTERS
-    // =========================================================
 
+    //Getters
     public double obtenerCoordenadaX() { return juego.getSubmarinoX(); }
     public double obtenerCoordenadaY() { return juego.getSubmarinoY(); }
     public int obtenerNivel() { return juego.getNivel(); }

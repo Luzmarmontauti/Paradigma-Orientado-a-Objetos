@@ -8,18 +8,10 @@ import java.util.Random;
  */
 public class Barco {
 
-    // =========================================================
-    // CONSTANTES
-    // =========================================================
-
+    //Atributos
     protected static final double PROF_SUPERFICIE = 0;
     protected static final int TIEMPO_ESPERA_MIN = 10;
-    protected static final int TIEMPO_ESPERA_MAX = 100;
-
-    // =========================================================
-    // ATRIBUTOS
-    // =========================================================
-
+    protected static final int TIEMPO_ESPERA_MAX = 50;
     private double posicionX;
     private String direccion;
     private double velocidad;
@@ -27,22 +19,18 @@ public class Barco {
     private int cargasMinimas;
     private int cargasLanzadas;
     private int ticksEntreDisparos;
+    private Random random = new Random();
 
-    // =========================================================
-    // CONSTRUCTOR
-    // =========================================================
-
+    //Constructor
     public Barco() {
         this.posicionX = 0;
         this.velocidad = 0;
         this.cargasMinimas = 0;
         this.cargasLanzadas = 0;
+        this.ticksEntreDisparos = random.nextInt(TIEMPO_ESPERA_MAX - TIEMPO_ESPERA_MIN + 1) + TIEMPO_ESPERA_MIN;
     }
 
-    // =========================================================
-    // INICIALIZACIÓN
-    // =========================================================
-
+    //Metodos
     /**
      * Configura el barco para su recorrido: asigna velocidad, dirección y cargas mínimas,
      * y lo posiciona en el borde de entrada según la dirección recibida.
@@ -65,10 +53,6 @@ public class Barco {
         }
     }
 
-    // =========================================================
-    // MOVIMIENTO
-    // =========================================================
-
     /** Desplaza el barco hacia la izquierda según su velocidad. */
     public void moverIzquierda() {
         setPosicionX(getPosicionX() - velocidad);
@@ -84,21 +68,15 @@ public class Barco {
         return posicionX <= 0 || posicionX >= anchoPantalla;
     }
 
-    // =========================================================
-    // DISPARO
-    // =========================================================
-
     /**
      * Crea y devuelve una nueva carga lanzada desde la posición actual del barco.
      * Incrementa el contador de cargas lanzadas.
      *
-     * @param velocidadCaida        unidades que desciende la carga por tick
-     * @param profundidadDetonacion profundidad a la que explotará la carga
+     * @param velocidadCaida - unidades que desciende la carga por tick que recibe del juego segun nivel
      * @return la carga de profundidad creada
      */
-    public CargaDeProfundidad lanzarCarga(double velocidadCaida, double profundidadDetonacion) {
-        CargaDeProfundidad bomba = new CargaDeProfundidad();
-        bomba.inicializar(posicionX, velocidadCaida, profundidadDetonacion);
+    public CargaDeProfundidad lanzarCarga(double velocidadCaida) {
+        CargaDeProfundidad bomba = new CargaDeProfundidad(posicionX, velocidadCaida);
         cargasLanzadas++;
         return bomba;
     }
@@ -111,10 +89,8 @@ public class Barco {
     /**
      * Avanza el contador de espera entre disparos. Si llega a 0, sortea un nuevo
      * intervalo aleatorio entre TIEMPO_ESPERA_MIN y TIEMPO_ESPERA_MAX.
-     *
-     * @param random fuente de aleatoriedad del juego
      */
-    public void contarTicks(Random random) {
+    public void contarTicks() {
         if (ticksEntreDisparos > 0) {
             ticksEntreDisparos -= 1;
         } else {
@@ -122,10 +98,8 @@ public class Barco {
         }
     }
 
-    // =========================================================
-    // GETTERS Y SETTERS
-    // =========================================================
 
+    //Getters y Setters
     public double getPosicionX() { return posicionX; }
     public String getDireccion() { return direccion; }
     public double getVelocidad() { return velocidad; }
@@ -134,6 +108,5 @@ public class Barco {
     public int getCargasMinimas() { return cargasMinimas; }
 
     public void setDireccion(String direccion) { this.direccion = direccion; }
-
     private void setPosicionX(double posicionX) { this.posicionX = posicionX; }
 }

@@ -18,10 +18,7 @@ import java.util.Random;
  */
 public class Juego {
 
-    // =========================================================
-    // CONSTANTES
-    // =========================================================
-
+    //Atributos
     protected static final int TOTAL_BARCOS = 12;
     protected static final int MAX_SIMULTANEOS = 3;
     protected static final int TIEMPO_MIN_ESPERA = 10;
@@ -30,10 +27,6 @@ public class Juego {
     protected static final double INCREMENTO_VELOCIDAD = 0.2;
     protected static final int CARGAS_MIN_X_BARCO = 2;
     protected static final int CARGAS_MAX_X_BARCO = 5;
-
-    // =========================================================
-    // ATRIBUTOS
-    // =========================================================
 
     // Estado general
     private String estado;
@@ -59,20 +52,15 @@ public class Juego {
     private double ultimaExplosionY;
 
     // Aleatoriedad
-    private Random random;
+    private Random random = new Random();
 
-    // =========================================================
-    // CONSTRUCTOR
-    // =========================================================
 
+    //Constructor
     /**
      * Crea una nueva instancia del juego en estado inicial, lista para ser configurada.
      * El juego no comienza hasta que se llame a {@link #iniciarPartida(double)}.
-     *
-     * @param random fuente de aleatoriedad inyectada desde afuera. Usar {@code new Random()}
-     *               para partidas reales y {@code new Random(semilla)} para tests determinísticos.
      */
-    public Juego(Random random) {
+    public Juego() {
         this.estado = "MENU_PRINCIPAL";
         this.nivel = 1;
         this.vidas = 3;
@@ -83,13 +71,10 @@ public class Juego {
         this.velocidadBarcos = VELOCIDAD_INICIAL;
         this.cargasActivas = new ArrayList<CargaDeProfundidad>();
         this.velocidadCargas = VELOCIDAD_INICIAL;
-        this.random = random;
     }
 
-    // =========================================================
-    // INICIALIZACIÓN
-    // =========================================================
 
+    //Metodos
     /**
      * Inicializa la partida: crea y posiciona el submarino, setea la vida al 100%
      * y cambia el estado a "JUGANDO".
@@ -112,9 +97,6 @@ public class Juego {
         estado = "GAME OVER";
     }
 
-    // =========================================================
-    // GAME LOOP
-    // =========================================================
 
     /**
      * Avanza el estado del juego un tick. En cada tick ocurre en orden:
@@ -139,11 +121,10 @@ public class Juego {
             String direccion = barco.getDireccion();
             if (direccion.equals("izquierda")) { barco.moverIzquierda(); } else { barco.moverDerecha(); }
 
-            int profundidadDetonacion = random.nextInt(700 - 300 + 1) + 300;
             if (barco.puedeDisparar()) {
-                cargasActivas.add(barco.lanzarCarga(velocidadCargas, profundidadDetonacion));
+                cargasActivas.add(barco.lanzarCarga(velocidadCargas));
             }
-            barco.contarTicks(random);
+            barco.contarTicks();
 
             if (barco.haAlcanzadoExtremo()) {
                 if (barco.getCargasLanzadas() >= barco.getCargasMinimas()) {
@@ -169,10 +150,6 @@ public class Juego {
         cargasActivas.removeAll(cargasAEliminar);
     }
 
-    // =========================================================
-    // SUBMARINO
-    // =========================================================
-
     /**
      * Mueve el submarino en la dirección indicada, respetando los límites del área de juego.
      *
@@ -184,10 +161,6 @@ public class Juego {
         else if (direccion.equals("izquierda")) { submarino.moverIzquierda(); }
         else if (direccion.equals("derecha")) { submarino.moverDerecha(); }
     }
-
-    // =========================================================
-    // BARCOS
-    // =========================================================
 
     /**
      * Crea un nuevo barco con dirección y cargas mínimas aleatorias y lo agrega a la lista activa.
@@ -218,10 +191,6 @@ public class Juego {
         ticksEntreBarcos = random.nextInt(TIEMPO_MAX_ESPERA - TIEMPO_MIN_ESPERA + 1) + TIEMPO_MIN_ESPERA;
     }
 
-    // =========================================================
-    // CARGAS Y EXPLOSIONES
-    // =========================================================
-
     /**
      * Procesa la explosión de una carga al detonar. Calcula la distancia al submarino
      * y aplica daño o puntaje:
@@ -247,10 +216,6 @@ public class Juego {
             quitarVida();
         }
     }
-
-    // =========================================================
-    // DAÑO Y VIDA
-    // =========================================================
 
     /** @return true si el jugador tiene al menos una vida. */
     public boolean estaVivo() {
@@ -281,10 +246,6 @@ public class Juego {
         if (vidas == 0) terminarPartida();
     }
 
-    // =========================================================
-    // PUNTAJE
-    // =========================================================
-
     /**
      * Agrega puntos al puntaje total. Cada 500 puntos acumulados otorga una vida extra,
      * y el excedente se mantiene en el contador.
@@ -299,10 +260,6 @@ public class Juego {
             puntosExtraAcumulados -= 500;
         }
     }
-
-    // =========================================================
-    // NIVEL
-    // =========================================================
 
     /**
      * @return true si el nivel se completó: todos los barcos generados, sin barcos ni cargas activas.
@@ -323,10 +280,7 @@ public class Juego {
         agregarPuntos(200);
     }
 
-    // =========================================================
-    // GETTERS
-    // =========================================================
-
+    //Getters
     public String getEstado() { return estado; }
     public int getNivel() { return nivel; }
     public int getVidas() { return vidas; }
