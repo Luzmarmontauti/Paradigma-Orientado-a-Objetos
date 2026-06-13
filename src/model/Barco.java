@@ -1,28 +1,14 @@
 package model;
-
 import java.util.Random;
 
-import view.Vista;
-
-
-/**
- * Barco de superficie que se mueve horizontalmente y lanza
- * cargas de profundidad hacia el submarino.
- */
 public class Barco {
 
-    // =========================================================
-    // CONSTANTES
-    // =========================================================
-
+   
     protected static final double PROF_SUPERFICIE = 0;
     protected static final int TIEMPO_ESPERA_MIN = 10;
     protected static final int TIEMPO_ESPERA_MAX = 100;
-
-    // =========================================================
-    // ATRIBUTOS
-    // =========================================================
-
+    private final int ANCHO = 50;
+    private final int ALTO = 20;
     private double posicionX;
     private String direccion;
     private double velocidad;
@@ -40,21 +26,13 @@ public class Barco {
         this.velocidad = 0;
         this.cargasMinimas = 0;
         this.cargasLanzadas = 0;
+        this.ticksEntreDisparos = 0;
     }
 
     // =========================================================
     // INICIALIZACIÓN
     // =========================================================
 
-    /**
-     * Configura el barco para su recorrido: asigna velocidad, dirección y cargas mínimas,
-     * y lo posiciona en el borde de entrada según la dirección recibida.
-     *
-     * @param anchoPantalla ancho del área de juego
-     * @param direccion     "derecha" entra por la izquierda, "izquierda" entra por la derecha
-     * @param velocidad     velocidad de desplazamiento horizontal
-     * @param cargasMinimas mínimo de cargas que debe lanzar antes de poder retirarse
-     */
     public void inicializar(double anchoPantalla, String direccion, double velocidad, int cargasMinimas) {
         this.anchoPantalla = anchoPantalla;
         this.velocidad = velocidad;
@@ -154,6 +132,8 @@ public class Barco {
 
     private void setPosicionX(double posicionX) { this.posicionX = posicionX; 
     }
+    
+    //Acá se conecta el barco con la vista
     
     public view.Vista toView(){
     	

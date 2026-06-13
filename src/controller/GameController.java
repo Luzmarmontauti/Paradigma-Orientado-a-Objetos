@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 import view.Vista;
+import java.util.ArrayList;
 
 
 /**
@@ -177,6 +178,17 @@ public class GameController {
     public int obtenerPorcentajeVida() { return juego.getPorcentajeVida(); 
     }
     public boolean isJuegoTerminado() { return juego.getEstado().equals("GAME OVER"); 
+    }
+    
+
+    //Agregamos el array de barcos -> 
+    
+    public List<Vista> getBarcosVista(){
+    	List <Vista> listaBarcosVista = new ArrayList<>();
+    	for (model.Barco b : juego.getBarcosActivos()) {
+    		listaBarcosVista.add(b.toView());
+    	}
+    	return listaBarcosVista;
     }
     
 
