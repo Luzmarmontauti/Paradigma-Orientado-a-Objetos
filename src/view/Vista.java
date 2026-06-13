@@ -1,7 +1,5 @@
 package view;
 
-import javax.swing.JFrame;
-
 public class Vista {
 
 	private int x;
@@ -17,7 +15,7 @@ public class Vista {
 	}
 
 	public Vista() {
-		// TODO Auto-generated constructor stub
+		
 	}
 	public int getX() {
 		return x;

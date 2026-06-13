@@ -4,6 +4,10 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -11,66 +15,120 @@ import javax.swing.JOptionPane;
 import javax.swing.Timer;
 import controller.GameController;
 import view.Vista;
-import java.util.List;
-import java.util.ArrayList;
 
 public class Ventana extends JFrame {
 
 	private static final long serialVersionUID = -1390206049433269849L;
-	private JLabel blanco, negro;
+	
+
+	private List<JLabel> etiquetasBarcos;
+	private List<JLabel> etiquetasCargas;
+	private JLabel etiquetaSubmarino; 
+	private Container contenedor;
 	
 	public Ventana() {
 		this.setTitle("Submarine Attack");
 		this.setSize(800, 600);
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE); //
-		this.setLocationRelativeTo(null); //Esto lo hacemos para centrar en nuestra pantalla.
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE); 
+		this.setLocationRelativeTo(null); 
 		
-		
-		Container contenedor = this.getContentPane();
-		contenedor.setLayout(null); //esto lo hacemos para manejar X e Y de manera manual :)
+		contenedor = this.getContentPane();
+		contenedor.setLayout(null); 
 		contenedor.setBackground(new Color(135, 206, 235));
 		
-		ArrayList etiquetasBarcos = new ArrayList<>();
+		etiquetasBarcos = new ArrayList<>();
+	
+		this.setFocusable(true);
+		this.requestFocusInWindow();
 		
-		//Dejo hasta acá --> lo demás es el codigo del profe
 		
-		blanco = new JLabel();
-		blanco.setBounds(740, 10, 30, 30);
-		blanco.setOpaque(true);
-		blanco.setBackground(Color.WHITE);
-		blanco.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-
-		negro = new JLabel();
-		negro.setBounds(10, 10, 30, 30);
-		negro.setOpaque(true);
-		negro.setBackground(Color.BLACK);
-		negro.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		
-		c.add(negro);
-		c.add(blanco);
+		configurarTeclado();
 		
 		this.setVisible(true);
-		this.setSize(800, 600);
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
 		Timer timer = new Timer(10, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
 
-		    @Override
-		    public void actionPerformed(ActionEvent e) {
+				
+				if (GameController.getInstance().isJuegoTerminado()) {
+					((Timer)e.getSource()).stop();
+					JOptionPane.showMessageDialog(null, "Juego Terminado - GAME OVER");
+					System.exit(0);
+				}
 
-		        if (GameController.getInstance().isJuegoTerminado()) {
-		            ((Timer)e.getSource()).stop();
-		            JOptionPane.showMessageDialog(null, "Juego Terminado");
-		            System.exit(0);
-		        }
+			
+				GameController.getInstance().actualizar();
 
-		        Vista blancoV = GameController.getInstance().getPosicionBlanco();
-		        blanco.setBounds(blancoV.getX(), blancoV.getY(), blancoV.getAncho(), blancoV.getAlto());
-		        Vista negroV = GameController.getInstance().getPosicionNegro();
-		        negro.setBounds(negroV.getX(), negroV.getY(), negroV.getAncho(), negroV.getAlto());
-		    }
+			
+				for (JLabel label : etiquetasBarcos) { contenedor.remove(label); }
+				etiquetasBarcos.clear();
+
+				for (JLabel label : etiquetasCargas) { contenedor.remove(label); }
+				etiquetasCargas.clear();
+
+				if (etiquetaSubmarino != null) { 
+					contenedor.remove(etiquetaSubmarino); 
+				}
+
+				List<Vista> listaBarcos = GameController.getInstance().getBarcosVista();
+				for (Vista v : listaBarcos) {
+					JLabel labelBarco = new JLabel();
+					labelBarco.setBounds(v.getX(), v.getY(), v.getAncho(), v.getAlto());
+					labelBarco.setOpaque(true);
+					labelBarco.setBackground(Color.GRAY); 
+					labelBarco.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+					contenedor.add(labelBarco);
+					etiquetasBarcos.add(labelBarco);
+				}
+
+				List<Vista> listaCargas = GameController.getInstance().getCargasVista();
+				for (Vista v : listaCargas) {
+					JLabel labelCarga = new JLabel();
+					labelCarga.setBounds(v.getX(), v.getY(), v.getAncho(), v.getAlto());
+					labelCarga.setOpaque(true);
+					labelCarga.setBackground(Color.RED); 
+					labelCarga.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+					contenedor.add(labelCarga);
+					etiquetasCargas.add(labelCarga);
+				}
+
+				// 6. DIBUJAR SUBMARINO (Verde Oscuro)
+				Vista vSub = GameController.getInstance().getSubmarinoVista();
+				if (vSub != null) {
+					etiquetaSubmarino = new JLabel();
+					etiquetaSubmarino.setBounds(vSub.getX(), vSub.getY(), vSub.getAncho(), vSub.getAlto());
+					etiquetaSubmarino.setOpaque(true);
+					etiquetaSubmarino.setBackground(new Color(0, 100, 0)); 
+					etiquetaSubmarino.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+					contenedor.add(etiquetaSubmarino);
+				}
+
+				
+				contenedor.repaint();
+			}
 		});
 		
 		timer.start();
+	}
+
+	
+	private void configurarTeclado() {
+		this.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				int codigo = e.getKeyCode();
+				
+				if (codigo == KeyEvent.VK_UP) {
+					GameController.getInstance().moverTecla("arriba");
+				} else if (codigo == KeyEvent.VK_DOWN) {
+					GameController.getInstance().moverTecla("abajo");
+				} else if (codigo == KeyEvent.VK_LEFT) {
+					GameController.getInstance().moverTecla("izquierda");
+				} else if (codigo == KeyEvent.VK_RIGHT) {
+					GameController.getInstance().moverTecla("derecha");
+				}
+			}
+		});
 	}
 }
