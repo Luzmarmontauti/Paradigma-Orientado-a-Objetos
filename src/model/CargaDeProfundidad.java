@@ -84,6 +84,9 @@ public class CargaDeProfundidad {
     // GETTERS
     // =========================================================
 
+
+    
+
     public double getPosicionX()             { 
     	return posicionX; 
     	}
@@ -106,6 +109,5 @@ public class CargaDeProfundidad {
     	
     	return new view.Vista(posX, posY, ancho, alto);
     	}
-    
     
 }

@@ -4,8 +4,10 @@ import model.Juego;
 import model.Barco;
 import java.util.List;
 import java.util.Random;
+
 import view.Vista;
 import java.util.ArrayList;
+
 
 /**
  * Controlador principal del juego. Recibe los eventos del jugador,
@@ -178,6 +180,7 @@ public class GameController {
     public boolean isJuegoTerminado() { return juego.getEstado().equals("GAME OVER"); 
     }
     
+<<<<<<< HEAD
     //Agregamos el array de barcos -> 
     
     public List<Vista> getBarcosVista(){
@@ -192,4 +195,7 @@ public class GameController {
     
      
     
+=======
+
+>>>>>>> branch 'ramaEsteban' of https://github.com/Luzmarmontauti/Paradigma-Orientado-a-Objetos.git
 }

@@ -1,7 +1,9 @@
 package model;
 
 import java.util.Random;
+
 import view.Vista;
+
 
 /**
  * Barco de superficie que se mueve horizontalmente y lanza
@@ -127,6 +129,7 @@ public class Barco {
     // GETTERS Y SETTERS
     // =========================================================
 
+
     public double getPosicionX() { 
     	return posicionX; 
     }
@@ -165,4 +168,5 @@ public class Barco {
     			
     	
     }
+
 }

@@ -1,5 +1,7 @@
 package view;
 
+import javax.swing.JFrame;
+
 public class Vista {
 
 	private int x;
