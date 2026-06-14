@@ -5,23 +5,18 @@ import java.util.List;
 import java.util.Random;
 
 public class Juego {
-    protected static final int TOTAL_BARCOS = 12;
-    protected static final int MAX_SIMULTANEOS = 3;
+    protected static final int TOTAL_BARCOS = 12; // RF-03
+    protected static final int MAX_SIMULTANEOS = 3; // RF-05
     protected static final int TIEMPO_MIN_ESPERA = 10;
     protected static final int TIEMPO_MAX_ESPERA = 100;
-    protected static final double VELOCIDAD_INICIAL = 2; 
-    protected static final double INCREMENTO_VELOCIDAD = 0.2;
+    protected static final double VELOCIDAD_INICIAL = 2.0; 
+    protected static final double INCREMENTO_VELOCIDAD = 0.20; // +20% por nivel (RF-09 y RF-10)
     protected static final int CARGAS_MIN_X_BARCO = 2;
     protected static final int CARGAS_MAX_X_BARCO = 5;
 
     private String estado;
-    private int nivel;
-    private int vidas;
-    private int puntaje;
-    private int puntosExtraAcumulados;
-
+    private int nivel; // RF-24
     private Submarino submarino;
-    private int porcentajeVida;
 
     private int barcosGenerados;
     private int ticksEntreBarcos;
@@ -30,150 +25,155 @@ public class Juego {
 
     private List<CargaDeProfundidad> cargasActivas;
     private double velocidadCargas;
+    
     private double ultimaExplosionX;
     private double ultimaExplosionY;
-
+    private String ultimoMensajePuntos = ""; // RF-29
     private Random random;
 
     public Juego(Random random) {
         this.estado = "MENU_PRINCIPAL";
         this.nivel = 1;
-        this.vidas = 3;
-        this.puntaje = 0;
-        this.puntosExtraAcumulados = 0;
         this.barcosGenerados = 0;
-        this.barcosActivos = new ArrayList<Barco>();
+        this.barcosActivos = new ArrayList<>();
         this.velocidadBarcos = VELOCIDAD_INICIAL;
-        this.cargasActivas = new ArrayList<CargaDeProfundidad>();
+        this.cargasActivas = new ArrayList<>();
         this.velocidadCargas = 3.0; 
         this.random = random;
     }
 
     public void iniciarPartida(double anchoPantalla) {
         this.submarino = new Submarino();
-        submarino.inicializar(anchoPantalla);
-        porcentajeVida = 100;
+        this.submarino.inicializar(anchoPantalla);
         this.estado = "JUGANDO";
         setTicksEntreBarcos();
     }
 
-    public void terminarPartida() { estado = "GAME OVER"; }
+    public void terminarPartida() { 
+        this.estado = "GAME OVER"; 
+    }
 
     public void actualizar(double anchoPantalla) {
+        if (!submarino.isActivo()) {
+            terminarPartida();
+            return;
+        }
+
+        // Control de spawn de barcos enemigos
         if (barcosGenerados < TOTAL_BARCOS && barcosActivos.size() < MAX_SIMULTANEOS && puedeGenerarBarco()) {
             generarBarco(anchoPantalla);
             setTicksEntreBarcos();
         }
         disminuirContadorTicksEntreBarcos();
 
+        // Actualizar posiciones de Barcos
         List<Barco> barcosAEliminar = new ArrayList<>();
-        for (int i = 0; i < barcosActivos.size(); i++) {
-            Barco barco = barcosActivos.get(i);
+        for (Barco barco : barcosActivos) {
             barco.avanzar();
 
-            // Modificado: Seteamos una profundidad máxima base para que la bomba caiga libremente
-            int profundidadDetonacion = 750;
             if (barco.puedeDisparar() && !barco.cumplioCargasMinimas()) {
-                cargasActivas.add(barco.lanzarCarga(velocidadCargas, profundidadDetonacion));
+                // RF-12: Rango de detonación aleatorio entre 300m y 700m
+                double profDetonacion = random.nextInt((int)(CargaDeProfundidad.PROF_DET_MAX - CargaDeProfundidad.PROF_DET_MIN + 1)) + CargaDeProfundidad.PROF_DET_MIN;
+                // RF-13: Cae en línea recta desde la X actual del barco
+                cargasActivas.add(barco.lanzarCarga(velocidadCargas, profDetonacion));
             }
             barco.contarTicks(random);
 
-            if (barco.haCompletadoRecorrido()) { barcosAEliminar.add(barco); }
+            if (barco.haCompletadoRecorrido()) { 
+                barcosAEliminar.add(barco); 
+            }
         }
         barcosActivos.removeAll(barcosAEliminar);
 
+        // Actualizar caída de cargas y detonaciones por profundidad
         List<CargaDeProfundidad> cargasAEliminar = new ArrayList<>();
-        for (int i = 0; i < cargasActivas.size(); i++) {
-            CargaDeProfundidad carga = cargasActivas.get(i);
-            
-      
-            double distanciaAlSubmarino = carga.calcularDistancia(submarino);
+        for (CargaDeProfundidad carga : cargasActivas) {
+            carga.caer(); 
 
-            if (distanciaAlSubmarino < 25) { 
-               
+            if (carga.debeDetonar()) {
                 procesarExplosion(carga);
                 cargasAEliminar.add(carga);
-            } else if (carga.debeDetonar()) {
-              
-                procesarExplosion(carga);
-                cargasAEliminar.add(carga);
-            } else { 
-                carga.caer(); 
             }
         }
         cargasActivas.removeAll(cargasAEliminar);
     }
 
     public void moverSubmarino(String direccion) {
-        if (direccion.equals("arriba")) { submarino.moverArriba(); }
-        else if (direccion.equals("abajo")) { submarino.moverAbajo(); }
-        else if (direccion.equals("izquierda")) { submarino.moverIzquierda(); }
-        else if (direccion.equals("derecha")) { submarino.moverDerecha(); }
+        if (estado.equals("JUGANDO")) {
+            if (direccion.equals("arriba")) { submarino.moverArriba(); }
+            else if (direccion.equals("abajo")) { submarino.moverAbajo(); }
+            else if (direccion.equals("izquierda")) { submarino.moverIzquierda(); }
+            else if (direccion.equals("derecha")) { submarino.moverDerecha(); }
+        }
     }
 
     public void generarBarco(double anchoPantalla) {
         Barco barco = new Barco();
         int cargasMinimas = random.nextInt(CARGAS_MAX_X_BARCO - CARGAS_MIN_X_BARCO + 1) + CARGAS_MIN_X_BARCO;
-        String direccion = (random.nextInt(2) == 0) ? "derecha" : "izquierda";
+        String direccion = (random.nextInt(2) == 0) ? "derecha" : "izquierda"; 
         barco.inicializar(anchoPantalla, direccion, velocidadBarcos, cargasMinimas);
         barcosActivos.add(barco);
         barcosGenerados++;
     }
 
-    public boolean puedeGenerarBarco() { return ticksEntreBarcos == 0; }
-    public void disminuirContadorTicksEntreBarcos() { if (ticksEntreBarcos > 0) ticksEntreBarcos -= 1; }
-    public void setTicksEntreBarcos() { ticksEntreBarcos = random.nextInt(TIEMPO_MAX_ESPERA - TIEMPO_MIN_ESPERA + 1) + TIEMPO_MIN_ESPERA; }
-
     public void procesarExplosion(CargaDeProfundidad carga) {
         this.ultimaExplosionX = carga.getPosicionX();
-        this.ultimaExplosionY = carga.getProfundidad();
-        double distancia = carga.calcularDistancia(submarino);
+        this.ultimaExplosionY = carga.getProfundidadDetonacion();
+
+        // Distancia euclidiana entre el centro del submarino y la detonación
+        double subX = submarino.getCentroX();
+        double subY = submarino.getCentroY();
+        double distancia = Math.sqrt(Math.pow(subX - ultimaExplosionX, 2) + Math.pow(subY - ultimaExplosionY, 2));
         
-        if (distancia < 30) { 
-            quitarVida(); 
-        } else if (distancia > 30 && distancia <= 75) { 
-            recibirDanio(50); 
-        } else if (distancia > 75 && distancia <= 120) { 
-            recibirDanio(30); 
-            agregarPuntos(10);
+        // RF-14 al RF-18 + RF-29 (Mensajes del sistema por explosión)
+        if (distancia < 10) { 
+            this.ultimoMensajePuntos = "💥 [BOOM] Impacto crítico a " + (int)distancia + "m. ¡Se pierde una vida entera! (0 pts)";
+            submarino.perderUnaVida(); 
+        } else if (distancia >= 10 && distancia < 50) { 
+            this.ultimoMensajePuntos = "💥 [BOOM] Explosión cercana a " + (int)distancia + "m. Energía -50% (0 pts)";
+            submarino.disminuirEnergia(50); 
+        } else if (distancia >= 50 && distancia <= 100) { 
+            this.ultimoMensajePuntos = "💥 [BOOM] Explosión moderada a " + (int)distancia + "m. Energía -30% (+10 pts)";
+            submarino.disminuirEnergia(30); 
+            submarino.sumarPuntos(10);
         } else { 
-            agregarPuntos(30); 
+            this.ultimoMensajePuntos = "💥 [BOOM] Explosión distante a " + (int)distancia + "m. Sin daños (+30 pts)";
+            submarino.sumarPuntos(30); 
         }
     }
 
-    public boolean estaVivo() { return vidas >= 1; }
-    public void recibirDanio(int porcentajeDanio) {
-        porcentajeVida -= porcentajeDanio;
-        if (porcentajeVida <= 0) { quitarVida(); porcentajeVida = 100; }
-    }
-    public void agregarVida() { vidas += 1; }
-    public void quitarVida() { vidas -= 1; if (vidas == 0) terminarPartida(); }
-
-    public void agregarPuntos(int puntos) {
-        puntaje += puntos;
-        puntosExtraAcumulados += puntos;
-        if (puntosExtraAcumulados >= 500) { agregarVida(); puntosExtraAcumulados -= 500; }
+    public boolean verificarFinNivel() { 
+        return barcosGenerados == TOTAL_BARCOS && barcosActivos.isEmpty() && cargasActivas.isEmpty(); 
     }
 
-    public boolean verificarFinNivel() { return barcosGenerados == TOTAL_BARCOS && barcosActivos.isEmpty() && cargasActivas.isEmpty(); }
     public void pasarSiguienteNivel() {
         nivel += 1;
+        // RF-09 y RF-10: Escalabilidad de velocidad del 20%
         velocidadBarcos += (velocidadBarcos * INCREMENTO_VELOCIDAD);
         velocidadCargas += (velocidadCargas * INCREMENTO_VELOCIDAD);
         barcosGenerados = 0;
-        agregarPuntos(200);
+        submarino.sumarPuntos(200); // RF-20: Bono por cambiar de nivel
     }
 
+    public void disminuirContadorTicksEntreBarcos() { if (ticksEntreBarcos > 0) ticksEntreBarcos -= 1; }
+    public void setTicksEntreBarcos() { ticksEntreBarcos = random.nextInt(TIEMPO_MAX_ESPERA - TIEMPO_MIN_ESPERA + 1) + TIEMPO_MIN_ESPERA; }
+    public boolean puedeGenerarBarco() { return ticksEntreBarcos == 0; }
+
+    // GETTERS DE CONTROL DE DATOS (Conexión directa al Submarino encapsulado)
     public String getEstado() { return estado; }
     public int getNivel() { return nivel; }
-    public int getVidas() { return vidas; }
-    public int getPuntaje() { return puntaje; }
-    public int getPorcentajeVida() { return porcentajeVida; }
+    public int getVidas() { return submarino.getVidas(); } 
+    public int getPuntaje() { return submarino.getPuntos(); } 
+    public int getPorcentajeVida() { return submarino.getSaludPorcentaje(); } 
     public List<Barco> getBarcosActivos() { return barcosActivos; }
     public List<CargaDeProfundidad> getCargasActivas() { return cargasActivas; }
     public double getSubmarinoX() { return submarino.getPosicionX(); }
     public double getSubmarinoY() { return submarino.getProfundidad(); }
-    public double getUltimaExplosionX() { return ultimaExplosionX; }
-    public double getUltimaExplosionY() { return ultimaExplosionY; }
     public Submarino getSubmarino() { return this.submarino; }
+    
+    public String getUltimoMensajePuntos() { 
+        String aux = this.ultimoMensajePuntos;
+        this.ultimoMensajePuntos = ""; // Reset de lectura única
+        return aux;
+    }
 }

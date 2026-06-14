@@ -58,4 +58,29 @@ public class GameController {
     public Vista getSubmarinoVista() {
         return juego.getSubmarino().toView();
     }
+    
+ // AGREGÁ ESTOS MÉTODOS AL FINAL DE TU CLASE GameController
+
+    public int getPuntaje() {
+        return juego.getPuntaje();
+    }
+
+    public int getVidas() {
+        return juego.getVidas();
+    }
+
+    public int getNivel() {
+        return juego.getNivel();
+    }
+
+    public int getPorcentajeVida() {
+        return juego.getPorcentajeVida();
+    }
+    public double getSubmarinoProfundidad() {
+        return juego.getSubmarinoY(); // RF-25
+    }
+
+    public String checkMensajePuntos() {
+        return juego.getUltimoMensajePuntos(); // RF-29
+    }
 }
