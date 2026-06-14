@@ -11,7 +11,7 @@ public class Submarino {
     protected static final double PROF_MAX = 800;
     private double posicionX;
     private double profundidad;
-    private double anchoPantalla;
+    private int anchoPantalla;
 
     //Constructor
     public Submarino() {
@@ -26,7 +26,7 @@ public class Submarino {
      *
      * @param anchoPantalla ancho del área de juego
      */
-    public void inicializar(double anchoPantalla) {
+    public void inicializar(int anchoPantalla) {
         this.anchoPantalla = anchoPantalla;
         setPosicionX(anchoPantalla / 2);
         setProfundidad((PROF_MAX + PROF_MIN) / 2);
@@ -53,9 +53,9 @@ public class Submarino {
     }
 
     //Getters y Setters
-    public double getPosicionX()   { return posicionX; }
+    public double getPosicionX() { return posicionX; }
     public double getProfundidad() { return profundidad; }
 
-    private void setPosicionX(double posicionX)     { this.posicionX = posicionX; }
+    private void setPosicionX(double posicionX) { this.posicionX = posicionX; }
     private void setProfundidad(double profundidad) { this.profundidad = profundidad; }
 }

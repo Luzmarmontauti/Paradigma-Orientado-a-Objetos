@@ -15,7 +15,7 @@ public class Barco {
     private double posicionX;
     private String direccion;
     private double velocidad;
-    private double anchoPantalla;
+    private int anchoPantalla;
     private int cargasMinimas;
     private int cargasLanzadas;
     private int ticksEntreDisparos;
@@ -40,7 +40,7 @@ public class Barco {
      * @param velocidad     velocidad de desplazamiento horizontal
      * @param cargasMinimas mínimo de cargas que debe lanzar antes de poder retirarse
      */
-    public void inicializar(double anchoPantalla, String direccion, double velocidad, int cargasMinimas) {
+    public void inicializar(int anchoPantalla, String direccion, double velocidad, int cargasMinimas) {
         this.anchoPantalla = anchoPantalla;
         this.velocidad = velocidad;
         this.direccion = direccion;
@@ -103,7 +103,7 @@ public class Barco {
     public double getPosicionX() { return posicionX; }
     public String getDireccion() { return direccion; }
     public double getVelocidad() { return velocidad; }
-    public double getAnchoPantalla() { return anchoPantalla; }
+    public int getAnchoPantalla() { return anchoPantalla; }
     public int getCargasLanzadas() { return cargasLanzadas; }
     public int getCargasMinimas() { return cargasMinimas; }
 

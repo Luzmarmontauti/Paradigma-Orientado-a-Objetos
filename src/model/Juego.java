@@ -1,5 +1,6 @@
 package model;
 
+import model.Area;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -54,6 +55,9 @@ public class Juego {
     // Aleatoriedad
     private Random random = new Random();
 
+    //Area de Juego
+    private Area area = new Area(600, 800);
+
 
     //Constructor
     /**
@@ -78,12 +82,10 @@ public class Juego {
     /**
      * Inicializa la partida: crea y posiciona el submarino, setea la vida al 100%
      * y cambia el estado a "JUGANDO".
-     *
-     * @param anchoPantalla ancho del área de juego en píxeles. Se usa para centrar el submarino.
      */
-    public void iniciarPartida(double anchoPantalla) {
+    public void iniciarPartida() {
         this.submarino = new Submarino();
-        submarino.inicializar(anchoPantalla);
+        submarino.inicializar(area.getAnchoPantalla());
         porcentajeVida = 100;
         this.estado = "JUGANDO";
         setTicksEntreBarcos();
@@ -104,12 +106,10 @@ public class Juego {
      * 2. Mueve cada barco activo y lanza una carga si su frecuencia de disparo lo permite.
      * 3. Si un barco llegó al extremo: si ya lanzó sus cargas mínimas se retira, si no invierte dirección.
      * 4. Hace caer cada carga activa. Si una carga debe detonar, procesa la explosión.
-     *
-     * @param anchoPantalla ancho del área de juego, necesario para generar nuevos barcos.
      */
-    public void actualizar(double anchoPantalla) {
+    public void actualizar() {
         if (barcosGenerados < TOTAL_BARCOS && barcosActivos.size() < MAX_SIMULTANEOS && puedeGenerarBarco()) {
-            generarBarco(anchoPantalla);
+            generarBarco();
             setTicksEntreBarcos();
         }
         disminuirContadorTicksEntreBarcos();
@@ -164,14 +164,12 @@ public class Juego {
 
     /**
      * Crea un nuevo barco con dirección y cargas mínimas aleatorias y lo agrega a la lista activa.
-     *
-     * @param anchoPantalla ancho del área de juego, para posicionar el barco en el borde de entrada.
      */
-    public void generarBarco(double anchoPantalla) {
+    public void generarBarco() {
         Barco barco = new Barco();
         int cargasMinimas = random.nextInt(CARGAS_MAX_X_BARCO - CARGAS_MIN_X_BARCO + 1) + CARGAS_MIN_X_BARCO;
         String direccion = (random.nextInt(2) == 0) ? "derecha" : "izquierda";
-        barco.inicializar(anchoPantalla, direccion, velocidadBarcos, cargasMinimas);
+        barco.inicializar(area.getAnchoPantalla(), direccion, velocidadBarcos, cargasMinimas);
         barcosActivos.add(barco);
         barcosGenerados++;
     }

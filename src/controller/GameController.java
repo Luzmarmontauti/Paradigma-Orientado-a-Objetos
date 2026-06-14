@@ -2,6 +2,7 @@ package controller;
 
 import model.Juego;
 import model.Barco;
+import model.Area;
 import java.util.List;
 
 /**
@@ -14,13 +15,13 @@ public class GameController {
     //Atributos
     private static GameController instance;
     private Juego juego;
-    private static final double ANCHO_PANTALLA = 800;
+    private static final Area area = new Area(800, 600);
 
    //Singleton
     private GameController() {
         this.juego = new Juego();
         // TODO Fase Final: no iniciar la partida acá, esperar que el jugador elija desde el menú
-        juego.iniciarPartida(ANCHO_PANTALLA);
+        juego.iniciarPartida();
     }
 
 
@@ -67,7 +68,7 @@ public class GameController {
         int vidaPorcentPrev = juego.getPorcentajeVida();
         boolean nivelSuperado = juego.verificarFinNivel();
 
-        juego.actualizar(ANCHO_PANTALLA);
+        juego.actualizar();
 
         String posExp = " en X=" + String.format("%.0f", juego.getUltimaExplosionX())
                       + " Y=" + String.format("%.0f", juego.getUltimaExplosionY());
@@ -155,4 +156,6 @@ public class GameController {
     public int obtenerVidas() { return juego.getVidas(); }
     public int obtenerPorcentajeVida() { return juego.getPorcentajeVida(); }
     public boolean isJuegoTerminado() { return juego.getEstado().equals("GAME OVER"); }
+    public int getAnchoArea() { return area.getAnchoPantalla(); }
+    public int getAltoArea() { return area.getAltoPantalla(); }
 }
