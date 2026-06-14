@@ -19,8 +19,6 @@ import view.Vista;
 
 public class Ventana extends JFrame {
 
-    private static final long serialVersionUID = -1390206049433269849L;
-
     private List<JLabel> etiquetasBarcos;
     private List<JLabel> etiquetasCargas;
     private JLabel etiquetaSubmarino; 
