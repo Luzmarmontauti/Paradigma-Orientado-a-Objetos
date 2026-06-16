@@ -53,6 +53,4 @@ public class CargaDeProfundidad {
     //Getters
     public double getPosicionX() { return posicionX; }
     public double getProfundidad() { return profundidad; }
-    public double getProfundidadDetonacion() { return profundidadDetonacion; }
-    public double getVelocidadCaida() { return velocidadCaida; }
 }

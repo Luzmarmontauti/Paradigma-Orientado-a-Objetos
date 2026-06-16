@@ -1,5 +1,7 @@
 package model;
 
+import view.SubmarinoView;
+
 /**
  * Submarino controlado por el jugador. Se mueve en las cuatro direcciones
  * dentro de los límites de profundidad y bordes laterales del área de juego.
@@ -50,6 +52,10 @@ public class Submarino {
     /** Baja el submarino (aumenta profundidad) si no alcanzó PROF_MAX. */
     public void moverAbajo() {
         if (profundidad < PROF_MAX) setProfundidad(profundidad + 1);
+    }
+
+    public SubmarinoView toView() {
+        return new SubmarinoView((int) posicionX, (int) profundidad, 50, 20);
     }
 
     //Getters y Setters

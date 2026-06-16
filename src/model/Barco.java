@@ -102,8 +102,6 @@ public class Barco {
     //Getters y Setters
     public double getPosicionX() { return posicionX; }
     public String getDireccion() { return direccion; }
-    public double getVelocidad() { return velocidad; }
-    public int getAnchoPantalla() { return anchoPantalla; }
     public int getCargasLanzadas() { return cargasLanzadas; }
     public int getCargasMinimas() { return cargasMinimas; }
 

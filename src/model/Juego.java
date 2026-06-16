@@ -1,6 +1,5 @@
 package model;
 
-import model.Area;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -14,8 +13,6 @@ import java.util.Random;
  * el estado del juego un tick cada vez que es invocado. El GameController es responsable
  * de llamar a este método en cada ciclo del juego.
  *
- * Toda fuente de aleatoriedad se maneja a través del objeto {@link Random} inyectado
- * por constructor, lo que permite tests determinísticos usando una semilla fija.
  */
 public class Juego {
 
@@ -98,7 +95,6 @@ public class Juego {
     public void terminarPartida() {
         estado = "GAME OVER";
     }
-
 
     /**
      * Avanza el estado del juego un tick. En cada tick ocurre en orden:
@@ -215,11 +211,6 @@ public class Juego {
         }
     }
 
-    /** @return true si el jugador tiene al menos una vida. */
-    public boolean estaVivo() {
-        return vidas >= 1;
-    }
-
     /**
      * Aplica daño al submarino. Si el porcentaje llega a 0, se pierde una vida y se resetea a 100%.
      *
@@ -284,14 +275,9 @@ public class Juego {
     public int getVidas() { return vidas; }
     public int getPuntaje() { return puntaje; }
     public int getPorcentajeVida() { return porcentajeVida; }
-    public int getPuntosExtraAcumulados() { return puntosExtraAcumulados; }
-    public int getBarcosGenerados() { return barcosGenerados; }
-    public double getVelocidadBarcos() { return velocidadBarcos; }
-    public double getVelocidadCargas() { return velocidadCargas; }
-    public double getSubmarinoX() { return submarino.getPosicionX(); }
-    public double getSubmarinoY() { return submarino.getProfundidad(); }
     public double getUltimaExplosionX() { return ultimaExplosionX; }
     public double getUltimaExplosionY() { return ultimaExplosionY; }
     public List<Barco> getBarcosActivos() { return barcosActivos; }
     public List<CargaDeProfundidad> getCargasActivas() { return cargasActivas; }
+    public  Submarino getSubmarino() { return submarino; }
 }
