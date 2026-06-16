@@ -1,4 +1,6 @@
 package model;
+
+import view.CargaDeProfundidadView;
 import java.util.Random;
 
 /**
@@ -48,6 +50,10 @@ public class CargaDeProfundidad {
         double difX = sub.getPosicionX() - posicionX;
         double difY = sub.getProfundidad() - profundidad;
         return Math.sqrt(Math.pow(difX, 2) + Math.pow(difY, 2));
+    }
+
+    public CargaDeProfundidadView toView() {
+        return new CargaDeProfundidadView((int) posicionX, (int) profundidad, 50, 20);
     }
 
     //Getters

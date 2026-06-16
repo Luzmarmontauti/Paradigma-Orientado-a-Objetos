@@ -99,16 +99,41 @@ public class Vista extends JFrame {
     }
 
     private void actualizar() {
+        Container c = this.getContentPane();
         GameController.getInstance().actualizar();
         SubmarinoView subView = GameController.getInstance().getSubmarinoView();
         submarino.setLocation(subView.getPosicionX(), subView.getPosicionY());
-        repaint();
+
+        for (JLabel labelBarco : barcos) { c.remove(labelBarco); }
+        barcos.clear();
+        for (BarcoView bv : GameController.getInstance().getBarcoView()) {
+            JLabel labelBarco = new JLabel("Barco");
+            labelBarco.setBounds(bv.getPosicionX(), bv.getPosicionY(), 30, 20);
+            labelBarco.setOpaque(true);
+            labelBarco.setBackground(Color.ORANGE);
+            c.add(labelBarco);
+            barcos.add(labelBarco);
+        }
+
+        for (JLabel labelCarga : cargasDeProfundidad) { c.remove(labelCarga); }
+        cargasDeProfundidad.clear();
+        for (CargaDeProfundidadView cv : GameController.getInstance().getCargaView()) {
+            JLabel labelCarga = new JLabel("Bomba");
+            labelCarga.setBounds(cv.getPosicionX(), cv.getPosicionY(), 30, 20);
+            labelCarga.setOpaque(true);
+            labelCarga.setBackground(Color.RED);
+            c.add(labelCarga);
+            cargasDeProfundidad.add(labelCarga);
+        }
+
 
         nivel.setText("Nivel: " + String.valueOf(GameController.getInstance().getNivel()));
         puntaje.setText("Puntaje: " + String.valueOf(GameController.getInstance().getPuntaje()));
         vidas.setText("Vidas: " + String.valueOf(GameController.getInstance().getVidas()));
         porcentajeVida.setText("Vida: " + String.valueOf(GameController.getInstance().getPorcentajeVida()) + " %");
 
+
+        repaint();
         if (GameController.getInstance().isJuegoTerminado()) { timer.stop(); }
     }
 

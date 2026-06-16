@@ -1,8 +1,15 @@
 package controller;
 
+import model.Barco;
+import model.CargaDeProfundidad;
 import model.Juego;
 import model.Area;
+import view.BarcoView;
+import view.CargaDeProfundidadView;
 import view.SubmarinoView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Controlador principal del juego. Recibe los eventos del jugador,
@@ -47,6 +54,25 @@ public class GameController {
     public SubmarinoView getSubmarinoView() {
         return juego.getSubmarino().toView();
     }
+
+    public List<BarcoView> getBarcoView() {
+        List<BarcoView> barcosAux = new ArrayList<>();
+        for ( int i = 0 ; i < juego.getBarcosActivos().size(); i++ ) {
+            Barco barcoAux = juego.getBarcosActivos().get(i);
+            barcosAux.add((barcoAux.toView()));
+        }
+        return barcosAux;
+    }
+
+    public List<CargaDeProfundidadView> getCargaView() {
+        List<CargaDeProfundidadView> cargasAux = new ArrayList<>();
+        for ( int i = 0 ; i < juego.getCargasActivas().size(); i++ ) {
+            CargaDeProfundidad cargaAux = juego.getCargasActivas().get(i);
+            cargasAux.add((cargaAux.toView()));
+        }
+        return cargasAux;
+    }
+
 
     public int getNivel() { return juego.getNivel(); }
     public int getVidas() { return juego.getVidas(); }

@@ -1,5 +1,6 @@
 package model;
 
+import view.BarcoView;
 import java.util.Random;
 
 /**
@@ -96,6 +97,10 @@ public class Barco {
         } else {
             ticksEntreDisparos = random.nextInt(TIEMPO_ESPERA_MAX - TIEMPO_ESPERA_MIN + 1) + TIEMPO_ESPERA_MIN;
         }
+    }
+
+    public BarcoView toView() {
+        return new BarcoView((int) posicionX, (int) PROF_SUPERFICIE, 50, 20);
     }
 
 
