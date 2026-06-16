@@ -11,8 +11,8 @@ public class Barco {
 
     //Atributos
     protected static final double PROF_SUPERFICIE = 0;
-    protected static final int TIEMPO_ESPERA_MIN = 10;
-    protected static final int TIEMPO_ESPERA_MAX = 50;
+    protected static final int TIEMPO_ESPERA_MIN = 40;
+    protected static final int TIEMPO_ESPERA_MAX = 100;
     private double posicionX;
     private String direccion;
     private double velocidad;

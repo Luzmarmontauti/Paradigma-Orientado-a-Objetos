@@ -90,7 +90,6 @@ public class Vista extends JFrame {
                 } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
                     GameController.getInstance().moverTecla("izquierda");
                 }
-
             }
         });
 
@@ -125,7 +124,6 @@ public class Vista extends JFrame {
             c.add(labelCarga);
             cargasDeProfundidad.add(labelCarga);
         }
-
 
         nivel.setText("Nivel: " + String.valueOf(GameController.getInstance().getNivel()));
         puntaje.setText("Puntaje: " + String.valueOf(GameController.getInstance().getPuntaje()));
