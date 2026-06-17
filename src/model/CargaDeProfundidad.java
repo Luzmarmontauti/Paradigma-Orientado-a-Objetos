@@ -52,6 +52,15 @@ public class CargaDeProfundidad {
         return Math.sqrt(Math.pow(difX, 2) + Math.pow(difY, 2));
     }
 
+    public boolean colisionaCon(Submarino submarino) {
+        if (Math.abs(posicionX - submarino.getPosicionX()) < 45 ) {
+            if (Math.abs(profundidad - submarino.getProfundidad()) < 20) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public CargaDeProfundidadView toView() {
         return new CargaDeProfundidadView((int) posicionX, (int) profundidad, 50, 20);
     }

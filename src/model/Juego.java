@@ -138,7 +138,10 @@ public class Juego {
 
         for (int i = 0; i < cargasActivas.size(); i++) {
             CargaDeProfundidad carga = cargasActivas.get(i);
-            if (carga.debeDetonar()) {
+            if (carga.colisionaCon(submarino)) {
+                quitarVida();
+                cargasAEliminar.add(carga);
+            } else if (carga.debeDetonar()) {
                 procesarExplosion(carga);
                 cargasAEliminar.add(carga);
             } else { carga.caer(); }
