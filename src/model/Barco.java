@@ -100,7 +100,7 @@ public class Barco {
     }
 
     public BarcoView toView() {
-        return new BarcoView((int) posicionX, (int) PROF_SUPERFICIE + 30, 50, 20);
+        return new BarcoView((int) posicionX, (int) PROF_SUPERFICIE + 20, 50, 20);
     }
 
 

@@ -53,8 +53,8 @@ public class CargaDeProfundidad {
     }
 
     public boolean colisionaCon(Submarino submarino) {
-        if (Math.abs(posicionX - submarino.getPosicionX()) < 45 ) {
-            if (Math.abs(profundidad - submarino.getProfundidad()) < 20) {
+        if (Math.abs(posicionX - submarino.getPosicionX()) < 38 ) {
+            if (Math.abs(profundidad - submarino.getProfundidad()) < 18) {
                 return true;
             }
         }

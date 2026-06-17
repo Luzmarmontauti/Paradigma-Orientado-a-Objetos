@@ -21,11 +21,10 @@ public class GameController {
     //Atributos
     private static GameController instance;
     private Juego juego;
-    private static final Area area = new Area(600, 800);
+    private static final Area area = new Area(630, 800);
     //Singleton
     private GameController() {
         this.juego = new Juego();
-        // TODO Fase Final: no iniciar la partida acá, esperar que el jugador elija desde el menú
         juego.iniciarPartida();
     }
 
@@ -79,7 +78,7 @@ public class GameController {
     public int getVidas() { return juego.getVidas(); }
     public int getPorcentajeVida() { return juego.getPorcentajeVida(); }
     public int getPuntaje() { return juego.getPuntaje(); }
-    public boolean isJuegoTerminado() { return juego.getEstado().equals("GAME OVER"); }
+    public boolean isJuegoTerminado() { return juego.isJuegoTerminado(); }
     public int getAnchoArea() { return area.getAnchoPantalla(); }
     public int getAltoArea() { return area.getAltoPantalla(); }
 

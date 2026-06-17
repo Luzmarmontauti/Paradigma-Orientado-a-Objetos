@@ -15,8 +15,8 @@ import java.util.List;
 public class Vista extends JFrame {
 
     //Atributos
-    private static final int Y_SUPERFICIE = 30;//cons   tante para escalar las profundidades
-    private static final int ALTURA_JUEGO = 530;//constante para escalar las profundidades
+    private static final int Y_SUPERFICIE = 30;//constante para escalar las profundidades
+    private static final int ALTURA_JUEGO = 550;//constante para escalar las profundidades
 
     private JLabel submarino;
     private List<JLabel> barcos;
@@ -25,6 +25,7 @@ public class Vista extends JFrame {
     private JLabel puntaje;
     private JLabel vidas;
     private JLabel porcentajeVida;
+    private JLabel profundidad;
     private JLabel lineaSuperficie;
 
     private Timer timer;
@@ -54,7 +55,7 @@ public class Vista extends JFrame {
         submarino.setHorizontalAlignment(SwingConstants.CENTER);
         submarino.setForeground(Color.BLACK);
         submarino.setOpaque(true);
-        submarino.setBackground(Color.BLUE);
+        submarino.setBackground(Color.YELLOW);
         c.add(submarino);
 
         barcos = new ArrayList<>();
@@ -63,28 +64,34 @@ public class Vista extends JFrame {
         lineaSuperficie =  new JLabel();
         lineaSuperficie.setOpaque(true);
         lineaSuperficie.setBackground(Color.CYAN);
-        lineaSuperficie.setBounds(0, 50, GameController.getInstance().getAnchoArea(), 3);
+        lineaSuperficie.setBounds(0, 40, GameController.getInstance().getAnchoArea(), 2);
         c.add(lineaSuperficie);
 
         nivel = new JLabel("Nivel: " + String.valueOf(GameController.getInstance().getNivel()));
-        nivel.setForeground(Color.WHITE);
-        nivel.setBounds(50, 560, 150, 30);
+        nivel.setForeground(Color.CYAN);
+        nivel.setBounds(50, 590, 150, 30);
         c.add(nivel);
 
         puntaje = new JLabel("Puntaje: " + String.valueOf(GameController.getInstance().getPuntaje()));
-        puntaje.setForeground(Color.WHITE);
-        puntaje.setBounds(250, 560, 150, 30);
+        puntaje.setForeground(Color.ORANGE);
+        puntaje.setBounds(180, 590, 150, 30);
         c.add(puntaje);
 
         vidas = new JLabel("Vidas: " + String.valueOf(GameController.getInstance().getVidas()));
-        vidas.setForeground(Color.WHITE);
-        vidas.setBounds(500, 560, 150, 30);
+        vidas.setForeground(Color.MAGENTA);
+        vidas.setBounds(350, 590, 150, 30);
         c.add(vidas);
 
         porcentajeVida = new JLabel("Vida: " + String.valueOf(GameController.getInstance().getPorcentajeVida()) + " %");
-        porcentajeVida.setForeground(Color.WHITE);
-        porcentajeVida.setBounds(680, 560, 150, 30);
+        porcentajeVida.setForeground(Color.GREEN);
+        porcentajeVida.setBounds(500, 590, 150, 30);
         c.add(porcentajeVida);
+
+        profundidad = new JLabel("Profundidad: " + GameController.getInstance().getSubmarinoView().getPosicionY() + " mts");
+        profundidad.setForeground(Color.WHITE);
+        profundidad.setBounds(630, 590, 150, 30);
+        c.add(profundidad);
+
     }
 
     private void eventos() {
@@ -118,6 +125,18 @@ public class Vista extends JFrame {
         //Actualizamos
         GameController.getInstance().actualizar();
 
+        //Actualizacion Stat profundidad
+        profundidad.setText("Profundidad: " + GameController.getInstance().getSubmarinoView().getPosicionY() + " mts");
+
+        //Cambio de color en porcentaje vida
+        if (GameController.getInstance().getPorcentajeVida() >= 70) {
+            porcentajeVida.setForeground(Color.GREEN);
+        } else if (GameController.getInstance().getPorcentajeVida() >= 50) {
+            porcentajeVida.setForeground(Color.YELLOW);
+        }  else if (GameController.getInstance().getPorcentajeVida() >= 30) {
+            porcentajeVida.setForeground(Color.ORANGE);
+        } else porcentajeVida.setForeground(Color.RED);
+
         //Comparamos y mostramos los mensajes correspondientes si corresponde
         if (vidasAntes > GameController.getInstance().getVidas()) {JOptionPane.showMessageDialog(this, "Perdiste una vida!", "Vida Perdida", JOptionPane.WARNING_MESSAGE);}
         if (vidasAntes < GameController.getInstance().getVidas()) {JOptionPane.showMessageDialog(this, "Ganaste una vida!", "Vida Adquirida", JOptionPane.INFORMATION_MESSAGE);}
@@ -136,9 +155,9 @@ public class Vista extends JFrame {
         barcos.clear();
         for (BarcoView barcoVista : GameController.getInstance().getBarcoView()) {
             JLabel labelBarco = new JLabel("Barco");
-            labelBarco.setBounds(barcoVista.getPosicionX(), barcoVista.getPosicionY(), 30, 20);
+            labelBarco.setBounds(barcoVista.getPosicionX(), barcoVista.getPosicionY(), 40, 20);
             labelBarco.setOpaque(true);
-            labelBarco.setBackground(Color.ORANGE);
+            labelBarco.setBackground(Color.GRAY);
             contenedor.add(labelBarco);
             barcos.add(labelBarco);
         }
@@ -146,9 +165,9 @@ public class Vista extends JFrame {
         for (JLabel labelCarga : cargasDeProfundidad) { contenedor.remove(labelCarga); }
         cargasDeProfundidad.clear();
         for (CargaDeProfundidadView cargaVista : GameController.getInstance().getCargaView()) {
-            JLabel labelCarga = new JLabel("Bomba");
+            JLabel labelCarga = new JLabel("Bomb");
             yPixel = (int)(Y_SUPERFICIE + (cargaVista.getPosicionY() / 800.0) * ALTURA_JUEGO);
-            labelCarga.setBounds(cargaVista.getPosicionX(), yPixel, 30, 20);
+            labelCarga.setBounds(cargaVista.getPosicionX(), yPixel, 35, 15);
             labelCarga.setOpaque(true);
             labelCarga.setBackground(Color.RED);
             contenedor.add(labelCarga);

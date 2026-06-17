@@ -51,7 +51,7 @@ public class Submarino {
 
     /** Baja el submarino (aumenta profundidad) si no alcanzó PROF_MAX. */
     public void moverAbajo() {
-        if (profundidad < PROF_MAX - 20) setProfundidad(profundidad + 10);
+        if (profundidad < PROF_MAX) setProfundidad(profundidad + 10);
     }
 
     public SubmarinoView toView() {

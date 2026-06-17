@@ -27,7 +27,7 @@ public class Juego {
     protected static final int CARGAS_MAX_X_BARCO = 5;
 
     // Estado general
-    private String estado;
+    private boolean juegoTerminado;
     private int nivel;
     private int vidas;
     private int puntaje;
@@ -46,14 +46,11 @@ public class Juego {
     // Cargas
     private List<CargaDeProfundidad> cargasActivas;
     private double velocidadCargas;
-    private double ultimaExplosionX;
-    private double ultimaExplosionY;
-
     // Aleatoriedad
     private Random random = new Random();
 
     //Area de Juego
-    private Area area = new Area(600, 800);
+    private Area area = new Area(630, 800);
 
 
     //Constructor
@@ -62,7 +59,7 @@ public class Juego {
      * El juego no comienza hasta que se llame a {@link #iniciarPartida(double)}.
      */
     public Juego() {
-        this.estado = "MENU_PRINCIPAL";
+        this.juegoTerminado = false;
         this.nivel = 1;
         this.vidas = 3;
         this.puntaje = 0;
@@ -76,24 +73,17 @@ public class Juego {
 
 
     //Metodos
-    /**
-     * Inicializa la partida: crea y posiciona el submarino, setea la vida al 100%
-     * y cambia el estado a "JUGANDO".
-     */
+    /** Inicializa la partida: crea y posiciona el submarino y setea la vida al 100%. */
     public void iniciarPartida() {
         this.submarino = new Submarino();
         submarino.inicializar(area.getAnchoPantalla());
         porcentajeVida = 100;
-        this.estado = "JUGANDO";
         setTicksEntreBarcos();
     }
 
-    /**
-     * Finaliza la partida cambiando el estado a "GAME OVER".
-     * Es llamado automáticamente cuando el jugador pierde su última vida.
-     */
+    /** Finaliza la partida. Es llamado automáticamente cuando el jugador pierde su última vida. */
     public void terminarPartida() {
-        estado = "GAME OVER";
+        juegoTerminado = true;
     }
 
     /**
@@ -199,8 +189,6 @@ public class Juego {
      * @param carga la carga que detonó en este tick.
      */
     public void procesarExplosion(CargaDeProfundidad carga) {
-        this.ultimaExplosionX = carga.getPosicionX();
-        this.ultimaExplosionY = carga.getProfundidad();
         double distancia = carga.calcularDistancia(submarino);
         if (distancia > 100) {
             agregarPuntos(30);
@@ -273,13 +261,12 @@ public class Juego {
     }
 
     //Getters
-    public String getEstado() { return estado; }
+    public boolean isJuegoTerminado() { return juegoTerminado; }
     public int getNivel() { return nivel; }
     public int getVidas() { return vidas; }
     public int getPuntaje() { return puntaje; }
     public int getPorcentajeVida() { return porcentajeVida; }
-    public double getUltimaExplosionX() { return ultimaExplosionX; }
-    public double getUltimaExplosionY() { return ultimaExplosionY; }
+
     public List<Barco> getBarcosActivos() { return barcosActivos; }
     public List<CargaDeProfundidad> getCargasActivas() { return cargasActivas; }
     public  Submarino getSubmarino() { return submarino; }
