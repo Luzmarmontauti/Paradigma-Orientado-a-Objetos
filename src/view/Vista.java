@@ -15,8 +15,8 @@ import java.util.List;
 public class Vista extends JFrame {
 
     //Atributos
-    private static final int Y_SUPERFICIE = 30;
-    private static final int ALTURA_JUEGO = 530;
+    private static final int Y_SUPERFICIE = 30;//cons   tante para escalar las profundidades
+    private static final int ALTURA_JUEGO = 530;//constante para escalar las profundidades
 
     private JLabel submarino;
     private List<JLabel> barcos;
@@ -36,6 +36,7 @@ public class Vista extends JFrame {
         int alto = GameController.getInstance().getAltoArea();
         getContentPane().setPreferredSize(new Dimension(ancho, alto));
         pack();
+        setLocationRelativeTo(null);
         this.setVisible(true);
         setResizable(false);
         this.setTitle("Submarine Attack!");
@@ -110,7 +111,18 @@ public class Vista extends JFrame {
 
     private void actualizar() {
         Container contenedor = this.getContentPane();
+
+        int vidasAntes = GameController.getInstance().getVidas();
+        int nivelAntes = GameController.getInstance().getNivel();
+
+        //Actualizamos
         GameController.getInstance().actualizar();
+
+        //Comparamos y mostramos los mensajes correspondientes si corresponde
+        if (vidasAntes > GameController.getInstance().getVidas()) {JOptionPane.showMessageDialog(this, "Perdiste una vida!", "Vida Perdida", JOptionPane.WARNING_MESSAGE);}
+        if (vidasAntes < GameController.getInstance().getVidas()) {JOptionPane.showMessageDialog(this, "Ganaste una vida!", "Vida Adquirida", JOptionPane.INFORMATION_MESSAGE);}
+        if (nivelAntes < GameController.getInstance().getNivel()) {JOptionPane.showMessageDialog(this, "Pasaste al siguiente nivel!", "Nivel Superado", JOptionPane.INFORMATION_MESSAGE);}
+
 
         // yPixel = Y_SUPERFICIE + (profundidad / 800.0) * ALTURA_JUEGO
         // profundidad / 800.0 fraccion del recorrido total (ej: 400/800 = 0.5 = mitad del fondo)
@@ -149,7 +161,13 @@ public class Vista extends JFrame {
         porcentajeVida.setText("Vida: " + GameController.getInstance().getPorcentajeVida() + " %");
 
         repaint();
-        if (GameController.getInstance().isJuegoTerminado()) { timer.stop(); }
+        if (GameController.getInstance().isJuegoTerminado()) {
+            JOptionPane.showMessageDialog(this, "Perdiste! Juego terminado", "Game Over", JOptionPane.INFORMATION_MESSAGE);
+            timer.stop();
+            GameController.resetearInstancia();
+            new Menu();
+            dispose();
+        }
     }
 
 }

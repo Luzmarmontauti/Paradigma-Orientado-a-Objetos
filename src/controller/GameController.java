@@ -36,6 +36,8 @@ public class GameController {
         return instance;
     }
 
+    public static void resetearInstancia() { instance = null; }
+
     //Metodos
     public void moverTecla(String tecla) {
         juego.moverSubmarino(tecla);
