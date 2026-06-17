@@ -22,7 +22,6 @@ public class GameController {
     private static GameController instance;
     private Juego juego;
     private static final Area area = new Area(600, 800);
-
     //Singleton
     private GameController() {
         this.juego = new Juego();
@@ -81,4 +80,5 @@ public class GameController {
     public boolean isJuegoTerminado() { return juego.getEstado().equals("GAME OVER"); }
     public int getAnchoArea() { return area.getAnchoPantalla(); }
     public int getAltoArea() { return area.getAltoPantalla(); }
+
 }

@@ -11,8 +11,8 @@ public class Barco {
 
     //Atributos
     protected static final double PROF_SUPERFICIE = 0;
-    protected static final int TIEMPO_ESPERA_MIN = 40;
-    protected static final int TIEMPO_ESPERA_MAX = 100;
+    protected static final int TIEMPO_ESPERA_MIN = 50;
+    protected static final int TIEMPO_ESPERA_MAX = 200;
     private double posicionX;
     private String direccion;
     private double velocidad;
@@ -100,7 +100,7 @@ public class Barco {
     }
 
     public BarcoView toView() {
-        return new BarcoView((int) posicionX, (int) PROF_SUPERFICIE, 50, 20);
+        return new BarcoView((int) posicionX, (int) PROF_SUPERFICIE + 30, 50, 20);
     }
 
 

@@ -41,7 +41,7 @@ public class Submarino {
 
     /** Mueve el submarino hacia la derecha si no alcanzó el borde. */
     public void moverDerecha() {
-        if (posicionX < anchoPantalla) setPosicionX(posicionX + 10);
+        if (posicionX < anchoPantalla - 40) setPosicionX(posicionX + 10);
     }
 
     /** Sube el submarino (disminuye profundidad) si no alcanzó PROF_MIN. */
@@ -51,11 +51,11 @@ public class Submarino {
 
     /** Baja el submarino (aumenta profundidad) si no alcanzó PROF_MAX. */
     public void moverAbajo() {
-        if (profundidad < PROF_MAX) setProfundidad(profundidad + 10);
+        if (profundidad < PROF_MAX - 20) setProfundidad(profundidad + 10);
     }
 
     public SubmarinoView toView() {
-        return new SubmarinoView((int) posicionX, (int) profundidad, 50, 20);
+        return new SubmarinoView((int) posicionX, (int) profundidad, 40, 20);
     }
 
     //Getters y Setters

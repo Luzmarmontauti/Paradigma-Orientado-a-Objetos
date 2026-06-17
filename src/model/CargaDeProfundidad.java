@@ -23,7 +23,7 @@ public class CargaDeProfundidad {
         this.posicionX = posicionX;
         this.velocidadCaida = velocidadCaida;
         this.profundidadDetonacion = random.nextInt(PROF_DET_MAX - PROF_DET_MIN + 1) + PROF_DET_MIN;
-        this.profundidad = 0;
+        this.profundidad = 30;
     }
 
     //Metodos
