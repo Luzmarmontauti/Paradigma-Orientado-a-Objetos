@@ -22,7 +22,7 @@ public class Juego {
     protected static final int TIEMPO_MIN_ESPERA = 10;
     protected static final int TIEMPO_MAX_ESPERA = 100;
     protected static final double VELOCIDAD_INICIAL = 2;
-    protected static final double INCREMENTO_VELOCIDAD = 0.2;
+    protected static final double INCREMENTO_VELOCIDAD = 1.2;
     protected static final int CARGAS_MIN_X_BARCO = 2;
     protected static final int CARGAS_MAX_X_BARCO = 5;
 
@@ -266,8 +266,8 @@ public class Juego {
      */
     public void pasarSiguienteNivel() {
         nivel += 1;
-        velocidadBarcos += INCREMENTO_VELOCIDAD;
-        velocidadCargas += INCREMENTO_VELOCIDAD;
+        velocidadBarcos *= INCREMENTO_VELOCIDAD;
+        velocidadCargas *= INCREMENTO_VELOCIDAD;
         barcosGenerados = 0;
         agregarPuntos(200);
     }
