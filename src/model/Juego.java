@@ -129,9 +129,11 @@ public class Juego {
         for (int i = 0; i < cargasActivas.size(); i++) {
             CargaDeProfundidad carga = cargasActivas.get(i);
             if (carga.colisionaCon(submarino)) {
+                System.out.println("💥 Impacto directo! El submarino fue golpeado.");
                 quitarVida();
                 cargasAEliminar.add(carga);
             } else if (carga.debeDetonar()) {
+                System.out.println("💥 Carga detonada a " + (int)carga.getProfundidad() + "m.");
                 procesarExplosion(carga);
                 cargasAEliminar.add(carga);
             } else { carga.caer(); }
@@ -213,6 +215,7 @@ public class Juego {
             quitarVida();
             porcentajeVida = 100;
         }
+        System.out.println("❤️ -" + porcentajeDanio + "% vida! (Restante: " + porcentajeVida + "%)");
     }
 
     /** Suma una vida extra. Se llama automáticamente al acumular 500 puntos. */
@@ -233,6 +236,7 @@ public class Juego {
      * @param puntos cantidad de puntos a agregar.
      */
     public void agregarPuntos(int puntos) {
+        System.out.println("⭐ +" + puntos + " puntos! (Total: " + (puntaje + puntos) + ")");
         puntaje += puntos;
         puntosExtraAcumulados += puntos;
         if (puntosExtraAcumulados >= 500) {
