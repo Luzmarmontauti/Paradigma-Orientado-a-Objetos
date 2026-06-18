@@ -62,21 +62,21 @@ public class Juego {
         // Control de spawn de barcos enemigos
         if (barcosGenerados < TOTAL_BARCOS && barcosActivos.size() < MAX_SIMULTANEOS && puedeGenerarBarco()) {
             generarBarco(anchoPantalla);
-            setTicksEntreBarcos();
+            setTicksEntreBarcos(); //numero random entre 10 y 100 que son las variables min de espera y max de espera
         }
-        disminuirContadorTicksEntreBarcos();
+        disminuirContadorTicksEntreBarcos(); //el contador debe seguir avanzando, por eso lo dejamos fuera del if
 
         // Actualizar posiciones de Barcos
         List<Barco> barcosAEliminar = new ArrayList<>();
+        
         for (Barco barco : barcosActivos) {
             barco.avanzar();
 
-            if (barco.puedeDisparar() && !barco.cumplioCargasMinimas()) {
-                // RF-12: Rango de detonación aleatorio entre 300m y 700m
+            if (barco.puedeDisparar() && !barco.cumplioCargasMinimas()) { //cargas minimas entre 2 y 5
                 double profDetonacion = random.nextInt((int)(CargaDeProfundidad.PROF_DET_MAX - CargaDeProfundidad.PROF_DET_MIN + 1)) + CargaDeProfundidad.PROF_DET_MIN;
-                // RF-13: Cae en línea recta desde la X actual del barco
                 cargasActivas.add(barco.lanzarCarga(velocidadCargas, profDetonacion));
             }
+            
             barco.contarTicks(random);
 
             if (barco.haCompletadoRecorrido()) { 
@@ -120,12 +120,10 @@ public class Juego {
         this.ultimaExplosionX = carga.getPosicionX();
         this.ultimaExplosionY = carga.getProfundidadDetonacion();
 
-        // Distancia euclidiana entre el centro del submarino y la detonación
         double subX = submarino.getCentroX();
         double subY = submarino.getCentroY();
         double distancia = Math.sqrt(Math.pow(subX - ultimaExplosionX, 2) + Math.pow(subY - ultimaExplosionY, 2));
         
-        // RF-14 al RF-18 + RF-29 (Mensajes del sistema por explosión)
         if (distancia < 10) { 
             this.ultimoMensajePuntos = "💥 [BOOM] Impacto crítico a " + (int)distancia + "m. ¡Se pierde una vida entera! (0 pts)";
             submarino.perderUnaVida(); 
@@ -155,21 +153,48 @@ public class Juego {
         submarino.sumarPuntos(200); // RF-20: Bono por cambiar de nivel
     }
 
-    public void disminuirContadorTicksEntreBarcos() { if (ticksEntreBarcos > 0) ticksEntreBarcos -= 1; }
-    public void setTicksEntreBarcos() { ticksEntreBarcos = random.nextInt(TIEMPO_MAX_ESPERA - TIEMPO_MIN_ESPERA + 1) + TIEMPO_MIN_ESPERA; }
-    public boolean puedeGenerarBarco() { return ticksEntreBarcos == 0; }
+    public void disminuirContadorTicksEntreBarcos() { 
+    	if (ticksEntreBarcos > 0) 
+    	ticksEntreBarcos -= 1; 
+    }
+    public void setTicksEntreBarcos() {   // 100            -     10     = 90 + 1         10
+    	ticksEntreBarcos = random.nextInt(TIEMPO_MAX_ESPERA - TIEMPO_MIN_ESPERA + 1) + TIEMPO_MIN_ESPERA; 
+    	}
+    public boolean puedeGenerarBarco() {
+    	return ticksEntreBarcos == 0;
+    	}
 
     // GETTERS DE CONTROL DE DATOS (Conexión directa al Submarino encapsulado)
-    public String getEstado() { return estado; }
-    public int getNivel() { return nivel; }
-    public int getVidas() { return submarino.getVidas(); } 
-    public int getPuntaje() { return submarino.getPuntos(); } 
-    public int getPorcentajeVida() { return submarino.getSaludPorcentaje(); } 
-    public List<Barco> getBarcosActivos() { return barcosActivos; }
-    public List<CargaDeProfundidad> getCargasActivas() { return cargasActivas; }
-    public double getSubmarinoX() { return submarino.getPosicionX(); }
-    public double getSubmarinoY() { return submarino.getProfundidad(); }
-    public Submarino getSubmarino() { return this.submarino; }
+    public String getEstado() { 
+    	return estado; 
+    	}
+    public int getNivel() {
+    	return nivel; 
+    	}
+    public int getVidas() {
+    	return submarino.getVidas(); 
+    	} 
+    public int getPuntaje() {
+    	return submarino.getPuntos();
+    	} 
+    public int getPorcentajeVida() { 
+    	return submarino.getSaludPorcentaje();
+    	} 
+    public List<Barco> getBarcosActivos() {
+    	return barcosActivos; 
+    	}
+    public List<CargaDeProfundidad> getCargasActivas() { 
+    	return cargasActivas; 
+    	}
+    public double getSubmarinoX() { 
+    	return submarino.getPosicionX(); 
+    	}
+    public double getSubmarinoY() { 
+    	return submarino.getProfundidad();
+    	}
+    public Submarino getSubmarino() {
+    	return this.submarino; 
+    	}
     
     public String getUltimoMensajePuntos() { 
         String aux = this.ultimoMensajePuntos;
