@@ -48,7 +48,7 @@ public class Vista extends JFrame {
     private void configurar() {
         Container c = this.getContentPane();
         c.setLayout(null);
-        c.setBackground(new Color(0, 20, 60));
+        c.setBackground(new Color(27, 60, 83));
         submarino = new JLabel("Sub");
         SubmarinoView subview = GameController.getInstance().getSubmarinoView();
         submarino.setBounds(subview.getPosicionX(), subview.getPosicionY(), subview.getAncho(), subview.getAlto());
@@ -63,22 +63,22 @@ public class Vista extends JFrame {
 
         lineaSuperficie =  new JLabel();
         lineaSuperficie.setOpaque(true);
-        lineaSuperficie.setBackground(Color.CYAN);
+        lineaSuperficie.setBackground(new Color(57, 177, 209));
         lineaSuperficie.setBounds(0, 40, GameController.getInstance().getAnchoArea(), 2);
         c.add(lineaSuperficie);
 
         nivel = new JLabel("Nivel: " + String.valueOf(GameController.getInstance().getNivel()));
-        nivel.setForeground(Color.CYAN);
+        nivel.setForeground(new Color(252, 191, 73));
         nivel.setBounds(50, 590, 150, 30);
         c.add(nivel);
 
         puntaje = new JLabel("Puntaje: " + String.valueOf(GameController.getInstance().getPuntaje()));
-        puntaje.setForeground(Color.ORANGE);
+        puntaje.setForeground(new Color(252, 191, 73));
         puntaje.setBounds(180, 590, 150, 30);
         c.add(puntaje);
 
         vidas = new JLabel("Vidas: " + String.valueOf(GameController.getInstance().getVidas()));
-        vidas.setForeground(Color.MAGENTA);
+        vidas.setForeground(new Color(252, 191, 73));
         vidas.setBounds(350, 590, 150, 30);
         c.add(vidas);
 
@@ -88,7 +88,7 @@ public class Vista extends JFrame {
         c.add(porcentajeVida);
 
         profundidad = new JLabel("Profundidad: " + GameController.getInstance().getSubmarinoView().getPosicionY() + " mts");
-        profundidad.setForeground(Color.WHITE);
+        profundidad.setForeground(new Color(252, 191, 73));
         profundidad.setBounds(630, 590, 150, 30);
         c.add(profundidad);
 
@@ -157,7 +157,7 @@ public class Vista extends JFrame {
             JLabel labelBarco = new JLabel("Barco");
             labelBarco.setBounds(barcoVista.getPosicionX(), barcoVista.getPosicionY(), 40, 20);
             labelBarco.setOpaque(true);
-            labelBarco.setBackground(Color.GRAY);
+            labelBarco.setBackground(new Color(211, 205, 193));
             contenedor.add(labelBarco);
             barcos.add(labelBarco);
         }
@@ -169,7 +169,7 @@ public class Vista extends JFrame {
             yPixel = (int)(Y_SUPERFICIE + (cargaVista.getPosicionY() / 800.0) * ALTURA_JUEGO);
             labelCarga.setBounds(cargaVista.getPosicionX(), yPixel, 35, 15);
             labelCarga.setOpaque(true);
-            labelCarga.setBackground(Color.RED);
+            labelCarga.setBackground(new Color(214, 40, 40));
             contenedor.add(labelCarga);
             cargasDeProfundidad.add(labelCarga);
         }
