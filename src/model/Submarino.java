@@ -2,63 +2,56 @@ package model;
 
 import view.SubmarinoView;
 
-/**
- * Submarino controlado por el jugador. Se mueve en las cuatro direcciones
- * dentro de los límites de profundidad y bordes laterales del área de juego.
- */
 public class Submarino {
 
-    //Atributos
+    // Atributos
     protected static final double PROF_MIN = 300;
     protected static final double PROF_MAX = 800;
+    protected static final int ANCHO = 40;
+    protected static final int ALTO = 20;
+    private static final double VELOCIDAD_TORPEDO = 8;
     private double posicionX;
     private double profundidad;
     private int anchoPantalla;
 
-    //Constructor
+    // Constructor
     public Submarino() {
         this.posicionX = 0;
         this.profundidad = 0;
     }
 
-    //Metodos
-    /**
-     * Posiciona el submarino en su estado inicial: centrado horizontalmente
-     * y en la profundidad media entre PROF_MIN y PROF_MAX.
-     *
-     * @param anchoPantalla ancho del área de juego
-     */
+    // Metodos
     public void inicializar(int anchoPantalla) {
         this.anchoPantalla = anchoPantalla;
         setPosicionX(anchoPantalla / 2);
         setProfundidad((PROF_MAX + PROF_MIN) / 2);
     }
 
-    /** Mueve el submarino hacia la izquierda si no alcanzó el borde. */
     public void moverIzquierda() {
         if (posicionX > 0) setPosicionX(posicionX - 10);
     }
 
-    /** Mueve el submarino hacia la derecha si no alcanzó el borde. */
     public void moverDerecha() {
-        if (posicionX < anchoPantalla - 40) setPosicionX(posicionX + 10);
+        if (posicionX < anchoPantalla - ANCHO) setPosicionX(posicionX + 10);
     }
 
-    /** Sube el submarino (disminuye profundidad) si no alcanzó PROF_MIN. */
     public void moverArriba() {
         if (profundidad > PROF_MIN) setProfundidad(profundidad - 10);
     }
 
-    /** Baja el submarino (aumenta profundidad) si no alcanzó PROF_MAX. */
     public void moverAbajo() {
         if (profundidad < PROF_MAX) setProfundidad(profundidad + 10);
     }
 
-    public SubmarinoView toView() {
-        return new SubmarinoView((int) posicionX, (int) profundidad, 40, 20);
+    public Torpedo lanzarTorpedo() {
+        return new Torpedo(posicionX, profundidad, VELOCIDAD_TORPEDO);
     }
 
-    //Getters y Setters
+    public SubmarinoView toView() {
+        return new SubmarinoView((int) posicionX, (int) profundidad, ANCHO, ALTO);
+    }
+
+    // Getters y Setters
     public double getPosicionX() { return posicionX; }
     public double getProfundidad() { return profundidad; }
 

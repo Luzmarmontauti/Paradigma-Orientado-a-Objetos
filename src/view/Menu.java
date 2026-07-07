@@ -32,7 +32,7 @@ public class Menu extends JFrame {
         titulo =  new JLabel("Submarine Attack!");
         titulo.setBounds(150, 50, 150, 20);
         titulo.setOpaque(true);
-        titulo.setForeground(Color.BLACK);
+        titulo.setForeground(Color.BLACK); 
 
         jugar = new JButton("Jugar");
         jugar.setBounds(50, 120, 100, 25);

@@ -1,6 +1,6 @@
 package view;
-import controller.GameController;
 
+import controller.GameController;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
@@ -8,19 +8,16 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Ventana principal del juego. Maneja la interfaz gráfica,
- * el game loop y los eventos de teclado del jugador.
- */
 public class Vista extends JFrame {
 
-    //Atributos
-    private static final int Y_SUPERFICIE = 30;//constante para escalar las profundidades
-    private static final int ALTURA_JUEGO = 550;//constante para escalar las profundidades
+    // Atributos
+    private static final int Y_SUPERFICIE = 30;
+    private static final int ALTURA_JUEGO = 550;
 
     private JLabel submarino;
     private List<JLabel> barcos;
     private List<JLabel> cargasDeProfundidad;
+    private List<JLabel> torpedos;
     private JLabel nivel;
     private JLabel puntaje;
     private JLabel vidas;
@@ -30,7 +27,7 @@ public class Vista extends JFrame {
 
     private Timer timer;
 
-    //Constructor
+    // Constructor
     public Vista() {
         configurar();
         int ancho = GameController.getInstance().getAnchoArea();
@@ -44,11 +41,12 @@ public class Vista extends JFrame {
         eventos();
     }
 
-    //Metodos
+    // Metodos
     private void configurar() {
         Container c = this.getContentPane();
         c.setLayout(null);
         c.setBackground(new Color(27, 60, 83));
+
         submarino = new JLabel("Sub");
         SubmarinoView subview = GameController.getInstance().getSubmarinoView();
         submarino.setBounds(subview.getPosicionX(), subview.getPosicionY(), subview.getAncho(), subview.getAlto());
@@ -60,8 +58,9 @@ public class Vista extends JFrame {
 
         barcos = new ArrayList<>();
         cargasDeProfundidad = new ArrayList<>();
+        torpedos = new ArrayList<>();
 
-        lineaSuperficie =  new JLabel();
+        lineaSuperficie = new JLabel();
         lineaSuperficie.setOpaque(true);
         lineaSuperficie.setBackground(new Color(57, 177, 209));
         lineaSuperficie.setBounds(0, 40, GameController.getInstance().getAnchoArea(), 2);
@@ -91,7 +90,6 @@ public class Vista extends JFrame {
         profundidad.setForeground(new Color(252, 191, 73));
         profundidad.setBounds(630, 590, 150, 30);
         c.add(profundidad);
-
     }
 
     private void eventos() {
@@ -108,11 +106,13 @@ public class Vista extends JFrame {
                     GameController.getInstance().moverTecla("derecha");
                 } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
                     GameController.getInstance().moverTecla("izquierda");
+                } else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+                    GameController.getInstance().lanzarTorpedo();
                 }
             }
         });
 
-        timer = new Timer(20, e -> {actualizar(); });
+        timer = new Timer(20, e -> { actualizar(); });
         timer.start();
     }
 
@@ -122,56 +122,88 @@ public class Vista extends JFrame {
         int vidasAntes = GameController.getInstance().getVidas();
         int nivelAntes = GameController.getInstance().getNivel();
 
-        //Actualizamos
         GameController.getInstance().actualizar();
 
-        //Actualizacion Stat profundidad
         profundidad.setText("Profundidad: " + GameController.getInstance().getSubmarinoView().getPosicionY() + " mts");
 
-        //Cambio de color en porcentaje vida
         if (GameController.getInstance().getPorcentajeVida() >= 70) {
             porcentajeVida.setForeground(Color.GREEN);
         } else if (GameController.getInstance().getPorcentajeVida() >= 50) {
             porcentajeVida.setForeground(Color.YELLOW);
-        }  else if (GameController.getInstance().getPorcentajeVida() >= 30) {
+        } else if (GameController.getInstance().getPorcentajeVida() >= 30) {
             porcentajeVida.setForeground(Color.ORANGE);
-        } else porcentajeVida.setForeground(Color.RED);
+        } else {
+            porcentajeVida.setForeground(Color.RED);
+        }
 
-        //Comparamos y mostramos los mensajes correspondientes si corresponde
-        if (vidasAntes > GameController.getInstance().getVidas()) {JOptionPane.showMessageDialog(this, "Perdiste una vida!", "Vida Perdida", JOptionPane.WARNING_MESSAGE);}
-        if (vidasAntes < GameController.getInstance().getVidas()) {JOptionPane.showMessageDialog(this, "Ganaste una vida!", "Vida Adquirida", JOptionPane.INFORMATION_MESSAGE);}
-        if (nivelAntes < GameController.getInstance().getNivel()) {JOptionPane.showMessageDialog(this, "Pasaste al siguiente nivel!", "Nivel Superado", JOptionPane.INFORMATION_MESSAGE);}
+        if (vidasAntes > GameController.getInstance().getVidas()) {
+            JOptionPane.showMessageDialog(this, "Perdiste una vida!", "Vida Perdida", JOptionPane.WARNING_MESSAGE);
+        }
+        if (vidasAntes < GameController.getInstance().getVidas()) {
+            JOptionPane.showMessageDialog(this, "Ganaste una vida!", "Vida Adquirida", JOptionPane.INFORMATION_MESSAGE);
+        }
+        if (nivelAntes < GameController.getInstance().getNivel()) {
+            JOptionPane.showMessageDialog(this, "Pasaste al siguiente nivel!", "Nivel Superado", JOptionPane.INFORMATION_MESSAGE);
+        }
 
-
-        // yPixel = Y_SUPERFICIE + (profundidad / 800.0) * ALTURA_JUEGO
-        // profundidad / 800.0 fraccion del recorrido total (ej: 400/800 = 0.5 = mitad del fondo)
-        // * ALTURA_JUEGO convierte esa fraccion a pixeles disponibles en pantalla (530px)
-        // + Y_SUPERFICIE desplaza hacia abajo porque el agua no empieza en el pixel 0 sino en el 30
         SubmarinoView vistaSubmarino = GameController.getInstance().getSubmarinoView();
         int yPixel = (int)(Y_SUPERFICIE + (vistaSubmarino.getPosicionY() / 800.0) * ALTURA_JUEGO);
         submarino.setLocation(vistaSubmarino.getPosicionX(), yPixel);
 
-        for (JLabel labelBarco : barcos) { contenedor.remove(labelBarco); }
-        barcos.clear();
-        for (BarcoView barcoVista : GameController.getInstance().getBarcoView()) {
+        // Barcos
+        List<BarcoView> barcoViews = GameController.getInstance().getBarcoView();
+        while (barcos.size() < barcoViews.size()) {
             JLabel labelBarco = new JLabel("Barco");
-            labelBarco.setBounds(barcoVista.getPosicionX(), barcoVista.getPosicionY(), 40, 20);
             labelBarco.setOpaque(true);
             labelBarco.setBackground(new Color(211, 205, 193));
             contenedor.add(labelBarco);
             barcos.add(labelBarco);
         }
+        while (barcos.size() > barcoViews.size()) {
+            JLabel labelSobrante = barcos.remove(barcos.size() - 1);
+            contenedor.remove(labelSobrante);
+        }
+        for (int i = 0; i < barcoViews.size(); i++) {
+            BarcoView barcoVista = barcoViews.get(i);
+            barcos.get(i).setBounds(barcoVista.getPosicionX(), barcoVista.getPosicionY(), 40, 20);
+        }
 
-        for (JLabel labelCarga : cargasDeProfundidad) { contenedor.remove(labelCarga); }
-        cargasDeProfundidad.clear();
-        for (CargaDeProfundidadView cargaVista : GameController.getInstance().getCargaView()) {
+        // Cargas
+        List<CargaDeProfundidadView> cargaViews = GameController.getInstance().getCargaView();
+        while (cargasDeProfundidad.size() < cargaViews.size()) {
             JLabel labelCarga = new JLabel("Bomb");
-            yPixel = (int)(Y_SUPERFICIE + (cargaVista.getPosicionY() / 800.0) * ALTURA_JUEGO);
-            labelCarga.setBounds(cargaVista.getPosicionX(), yPixel, 35, 15);
             labelCarga.setOpaque(true);
             labelCarga.setBackground(new Color(214, 40, 40));
             contenedor.add(labelCarga);
             cargasDeProfundidad.add(labelCarga);
+        }
+        while (cargasDeProfundidad.size() > cargaViews.size()) {
+            JLabel labelSobrante = cargasDeProfundidad.remove(cargasDeProfundidad.size() - 1);
+            contenedor.remove(labelSobrante);
+        }
+        for (int i = 0; i < cargaViews.size(); i++) {
+            CargaDeProfundidadView cargaVista = cargaViews.get(i);
+            yPixel = (int)(Y_SUPERFICIE + (cargaVista.getPosicionY() / 800.0) * ALTURA_JUEGO);
+            cargasDeProfundidad.get(i).setBounds(cargaVista.getPosicionX(), yPixel, 35, 15);
+        }
+
+        // Torpedos
+        List<TorpedoView> torpedoViews = GameController.getInstance().getTorpedoView();
+        while (torpedos.size() < torpedoViews.size()) {
+            JLabel labelTorpedo = new JLabel();
+            labelTorpedo.setOpaque(true);
+            labelTorpedo.setBackground(new Color(255, 255, 0));
+            contenedor.add(labelTorpedo);
+            torpedos.add(labelTorpedo);
+        }
+        while (torpedos.size() > torpedoViews.size()) {
+            JLabel labelSobrante = torpedos.remove(torpedos.size() - 1);
+            contenedor.remove(labelSobrante);
+        }
+        for (int i = 0; i < torpedoViews.size(); i++) {
+            TorpedoView torpedoVista = torpedoViews.get(i);
+            yPixel = (int)(Y_SUPERFICIE + (torpedoVista.getPosicionY() / 800.0) * ALTURA_JUEGO);
+            torpedos.get(i).setBounds(torpedoVista.getPosicionX(), yPixel, torpedoVista.getAncho(), torpedoVista.getAlto());
         }
 
         nivel.setText("Nivel: " + GameController.getInstance().getNivel());
@@ -180,6 +212,7 @@ public class Vista extends JFrame {
         porcentajeVida.setText("Vida: " + GameController.getInstance().getPorcentajeVida() + " %");
 
         repaint();
+
         if (GameController.getInstance().isJuegoTerminado()) {
             JOptionPane.showMessageDialog(this, "Perdiste! Juego terminado", "Game Over", JOptionPane.INFORMATION_MESSAGE);
             timer.stop();
@@ -188,5 +221,4 @@ public class Vista extends JFrame {
             dispose();
         }
     }
-
 }

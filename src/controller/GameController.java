@@ -1,28 +1,21 @@
 package controller;
-
 import model.Barco;
 import model.CargaDeProfundidad;
+import model.Torpedo;
 import model.Juego;
 import model.Area;
 import view.BarcoView;
 import view.CargaDeProfundidadView;
 import view.SubmarinoView;
-
+import view.TorpedoView;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Controlador principal del juego. Recibe los eventos del jugador,
- * los delega al modelo y provee la información que necesita la Vista para renderizarse.
- * Implementa el patrón Singleton para garantizar una única instancia.
- */
 public class GameController {
 
-    //Atributos
     private static GameController instance;
     private Juego juego;
-    private static final Area area = new Area(630, 800);
-    //Singleton
+
     private GameController() {
         this.juego = new Juego();
         juego.iniciarPartida();
@@ -37,9 +30,12 @@ public class GameController {
 
     public static void resetearInstancia() { instance = null; }
 
-    //Metodos
     public void moverTecla(String tecla) {
         juego.moverSubmarino(tecla);
+    }
+
+    public void lanzarTorpedo() {
+        juego.lanzarTorpedo();
     }
 
     public void actualizar() {
@@ -50,36 +46,42 @@ public class GameController {
         }
     }
 
-    //Getters para la Vista
     public SubmarinoView getSubmarinoView() {
         return juego.getSubmarino().toView();
     }
 
     public List<BarcoView> getBarcoView() {
         List<BarcoView> barcosAux = new ArrayList<>();
-        for ( int i = 0 ; i < juego.getBarcosActivos().size(); i++ ) {
+        for (int i = 0; i < juego.getBarcosActivos().size(); i++) {
             Barco barcoAux = juego.getBarcosActivos().get(i);
-            barcosAux.add((barcoAux.toView()));
+            barcosAux.add(barcoAux.toView());
         }
         return barcosAux;
     }
 
     public List<CargaDeProfundidadView> getCargaView() {
         List<CargaDeProfundidadView> cargasAux = new ArrayList<>();
-        for ( int i = 0 ; i < juego.getCargasActivas().size(); i++ ) {
+        for (int i = 0; i < juego.getCargasActivas().size(); i++) {
             CargaDeProfundidad cargaAux = juego.getCargasActivas().get(i);
-            cargasAux.add((cargaAux.toView()));
+            cargasAux.add(cargaAux.toView());
         }
         return cargasAux;
     }
 
+    public List<TorpedoView> getTorpedoView() {
+        List<TorpedoView> torpedosAux = new ArrayList<>();
+        for (int i = 0; i < juego.getTorpedosActivos().size(); i++) {
+            Torpedo torpedoAux = juego.getTorpedosActivos().get(i);
+            torpedosAux.add(torpedoAux.toView());
+        }
+        return torpedosAux;
+    }
 
     public int getNivel() { return juego.getNivel(); }
     public int getVidas() { return juego.getVidas(); }
     public int getPorcentajeVida() { return juego.getPorcentajeVida(); }
     public int getPuntaje() { return juego.getPuntaje(); }
     public boolean isJuegoTerminado() { return juego.isJuegoTerminado(); }
-    public int getAnchoArea() { return area.getAnchoPantalla(); }
-    public int getAltoArea() { return area.getAltoPantalla(); }
-
+    public int getAnchoArea() { return juego.getAnchoPantalla(); }
+    public int getAltoArea() { return juego.getAltoPantalla(); }
 }
